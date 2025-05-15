@@ -147,18 +147,18 @@ a {
 }
 @keyframes slideText {
   0% {
-    transform: translate(-60%, 500%) rotate(-90deg);
+    transform: translate(-65%, 500%) rotate(-90deg);
   }
   100% {
-    transform: translate(-60%, -500%) rotate(-90deg);
+    transform: translate(-65%, -500%) rotate(-90deg);
   }
 }
 @keyframes slideText1 {
   0% {
-    transform: translate(-80%, -500%) rotate(-90deg);
+    transform: translate(-100%, -500%) rotate(-90deg);
   }
   100% {
-    transform: translate(-80%, 500%) rotate(-90deg);
+    transform: translate(-100%, 500%) rotate(-90deg);
   }
 }
 .mainR {
