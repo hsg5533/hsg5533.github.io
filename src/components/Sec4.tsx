@@ -12,19 +12,19 @@ export default function Sec4() {
       <div className="sec4box">
         <div className="item_box">
           <div className="item">
-            <a href="https://open.kakao.com/o/s8XLlGCf">
+            <a href="https://open.kakao.com/me/hsg5533">
               <img src={kakao} alt="" />
               <div className="item_desc">KAKAO</div>
             </a>
           </div>
           <div className="item">
-            <a href="mailto:4576874@naver.com">
+            <a href="mailto:hsg55334@naver.com">
               <img src={email} alt="" />
               <div className="item_desc">EMAIL</div>
             </a>
           </div>
           <div className="item">
-            <a href="https://github.com/yeyiwon">
+            <a href="https://github.com/hsg5533">
               <img src={github} alt="" />
               <div className="item_desc">GITHUB PROFILE</div>
             </a>
