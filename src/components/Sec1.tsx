@@ -9,7 +9,7 @@ export default function Sec1() {
           <div className="title_box">
             <h2>ABOUT ME</h2>
           </div>
-          <p className="ttt">
+          <p className="about-text">
             NAME : 정호상 <br />
             BIRTH : 1996.04.25 <br />
             4년제 정보통신공학사학위 <br />

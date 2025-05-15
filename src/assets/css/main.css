@@ -1,3 +1,21 @@
+.about-text,
+.chattem,
+.skill-title {
+  text-align: center;
+}
+.skill-title,
+.top_btn span {
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+.header,
+.item_box,
+.pr-text-box,
+.pr-top,
+.sec2_box,
+.skill-list {
+  box-sizing: border-box;
+}
 body,
 ul {
   padding: 0;
@@ -7,13 +25,9 @@ ul {
 .top_btn {
   flex-direction: column;
 }
-.chattem,
-.ttt {
-  text-align: center;
-}
 .mainL2,
-.sec1_box,
-.sec3boxtop {
+.pr-top,
+.sec1_box {
   overflow: hidden;
 }
 body {
@@ -54,8 +68,6 @@ a {
   opacity: 0;
   color: #f14666;
   font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -1px;
   transform: translateY(25px);
   transition: 0.2s;
 }
@@ -77,13 +89,12 @@ a {
   height: 100px;
   position: fixed;
   padding: 1rem;
-  box-sizing: border-box;
 }
 .mainL2,
 .sec1_R,
 .sec2,
 .sec2title,
-.skill_chart,
+.skill-chart,
 .title_box,
 .title_box2 {
   padding: 1em;
@@ -118,6 +129,12 @@ a {
   height: 100%;
   display: flex;
 }
+.sec1,
+.sec2,
+.sec3,
+.sec4 {
+  height: 100vh;
+}
 .mainL1 {
   flex-direction: row;
   gap: 20px;
@@ -129,20 +146,28 @@ a {
   position: relative;
   font-size: 100%;
 }
-.texttt,
-.texttt1 {
+.indis,
+.indis2,
+.indis3,
+.pr-btn,
+.pr-img,
+.up-txt,
+.down-txt {
+  position: absolute;
+}
+.up-txt,
+.down-txt {
   opacity: 0.3;
   font-weight: 700;
   font-size: 160px;
   color: #25252b;
-  position: absolute;
   top: 50%;
   left: 100%;
 }
-.texttt {
+.up-txt {
   animation: 15s linear infinite slideText;
 }
-.texttt1 {
+.down-txt {
   animation: 15s linear infinite slideText1;
 }
 @keyframes slideText {
@@ -167,23 +192,16 @@ a {
 .sec1,
 .sec3 {
   background: ivory;
-  height: 100vh;
 }
 .sec {
   width: 100%;
   margin: 0 auto;
   font-family: NPSfontBold, sans-serif;
 }
-.sec2 {
-  height: 100vh;
-}
 .sec3 {
   gap: 15px;
   display: flex;
   flex-direction: column;
-}
-.sec4 {
-  height: 100vh;
 }
 .title_box,
 .title_box2 {
@@ -199,10 +217,15 @@ a {
   margin: 0;
   color: ivory;
 }
-.title_box h2,
-.ttt {
+.about-text,
+.title_box h2 {
   margin: 0;
   color: #25252b;
+}
+.project,
+.sec2_box {
+  margin: 0 auto;
+  display: flex;
 }
 .sec1_box {
   width: 100%;
@@ -223,7 +246,7 @@ a {
   flex-direction: column;
   justify-content: center;
 }
-.ttt {
+.about-text {
   line-height: 100px;
   width: 100%;
   font-size: 30px;
@@ -236,101 +259,30 @@ a {
   height: 10%;
 }
 .sec2_box {
-  box-sizing: border-box;
-  margin: 0 auto;
   max-width: 1300px;
   height: 90%;
-  display: flex;
   justify-content: center;
 }
-.chattem,
-.skill_chart {
-  flex-direction: column;
-  display: flex;
-}
-.skill_chart {
-  width: 100%;
-  height: 100%;
-  gap: 20px;
-}
-.skill_chart_box {
-  width: 100%;
-  display: flex;
-  height: 62%;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  align-items: baseline;
-}
-.chattem {
-  gap: 15px;
-  width: 100px;
-  height: 100%;
-  align-items: center;
-}
-.barbox {
-  width: 45px;
-  background: rgba(255, 255, 255, 0.3);
-  height: calc(100% - 50px - 70px);
-  border-radius: 8px;
-  position: relative;
-}
-.skill_chartimg {
-  width: 70px;
-  height: 70px;
-  margin: 10px auto;
-}
-.sec3_img img,
-.sec3_img2 img,
-.skill_chartimg > img {
+.pr-img img {
   width: 100%;
   height: 100%;
 }
-.bar {
-  position: absolute;
-  background: ivory;
-  bottom: 0;
-  width: 100%;
-  height: 0;
-  border-radius: 5px;
-}
-.bar1,
-.bar2 {
-  height: 100%;
-}
-.bar3,
-.bar4 {
-  height: 90%;
-}
-.bar5,
-.bar6 {
-  height: 85%;
-}
-.psbox,
-.sktitle {
+.skill-title {
   height: 50px;
   color: ivory;
-  text-align: center;
   width: 100%;
-  font-weight: 700;
-}
-.psbox {
-  font-size: 20px;
-}
-.sktitle {
   border-radius: 20px;
   line-height: 50px;
   font-size: 25px;
-  letter-spacing: -1px;
 }
-.skill_chartnavBOT {
+.skill-list {
   width: 100%;
   padding: 1.5em;
   gap: 20px;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 }
-.skbot {
+.skill-logo {
   width: 100%;
   height: auto;
   display: flex;
@@ -338,35 +290,31 @@ a {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.sec3box,
-.sec3box2,
-.sec3text {
-  flex-direction: column;
-  display: flex;
+.pr-box,
+.pr-btn,
+.pr-img,
+.pr-top,
+.project {
+  height: 100%;
 }
-.skbot > li img {
+.project {
+  flex-direction: column;
+  width: 1400px;
+  align-items: center;
+}
+.skill-logo > li img {
   width: 200px;
   height: 200px;
 }
-.sec3box,
-.sec3box2 {
-  margin: 0 auto;
-  width: 1400px;
-  height: 100%;
-  align-items: center;
-}
-.sec3boxtop {
-  box-sizing: border-box;
+.pr-top {
   border-radius: 8px;
   width: 100%;
-  height: 100%;
   display: flex;
   box-shadow: 8px 8px 15px 0 rgba(0, 0, 0, 0.2),
     -8px -8px 15px 0 rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(25px);
 }
-.sec3boxbot {
-  box-sizing: border-box;
+.pr-text-box {
   padding: 2rem;
   width: 100%;
   display: flex;
@@ -375,57 +323,46 @@ a {
   justify-content: space-between;
   align-items: flex-end;
 }
-.sec3text {
-  color: #333;
-  gap: 15px;
-  font-weight: 700;
-}
-.sec3title {
+.pr-title {
   font-size: 30px;
 }
-.sec3desc {
+.pr-desc {
   font-size: 20px;
   color: #f14666;
 }
-.sec3p {
+.pr-txt {
   font-size: 19px;
 }
-.sec3_imgbox,
-.sec3_imgbox2 {
+.pr-box {
   width: 100%;
-  height: 100%;
   display: flex;
   gap: 20px;
   flex-direction: column;
 }
-.sec3_img,
-.sec3_img2 {
+.pr-img {
   width: 100%;
-  height: 100%;
-  position: absolute;
   top: 0;
   left: 100%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.sec3_btn,
-.sec3_btn2 {
+.pr-btn {
   width: 100px;
-  height: 100%;
   border: none;
   color: #fff;
-  position: absolute;
+  background-color: transparent;
   top: 50%;
   transform: translateY(-50%);
   font-size: 80px;
   transition: 0.5s;
   opacity: 0;
 }
-.sec3_btn2:hover,
-.sec3_btn:hover {
-  opacity: 1;
+.item_box,
+.link-btn {
+  font-size: 20px;
+  text-align: center;
 }
-input {
-  background-color: rgba(255, 255, 255, 0);
+.pr-btn:hover {
+  opacity: 1;
 }
 .btn_L,
 .btn_L2 {
@@ -436,8 +373,8 @@ input {
   right: 0;
 }
 .indis,
-.indis2 {
-  position: absolute;
+.indis2,
+.indis3 {
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
@@ -445,35 +382,19 @@ input {
   gap: 10px;
 }
 .indi,
-.indi2 {
+.indi2,
+.indi3 {
   width: 15px;
   height: 15px;
   border-radius: 50%;
   background: #fff;
   opacity: 0.8;
 }
-.indexbutton,
-.linkbtn {
-  height: 55px;
-  line-height: 55px;
-  font-size: 20px;
-  text-align: center;
-}
+.indi_active,
 .indi2_active,
-.indi_active {
+.indi3_active {
   background: #333;
   opacity: 0.8;
-}
-.linkbtn {
-  width: 140px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-bottom: 25px;
-  background: rgba(255, 255, 255, 0.5);
-}
-.linkbtn:hover {
-  background: #333;
-  color: #fff;
 }
 .item a,
 .linkbtn > a {
@@ -481,7 +402,9 @@ input {
   width: 100%;
   height: 100%;
 }
-.indexbutton {
+.link-btn {
+  height: 55px;
+  line-height: 55px;
   width: 150px;
   border-radius: 10px;
   background: linear-gradient(
@@ -496,7 +419,7 @@ input {
   color: #333;
   transition: 0.2s ease-in-out;
 }
-.indexbutton:hover {
+.link-btn:hover {
   background: #25252b;
   box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.2),
     inset -4px -4px 8px rgba(37, 37, 43, 0.5);
@@ -510,12 +433,9 @@ input {
   gap: 50px;
   color: #444;
   font-weight: 900;
-  font-size: 20px;
-  text-align: center;
   height: 50%;
   display: flex;
   justify-content: space-evenly;
-  box-sizing: border-box;
 }
 .item {
   width: clac((100% - 50px) / 2);
@@ -526,21 +446,10 @@ input {
   height: 300px;
   animation: 1s infinite alternate bounce3;
 }
-.sec3R {
+.link-box {
   display: flex;
   gap: 20px;
   align-items: baseline;
-}
-.gitgit img {
-  width: 60px;
-  height: 60px;
-}
-.gitgit {
-  text-align: center;
-  width: 70px;
-  height: 70px;
-  display: flex;
-  flex-direction: column;
 }
 @keyframes bounce3 {
   0% {
@@ -557,25 +466,22 @@ input {
 }
 @media (max-width: 1024px) {
   .navbar {
-    gap: 0px;
+    gap: 0;
     flex-direction: column;
     align-items: center;
   }
-  .item_box {
+  .item_box,
+  .pr-text-box {
     display: block;
   }
   .sec2 {
     height: 100%;
   }
-  .skbot {
+  .skill-logo {
     flex-direction: column;
   }
-  .sec3box,
-  .sec3box2 {
+  .project {
     width: 100%;
     height: 70%;
-  }
-  .sec3boxbot {
-    display: block;
   }
 }

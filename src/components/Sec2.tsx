@@ -19,11 +19,11 @@ export default function Sec2() {
         <h2>SKILLS</h2>
       </div>
       <div className="sec2_box">
-        <div className="skill_chart">
-          <div className="sktitle">FRONT-END & BACK-END</div>
-          <div className="skill_chartnavBOT">
-            <div className="sktitle">USED IT</div>
-            <ul className="skbot">
+        <div className="skill-chart">
+          <div className="skill-title">FRONT-END & BACK-END</div>
+          <div className="skill-list">
+            <div className="skill-title">USED IT</div>
+            <ul className="skill-logo">
               <li>
                 <img src={react} alt="react" />
               </li>
