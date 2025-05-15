@@ -365,11 +365,13 @@ a {
   opacity: 1;
 }
 .btn_L,
-.btn_L2 {
+.btn_L2,
+.btn_L3 {
   left: 0;
 }
 .btn_R,
-.btn_R2 {
+.btn_R2,
+.btn_R3 {
   right: 0;
 }
 .indis,
