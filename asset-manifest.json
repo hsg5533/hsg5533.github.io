@@ -1,14 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.16c56de5.css",
-    "main.js": "/static/js/main.305628b9.js",
+    "main.css": "/static/css/main.53f665d1.css",
+    "main.js": "/static/js/main.5bb7182d.js",
     "static/js/453.38288592.chunk.js": "/static/js/453.38288592.chunk.js",
+    "static/media/image12.png": "/static/media/image12.1d48f62caa0805853fd9.png",
     "static/media/ts.png": "/static/media/ts.268f08123078f98798ae.png",
     "static/media/reactnative.png": "/static/media/reactnative.c1dcf706b9265c72961a.png",
     "static/media/react.png": "/static/media/react.c7ea43a15aae365188ad.png",
     "static/media/image1.png": "/static/media/image1.27f8be1eda1d265a3eb5.png",
     "static/media/image5.png": "/static/media/image5.0fbfe87cf8185212cce4.png",
     "static/media/springboot.png": "/static/media/springboot.4bc2457a04bb6e04fcec.png",
+    "static/media/image15.png": "/static/media/image15.596e1a064eeace9a371c.png",
+    "static/media/image13.png": "/static/media/image13.0227f57567b0680c2c37.png",
+    "static/media/image14.png": "/static/media/image14.fc409617c8873d9df098.png",
     "static/media/image9.png": "/static/media/image9.e5b6c097d7d22da5c93d.png",
     "static/media/main.jpg": "/static/media/main.46886977931a555756dc.jpg",
     "static/media/image8.png": "/static/media/image8.2bd1449a0ffef1556517.png",
@@ -31,12 +35,12 @@
     "static/media/sql.png": "/static/media/sql.700d4ea256579cddb52f.png",
     "static/media/email.png": "/static/media/email.3716e1aa135e2c89ca0c.png",
     "index.html": "/index.html",
-    "main.16c56de5.css.map": "/static/css/main.16c56de5.css.map",
-    "main.305628b9.js.map": "/static/js/main.305628b9.js.map",
+    "main.53f665d1.css.map": "/static/css/main.53f665d1.css.map",
+    "main.5bb7182d.js.map": "/static/js/main.5bb7182d.js.map",
     "453.38288592.chunk.js.map": "/static/js/453.38288592.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.16c56de5.css",
-    "static/js/main.305628b9.js"
+    "static/css/main.53f665d1.css",
+    "static/js/main.5bb7182d.js"
   ]
 }
