@@ -3,7 +3,7 @@ import top from "../assets/img/icon/topbtn2.png";
 
 export default function Top() {
   useEffect(() => {
-    const topButton = document.querySelector(".top_btn");
+    const topButton = document.querySelector(".top-btn");
     if (topButton) {
       topButton.addEventListener("click", function () {
         window.scrollTo({
@@ -15,7 +15,7 @@ export default function Top() {
   }, []);
 
   return (
-    <div className="top_btn" id="top_btn">
+    <div className="top-btn" id="top-btn">
       <span>GO TOP!</span>
       <img src={top} alt="" />
     </div>

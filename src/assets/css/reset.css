@@ -1,0 +1,29 @@
+.sec,
+body {
+  width: 100%;
+}
+body,
+ul {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background: #25252b;
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.sec {
+  margin: 0 auto;
+  font-family: NPSfontBold, sans-serif;
+}
+.sec1,
+.sec2,
+.sec3,
+.sec4 {
+  height: 100vh;
+}

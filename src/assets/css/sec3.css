@@ -1,0 +1,83 @@
+.pr-text-box,
+.sec3-title {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+}
+.sec3 {
+  display: flex;
+  background: ivory;
+  gap: 15px;
+  flex-direction: column;
+}
+.sec3-title {
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  padding: 1em;
+}
+.sec3-title h2 {
+  margin: 0;
+  color: #25252b;
+  opacity: 0.5;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 4.5em;
+}
+.pr-text-box {
+  gap: 20px;
+  padding: 2rem;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.pr-title {
+  font-size: 30px;
+}
+.pr-desc {
+  font-size: 20px;
+  color: #f14666;
+}
+.pr-txt {
+  font-size: 19px;
+}
+.link-btn {
+  font-size: 20px;
+  text-align: center;
+  height: 55px;
+  line-height: 55px;
+  width: 150px;
+  border-radius: 10px;
+  background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.3)
+    ),
+    ivory;
+  background-blend-mode: soft-light, normal;
+  box-shadow: 8px 8px 15px 0 rgba(0, 0, 0, 0.2),
+    -8px -8px 15px 0 rgba(255, 255, 255, 0.8);
+  color: #333;
+  transition: 0.2s ease-in-out;
+}
+.link-box {
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+}
+.link-btn:hover {
+  background: #25252b;
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.2),
+    inset -4px -4px 8px rgba(37, 37, 43, 0.5);
+  color: #e0e0e0;
+  cursor: pointer;
+}
+.linkbtn > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 1024px) {
+  .pr-text-box {
+    display: block;
+  }
+}

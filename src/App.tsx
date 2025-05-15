@@ -1,5 +1,15 @@
 import React from "react";
+import "./assets/css/reset.css";
+import "./assets/css/font.css";
+import "./assets/css/navbar.css";
+import "./assets/css/top.css";
 import "./assets/css/main.css";
+import "./assets/css/slider.css";
+import "./assets/css/sec1.css";
+import "./assets/css/sec2.css";
+import "./assets/css/sec3.css";
+import "./assets/css/sec4.css";
+
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Sec1 from "./components/Sec1";

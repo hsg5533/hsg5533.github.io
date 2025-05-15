@@ -15,10 +15,10 @@ import ts from "../assets/img/icon/ts.png";
 export default function Sec2() {
   return (
     <div className="sec sec2" id="sec2">
-      <div className="sec2title">
+      <div className="sec2-title">
         <h2>SKILLS</h2>
       </div>
-      <div className="sec2_box">
+      <div className="sec2-box">
         <div className="skill-chart">
           <div className="skill-title">FRONT-END & BACK-END</div>
           <div className="skill-list">

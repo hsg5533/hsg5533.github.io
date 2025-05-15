@@ -6,29 +6,27 @@ import github from "../assets/img/icon/githubicon.png";
 export default function Sec4() {
   return (
     <div className="sec sec4" id="sec4">
-      <div className="title_box2">
+      <div className="sec4-title">
         <h2>CONTACT</h2>
       </div>
-      <div className="sec4box">
-        <div className="item_box">
-          <div className="item">
-            <a href="https://open.kakao.com/me/hsg5533">
-              <img src={kakao} alt="" />
-              <div className="item_desc">KAKAO</div>
-            </a>
-          </div>
-          <div className="item">
-            <a href="mailto:hsg55334@naver.com">
-              <img src={email} alt="" />
-              <div className="item_desc">EMAIL</div>
-            </a>
-          </div>
-          <div className="item">
-            <a href="https://github.com/hsg5533">
-              <img src={github} alt="" />
-              <div className="item_desc">GITHUB PROFILE</div>
-            </a>
-          </div>
+      <div className="sec4-box">
+        <div className="contact-item">
+          <a href="https://open.kakao.com/me/hsg5533">
+            <img src={kakao} alt="" />
+            <div className="contact-item-desc">KAKAO</div>
+          </a>
+        </div>
+        <div className="contact-item">
+          <a href="mailto:hsg55334@naver.com">
+            <img src={email} alt="" />
+            <div className="contact-item-desc">EMAIL</div>
+          </a>
+        </div>
+        <div className="contact-item">
+          <a href="https://github.com/hsg5533">
+            <img src={github} alt="" />
+            <div className="contact-item-desc">GITHUB PROFILE</div>
+          </a>
         </div>
       </div>
     </div>

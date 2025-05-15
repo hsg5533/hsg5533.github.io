@@ -6,7 +6,7 @@ export default function Sec1() {
       <div className="sec1_box">
         <div className="sec1_L"></div>
         <div className="sec1_R">
-          <div className="title_box">
+          <div className="sec1-title">
             <h2>ABOUT ME</h2>
           </div>
           <p className="about-text">

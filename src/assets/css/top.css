@@ -1,0 +1,29 @@
+.top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+.top-btn img {
+  width: 70px;
+  height: 70px;
+}
+.top-btn span {
+  opacity: 0;
+  color: #f14666;
+  font-size: 20px;
+  transform: translateY(25px);
+  transition: 0.2s;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+.top-btn:hover span {
+  opacity: 1;
+  transform: translateY(0);
+}

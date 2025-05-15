@@ -114,7 +114,7 @@ export default function Sec3() {
   return (
     <>
       <div className="sec sec3" id="sec3">
-        <div className="title_box">
+        <div className="sec3-title">
           <h2>PORJECT</h2>
         </div>
         <Sec3box1 />
