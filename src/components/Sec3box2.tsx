@@ -43,8 +43,10 @@ export default function Sec3box2() {
           <div className="pr-title">헬퍼잇 랜딩페이지</div>
           <div className="pr-desc">React, JAVASCRIPT</div>
           <p className="pr-txt">
-            팀 프로젝트로 전국 캠핑장을 조회할 수 있고 캠핑 용품도 구매할 수
-            있는 사이트를 제작했습니다.
+            헬퍼잇 랜딩페이지 제작을 담당하였습니다.
+            <br />
+            웹을 리액트의 장점 중 하나인 컴포넌트를 활용하여 유지보수에
+            용이하도록 개발하였습니다.
           </p>
         </div>
         <div className="link-box">

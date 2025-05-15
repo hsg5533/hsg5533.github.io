@@ -31,8 +31,10 @@ export default function Sec3box3() {
           <div className="pr-title">헬퍼잇 클린</div>
           <div className="pr-desc">React, JAVASCRIPT</div>
           <p className="pr-txt">
-            팀 프로젝트로 전국 캠핑장을 조회할 수 있고 캠핑 용품도 구매할 수
-            있는 사이트를 제작했습니다.
+            헬퍼잇의 서비스 중 하나인 청소 웹 제작을 담당하였습니다.
+            <br />
+            디스코드의 웹훅을 사용하여 웹에서 청소 신청을 하면 디스코드로
+            메세지가 전송하는 기능을 구현하였습니다.
           </p>
         </div>
         <div className="link-box">
