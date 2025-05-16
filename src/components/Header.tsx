@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function Header() {
+  const [open, setOpen] = useState(false);
+  const navRef = useRef<HTMLUListElement>(null);
+
   useEffect(() => {
     const navbarLinks = document.querySelectorAll<HTMLElement>(".navbar a");
     navbarLinks.forEach((link) =>
@@ -32,29 +35,31 @@ export default function Header() {
           link.classList.remove("active");
         }
       });
-
-      // 링크 색상 변경
-      const sectionIds = ["main", "sec1", "sec2", "sec3", "sec4"];
-      const sections = sectionIds.map((id) => document.getElementById(id)!);
-      // If any section is missing, skip color update
-      if (sections.some((sec) => sec === null)) return;
-      const positions = sections.map((sec) => sec.offsetTop);
-      const [sec0Top, sec1Top, sec2Top, sec3Top, sec4Top] = positions;
-      if (
-        (scrollPos >= sec0Top && scrollPos < sec1Top) ||
-        (scrollPos >= sec2Top && scrollPos < sec3Top) ||
-        scrollPos >= sec4Top
-      ) {
-        navbarLinks.forEach((link) => (link.style.color = "#fffff0"));
-      } else {
-        navbarLinks.forEach((link) => (link.style.color = "#25252b"));
-      }
     });
   }, []);
 
+  // open 토글 시 실제 높이 맞춰주기
+  useEffect(() => {
+    if (!navRef.current) return;
+    navRef.current.style.maxHeight = open
+      ? `${navRef.current.scrollHeight}px`
+      : "0";
+  }, [open]);
+
   return (
-    <div className="header">
-      <ul className="navbar">
+    <header className="header">
+      {/* 모바일 햄버거 버튼 */}
+      <button
+        className="hamburger"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-label="Toggle navigation"
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <ul ref={navRef} className={`navbar${open ? " open" : ""}`}>
         <li>
           <a href="#main">MAIN</a>
         </li>
@@ -71,6 +76,6 @@ export default function Header() {
           <a href="#sec4">CONTACT</a>
         </li>
       </ul>
-    </div>
+    </header>
   );
 }

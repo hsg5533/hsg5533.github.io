@@ -1,4 +1,4 @@
-.mainpage {
+.main {
   display: flex;
   transition: 2s;
   width: 100%;
@@ -60,5 +60,40 @@
   }
   100% {
     transform: translate(-100%, 500%) rotate(-90deg);
+  }
+}
+@keyframes slideText2 {
+  0% {
+    transform: translate(500%, -10%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-500%, -10%) rotate(0deg);
+  }
+}
+@keyframes slideText3 {
+  0% {
+    transform: translate(-500%, -70%) rotate(0deg);
+  }
+  100% {
+    transform: translate(500%, -70%) rotate(0deg);
+  }
+}
+@media (max-width: 1024px) {
+  .main {
+    flex-direction: column;
+  }
+  .mainL1 {
+    width: 0px;
+  }
+  .mainL,
+  .mainL2,
+  .mainR {
+    width: 100%;
+  }
+  .up-txt {
+    animation: 13s linear infinite slideText2;
+  }
+  .down-txt {
+    animation: 13s linear infinite slideText3;
   }
 }

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Main() {
   return (
-    <div className="mainpage" id="main">
+    <div className="main" id="main">
       <div className="mainL">
         <div className="mainL1"></div>
         <div className="mainL2">
