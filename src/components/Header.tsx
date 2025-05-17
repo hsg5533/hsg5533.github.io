@@ -40,8 +40,10 @@ export default function Header() {
 
   // open 토글 시 실제 높이 맞춰주기
   useEffect(() => {
-    if (open && navRef.current) {
-      navRef.current.style.maxHeight = `${navRef.current.scrollHeight}px`;
+    if (navRef.current) {
+      navRef.current.style.maxHeight = open
+        ? `${navRef.current.scrollHeight}px`
+        : `0px`;
     }
   }, [open]);
 

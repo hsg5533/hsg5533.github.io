@@ -32,9 +32,8 @@
 }
 
 @media (max-width: 768px) {
-  html,
-  body {
-    overflow: hidden; /* 작은 화면에서 스크롤바를 숨김 */
+  .sec2 {
+    overflow: hidden;
   }
   .container {
     height: 80vh; /* 모바일 환경에서 컨테이너 높이를 뷰포트 높이의 80%로 설정 */
