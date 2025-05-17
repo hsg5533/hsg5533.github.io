@@ -4,6 +4,7 @@ import "./assets/css/font.css";
 import "./assets/css/navbar.css";
 import "./assets/css/top.css";
 import "./assets/css/main.css";
+import "./assets/css/swiper.css";
 import "./assets/css/slider.css";
 import "./assets/css/sec1.css";
 import "./assets/css/sec2.css";

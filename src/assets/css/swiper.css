@@ -1,0 +1,49 @@
+.zoom-in {
+  transform: scale(1.2);
+}
+.zoom-out {
+  transform: scale(1);
+}
+.zoom-in,
+.zoom-out {
+  transition: transform 0.3s;
+}
+
+.container {
+  width: 100%; /* 컨테이너의 너비를 100%로 설정하여 화면 전체 너비를 차지 */
+  height: 60%; /* 컨테이너의 높이를 800px로 지정 */
+  display: flex; /* 내부 요소를 가로로 배치하는 flex 컨테이너로 설정 */
+  justify-content: center; /* 내부 요소를 수평 방향 가운데 정렬 */
+  align-items: center; /* 내부 요소를 수직 방향 가운데 정렬 */
+  position: relative; /* 자식 요소들의 절대 위치(relative) 기준점이 됨 */
+  transform: rotateX(-5deg); /* 컨테이너를 X축 기준으로 -10도 회전 */
+  transform-style: preserve-3d; /* 3D 변환 요소를 중첩해서 사용 가능하도록 설정 */
+  perspective: 2000px; /* 원근감(3D) 거리를 2000px로 설정 */
+}
+
+.card {
+  max-width: 200px; /* 카드의 최대 너비를 200px로 제한 */
+  position: absolute; /* 카드를 절대 위치로 배치해 겹쳐진 형태를 구현 */
+  backface-visibility: visible; /* 뒤집혔을 때 뒷면이 보이게 설정 */
+  transition: transform 1s ease-in-out; /* 변환(회전, 이동) 시 1초간 부드럽게 애니메이션 */
+}
+.card img {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow: hidden; /* 작은 화면에서 스크롤바를 숨김 */
+  }
+  .container {
+    height: 80vh; /* 모바일 환경에서 컨테이너 높이를 뷰포트 높이의 80%로 설정 */
+    perspective: 1500px; /* 3D 원근감을 1500px로 조절 */
+    transform: rotateX(-5deg); /* X축으로 -5도 회전 */
+  }
+  .card {
+    width: 100px; /* 모바일 화면에서 카드 너비를 100px로 지정 */
+    height: 150px; /* 모바일 화면에서 카드 높이를 150px로 지정 */
+    font-size: 20px; /* 텍스트 크기를 20px로 지정 */
+  }
+}
