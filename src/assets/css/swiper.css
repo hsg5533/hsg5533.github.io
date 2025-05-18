@@ -4,11 +4,6 @@
 .zoom-out {
   transform: scale(1);
 }
-.zoom-in,
-.zoom-out {
-  transition: transform 0.3s;
-}
-
 .container {
   width: 100%; /* 컨테이너의 너비를 100%로 설정하여 화면 전체 너비를 차지 */
   height: 60%; /* 컨테이너의 높이를 800px로 지정 */
@@ -16,7 +11,7 @@
   justify-content: center; /* 내부 요소를 수평 방향 가운데 정렬 */
   align-items: center; /* 내부 요소를 수직 방향 가운데 정렬 */
   position: relative; /* 자식 요소들의 절대 위치(relative) 기준점이 됨 */
-  transform: rotateX(-5deg); /* 컨테이너를 X축 기준으로 -10도 회전 */
+  transform: rotateX(-10deg); /* 컨테이너를 X축 기준으로 -10도 회전 */
   transform-style: preserve-3d; /* 3D 변환 요소를 중첩해서 사용 가능하도록 설정 */
   perspective: 2000px; /* 원근감(3D) 거리를 2000px로 설정 */
 }

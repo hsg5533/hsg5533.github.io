@@ -128,12 +128,17 @@ export default function Sec2() {
     ) as HTMLElement; // 카드를 감싸는 컨테이너 요소
     const imgs = document.querySelectorAll<HTMLElement>(".card img");
     const swiper = new Swiper(container, ".card", "horizontal"); // Swiper 인스턴스 생성
-    imgs.forEach((img, index) => {
-      img.classList.remove("zoom-in", "zoom-out");
-      index !== current.current && img.classList.add("zoom-out");
-    });
-    imgs[current.current].classList.add("zoom-in");
-    current.current = (current.current + 1) % imgs.length;
+
+    const slide = () => {
+      imgs.forEach((img, index) => {
+        img.classList.remove("zoom-in", "zoom-out");
+        index !== current.current && img.classList.add("zoom-out");
+      });
+      imgs[current.current].classList.add("zoom-in");
+      current.current = (current.current + 1) % imgs.length;
+      swiper.moveNext();
+    };
+
     swiper.init(); // 초기화 작업 수행
     container.addEventListener("mousedown", (e) => {
       swiper.isClick = true; // 드래그 시작 상태로 전환
@@ -155,18 +160,9 @@ export default function Sec2() {
     container.addEventListener("touchend", (e) => {
       swiper.isClick = false; // 터치 해제
     });
-    swiper.moveNext();
-
+    slide();
     // 2. 자동 슬라이드 & 하이라이트
-    const id = setInterval(() => {
-      imgs.forEach((t, e) => {
-        t.classList.remove("zoom-in", "zoom-out");
-        e !== current.current && t.classList.add("zoom-out");
-      });
-      imgs[current.current].classList.add("zoom-in");
-      current.current = (current.current + 1) % imgs.length;
-      swiper.moveNext();
-    }, 1500);
+    const id = setInterval(slide, 1500);
     return () => clearInterval(id); // don’t forget cleanup!
   }, []);
 

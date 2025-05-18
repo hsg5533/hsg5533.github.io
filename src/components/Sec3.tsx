@@ -39,7 +39,7 @@ const sliderConfigs: SliderOptions[] = [
   },
 ];
 
-function initSlider({
+function slider({
   img,
   btnLeft,
   btnRight,
@@ -110,7 +110,7 @@ function initSlider({
 }
 
 export default function Sec3() {
-  useEffect(() => sliderConfigs.forEach((config) => initSlider(config)), []);
+  useEffect(() => sliderConfigs.forEach((config) => slider(config)), []);
   return (
     <>
       <div className="sec sec3" id="sec3">
