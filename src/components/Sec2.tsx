@@ -25,11 +25,12 @@ class Swiper {
   height: number;
   initialX: number;
   initialY: number;
+  hThreshold: number;
+  vThreshold: number;
   isClick: boolean;
   cards: NodeListOf<HTMLElement>;
   sequence: string[];
-  hThreshold!: number;
-  vThreshold!: number;
+
   constructor(area: HTMLElement, card: string, mode = "horizontal") {
     this.area = area; // 컨테이너 요소 참조
     this.card = card; // 카드 선택자를 저장
@@ -38,6 +39,8 @@ class Swiper {
     this.height = 0; // 컨테이너 높이
     this.initialX = 0; // 마우스/터치 시작 X좌표
     this.initialY = 0; // 마우스/터치 시작 Y좌표
+    this.hThreshold = 0;
+    this.vThreshold = 0;
     this.isClick = false; // 드래그 중인지 여부x
     this.cards = document.querySelectorAll<HTMLElement>(this.card); // 모든 카드 요소(NodeList)
     this.sequence = Array.from(this.cards).map((card) => card.id); // 카드의 ID 순서를 배열로 저장

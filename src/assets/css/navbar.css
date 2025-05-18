@@ -43,6 +43,7 @@
   gap: 30px;
   font-size: 25px;
   display: flex;
+  align-items: center;
 }
 .navbar a {
   transition: color 0.3s ease-in-out;
