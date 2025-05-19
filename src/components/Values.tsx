@@ -1,6 +1,5 @@
-// React와 hooks를 임포트합니다.
+// Values.tsx
 import React, { useRef, useState, useEffect } from "react";
-// js의 주요 모듈들을 임포트합니다.
 import {
   Engine,
   Runner,
@@ -12,15 +11,13 @@ import {
   Events,
 } from "matter-js";
 
-// 물리 시뮬레이션용 객체를 저장하는 타입 정의
 interface PhysicsObject {
-  el: HTMLElement; // 실제 DOM 요소
-  body: Body; // 매터 바디 객체
-  width: number; // 요소 너비
-  height: number; // 요소 높이
+  el: HTMLElement;
+  body: Body;
+  width: number;
+  height: number;
 }
 
-// 경계(벽) 4개를 모아두는 타입 정의
 interface Boundary {
   floor: Body;
   ceiling: Body;
@@ -28,26 +25,30 @@ interface Boundary {
   rightWall: Body;
 }
 
-// 벽 두께 상수
 const wallThickness = 10;
+const letters = "저를소개합니다".split("");
 
 export default function Values() {
-  // 시뮬레이션 중 생성된 물리 객체들을 참조하기 위한 useRef
+  // refs for Matter.js
   const objectsRef = useRef<PhysicsObject[]>([]);
-  // 엔진과 러너를 저장할 ref
   const engineRef = useRef<Engine | null>(null);
   const runnerRef = useRef<Runner | null>(null);
-  // 경계 객체들을 저장할 ref
   const boundaryRef = useRef<Boundary | null>(null);
 
-  // 브라우저 창 크기를 상태로 관리
+  // ref for the area DOM node
+  const areaRef = useRef<HTMLDivElement | null>(null);
+
+  // track viewport visibility
+  const [inView, setInView] = useState(false);
+
+  // track window size
   const [size, setSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
   const { width, height } = size;
 
-  // 윈도우 리사이즈 시 size 상태 업데이트
+  // update size on resize
   useEffect(() => {
     const handleResize = () => {
       setSize({ width: window.innerWidth, height: window.innerHeight });
@@ -56,23 +57,33 @@ export default function Values() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // size가 변경될 때마다 시뮬레이션 초기화
+  // observe when .area enters/exits viewport
   useEffect(() => {
-    // 시뮬레이션을 그릴 부모 요소를 찾습니다.
-    const overlay = document.querySelector<HTMLElement>(".area");
-    if (!overlay) return; // 요소가 없으면 종료
+    const el = areaRef.current;
+    if (!el) return;
 
-    // 드래그·선택 이벤트 기본 동작 차단
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
-    // js 엔진과 러너 생성
+  // initialize / cleanup Matter.js when inView changes
+  useEffect(() => {
+    if (!inView) return;
+
+    const overlay = areaRef.current!;
     const engine = Engine.create();
-    engine.positionIterations = 10; // 위치 반복 횟수 조정
-    engine.velocityIterations = 10; // 속도 반복 횟수 조정
+    engine.positionIterations = 10;
+    engine.velocityIterations = 10;
     const runner = Runner.create();
+
     engineRef.current = engine;
     runnerRef.current = runner;
 
-    // 경계(바닥, 천장, 좌/우 벽) 생성 및 월드에 추가
+    // create boundaries
     const floor = Bodies.rectangle(
       width / 2,
       height + wallThickness / 2,
@@ -104,17 +115,16 @@ export default function Values() {
     boundaryRef.current = { floor, ceiling, leftWall, rightWall };
     Composite.add(engine.world, [floor, ceiling, leftWall, rightWall]);
 
-    // .physics 클래스를 가진 모든 요소를 찾아 물리 객체로 변환
+    // wrap all .physics elements
     const elements = overlay.querySelectorAll<HTMLElement>(".physics");
     const objects: PhysicsObject[] = [];
+    const overlayRect = overlay.getBoundingClientRect();
+
     elements.forEach((el) => {
       const isStatic = el.classList.contains("static");
       const rect = el.getBoundingClientRect();
-      const overlayRect = overlay.getBoundingClientRect();
-      // 오버레이 내부 좌표로 변환
       const centerX = rect.left - overlayRect.left + rect.width / 2;
       const centerY = rect.top - overlayRect.top + rect.height / 2;
-      // 물리 바디 생성
       const body = Bodies.rectangle(centerX, centerY, rect.width, rect.height, {
         isStatic,
       });
@@ -123,20 +133,15 @@ export default function Values() {
     });
     objectsRef.current = objects;
 
-    // 마우스 객체 생성: overlay에 이벤트 등록
+    // mouse control
     const mouse = Mouse.create(overlay);
-    // MouseConstraint 생성시 element 옵션이 IMouseConstraintDefinition에 없으므로 제거
     const constraint = MouseConstraint.create(engine, {
       mouse,
-      constraint: {
-        stiffness: 0.2,
-        damping: 0.3,
-        render: { visible: false },
-      },
+      constraint: { stiffness: 0.2, damping: 0.3, render: { visible: false } },
     });
     Composite.add(engine.world, constraint);
 
-    // 업데이트 전에 속도 제한 로직 실행
+    // speed cap
     Events.on(engine, "beforeUpdate", () => {
       const maxSpeed = 40;
       objectsRef.current.forEach(({ body }) => {
@@ -151,10 +156,10 @@ export default function Values() {
       });
     });
 
-    // 러너 실행
+    // run physics
     Runner.run(runner, engine);
 
-    // 매 프레임마다 DOM 위치와 회전각을 업데이트
+    // render loop
     const update = () => {
       objectsRef.current.forEach(({ el, body, width: w, height: h }) => {
         el.style.left = `${body.position.x - w / 2}px`;
@@ -165,19 +170,23 @@ export default function Values() {
     };
     update();
 
-    // 언마운트 시 정리(cleanup): 러너 중단, 월드 및 엔진 클리어
+    // cleanup on exit or unmount
     return () => {
       Runner.stop(runner);
       Composite.clear(engine.world, false);
       Engine.clear(engine);
+      objectsRef.current = [];
+      boundaryRef.current = null;
+      engineRef.current = null;
+      runnerRef.current = null;
     };
-  }, [width, height]);
+  }, [inView, width, height]);
 
-  // 창 크기 변경 시 경계(벽) 위치와 크기 업데이트
+  // update boundary positions on resize
   useEffect(() => {
-    const boundary = boundaryRef.current;
-    if (!boundary) return;
-    const { floor, ceiling, leftWall, rightWall } = boundary;
+    const b = boundaryRef.current;
+    if (!b) return;
+    const { floor, ceiling, leftWall, rightWall } = b;
 
     Body.setPosition(floor, { x: width / 2, y: height + wallThickness / 2 });
     Body.setVertices(floor, [
@@ -215,29 +224,16 @@ export default function Values() {
     ]);
   }, [width, height]);
 
-  // 시뮬레이션 컨테이너와 10개의 박스 요소 렌더링
   return (
-    <div className="simulation">
-      <h2>Values</h2>
-      <div className="area">
-        <header className="physics">
-          <h1>My Awesome Website</h1>
-        </header>
-        <main className="physics">
-          <h2>소개</h2>
-          <p>
-            이 웹사이트는 컨텐츠 위에 물리 시뮬레이션을 오버레이하여 박스와
-            선반이 브라우저 창 전체 범위 내에서 움직이는 모습을 보여줍니다.
-          </p>
-          <p>아래의 오버레이에서 박스를 드래그하여 상호작용해보세요!</p>
-        </main>
-        <footer className="physics">
-          <p>&copy; 2025 My Awesome Website</p>
-        </footer>
-        {Array.from({ length: 10 }).map((_, i) => (
-          <div key={i} className="box physics">
-            {/* 박스 번호 표시 */}
-            <h1 style={{ fontSize: "3rem" }}>{i}</h1>
+    <div className="simulation" data-aos="fade-up" data-aos-duration="1000">
+      <div className="area" ref={areaRef}>
+        {letters.map((char, i) => (
+          <div
+            key={i}
+            className="box physics"
+            style={{ left: `${((i + 1) / (letters.length + 1)) * 100}%` }}
+          >
+            <h1 style={{ fontSize: "3rem" }}>{char}</h1>
           </div>
         ))}
         <div className="shelf1 physics static">

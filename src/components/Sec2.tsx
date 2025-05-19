@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import react from "../assets/img/icon/react.png";
 import reactnative from "../assets/img/icon/reactnative.png";
 import springboot from "../assets/img/icon/springboot.png";
@@ -124,11 +124,24 @@ class Swiper {
 
 export default function Sec2() {
   const current = useRef(0);
+  const containerRef = useRef<HTMLDivElement | null>(null); // 카드 컨테이너 참조
+  const [inView, setInView] = useState(false); // 화면 가시 여부 상태
+
+  // IntersectionObserver로 .container 가시성 감지
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
-    const container = document.querySelector<HTMLElement>(
-      ".container"
-    ) as HTMLElement; // 카드를 감싸는 컨테이너 요소
+    if (!inView) return;
+    const container = containerRef.current!;
     const imgs = document.querySelectorAll<HTMLElement>(".card img");
     const swiper = new Swiper(container, ".card", "horizontal"); // Swiper 인스턴스 생성
 
@@ -167,7 +180,7 @@ export default function Sec2() {
     // 2. 자동 슬라이드 & 하이라이트
     const id = setInterval(slide, 1500);
     return () => clearInterval(id); // don’t forget cleanup!
-  }, []);
+  }, [inView]);
 
   return (
     <div className="sec sec2" id="sec2">
@@ -178,7 +191,7 @@ export default function Sec2() {
       <div className="skill-list">
         <div className="skill-title">USED IT</div>
       </div>
-      <div className="container">
+      <div className="container" ref={containerRef}>
         <div id="first-card" className="card">
           <img src={react} alt="react" />
         </div>
