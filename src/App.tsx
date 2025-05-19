@@ -8,6 +8,7 @@ import "./assets/css/top.css";
 import "./assets/css/main.css";
 import "./assets/css/swiper.css";
 import "./assets/css/slider.css";
+import "./assets/css/values.css";
 import "./assets/css/sec1.css";
 import "./assets/css/sec2.css";
 import "./assets/css/sec3.css";
@@ -20,6 +21,7 @@ import Sec2 from "./components/Sec2";
 import Sec3 from "./components/Sec3";
 import Sec4 from "./components/Sec4";
 import Top from "./components/Top";
+import Values from "./components/Values";
 
 function App() {
   useEffect(() => AOS.init(), []);
@@ -29,6 +31,7 @@ function App() {
       <Header />
       <Main />
       <Sec1 />
+      <Values />
       <Sec2 />
       <Sec3 />
       <Sec4 />
