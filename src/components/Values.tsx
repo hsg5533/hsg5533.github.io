@@ -29,10 +29,10 @@ const letters = "저를소개합니다".split("");
 
 export default function Values() {
   const objectsRef = useRef<PhysicsObject[]>([]);
-  const engineRef = useRef<Engine | null>(null);
-  const runnerRef = useRef<Runner | null>(null);
-  const boundaryRef = useRef<Boundary | null>(null); // 경계 객체를 저장할 ref
-  const areaRef = useRef<HTMLDivElement | null>(null);
+  const engineRef = useRef<Engine>(null);
+  const runnerRef = useRef<Runner>(null);
+  const boundaryRef = useRef<Boundary>(null); // 경계 객체를 저장할 ref
+  const areaRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   // 브라우저 크기를 state로 관리 (초기값: 현재 창 크기)
   const [size, setSize] = useState({

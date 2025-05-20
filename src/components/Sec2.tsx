@@ -124,7 +124,7 @@ class Swiper {
 
 export default function Sec2() {
   const current = useRef(0);
-  const containerRef = useRef<HTMLDivElement | null>(null); // 카드 컨테이너 참조
+  const containerRef = useRef<HTMLDivElement>(null); // 카드 컨테이너 참조
   const [inView, setInView] = useState(false); // 화면 가시 여부 상태
 
   // IntersectionObserver로 .container 가시성 감지
