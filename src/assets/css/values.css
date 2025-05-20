@@ -1,6 +1,6 @@
 /* 시뮬레이션 오버레이: 브라우저 전체를 덮으며 컨텐츠 위에 표시 */
 .simulation {
-  width: 100vw;
+  width: 100%;
   height: 100vh; /* 전체 뷰포트 덮기 */
   pointer-events: none; /* 배경으로 깔리고, 스크롤·클릭이 뒤로 통과 */
 }
@@ -26,6 +26,9 @@
   background-color: ivory;
   border-radius: 50%;
   transform: translate(-50%, -50%);
+}
+.box h1 {
+  font-size: 3rem;
 }
 .physics:active {
   cursor: grabbing;

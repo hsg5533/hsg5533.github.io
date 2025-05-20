@@ -1,4 +1,3 @@
-// Values.tsx
 import React, { useRef, useState, useEffect } from "react";
 import {
   Engine,
@@ -29,61 +28,50 @@ const wallThickness = 10;
 const letters = "저를소개합니다".split("");
 
 export default function Values() {
-  // refs for Matter.js
   const objectsRef = useRef<PhysicsObject[]>([]);
   const engineRef = useRef<Engine | null>(null);
   const runnerRef = useRef<Runner | null>(null);
-  const boundaryRef = useRef<Boundary | null>(null);
-
-  // ref for the area DOM node
+  const boundaryRef = useRef<Boundary | null>(null); // 경계 객체를 저장할 ref
   const areaRef = useRef<HTMLDivElement | null>(null);
-
-  // track viewport visibility
   const [inView, setInView] = useState(false);
-
-  // track window size
+  // 브라우저 크기를 state로 관리 (초기값: 현재 창 크기)
   const [size, setSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
   const { width, height } = size;
 
-  // update size on resize
+  // 창 크기 변화 이벤트를 통해 size state 업데이트
   useEffect(() => {
-    const handleResize = () => {
+    const handleResize = () =>
       setSize({ width: window.innerWidth, height: window.innerHeight });
-    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // observe when .area enters/exits viewport
   useEffect(() => {
-    const el = areaRef.current;
-    if (!el) return;
-
+    const area = areaRef.current;
+    if (!area) return;
     const observer = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
       { threshold: 0.1 }
     );
-    observer.observe(el);
+    observer.observe(area);
     return () => observer.disconnect();
   }, []);
 
-  // initialize / cleanup Matter.js when inView changes
   useEffect(() => {
     if (!inView) return;
-
-    const overlay = areaRef.current!;
+    const overlay = areaRef.current;
+    if (!overlay) return;
+    // 엔진 초기화
     const engine = Engine.create();
     engine.positionIterations = 10;
     engine.velocityIterations = 10;
     const runner = Runner.create();
-
     engineRef.current = engine;
     runnerRef.current = runner;
-
-    // create boundaries
+    // 경계(벽) 생성 – 초기 크기는 size state를 기준으로 함
     const floor = Bodies.rectangle(
       width / 2,
       height + wallThickness / 2,
@@ -114,40 +102,37 @@ export default function Values() {
     );
     boundaryRef.current = { floor, ceiling, leftWall, rightWall };
     Composite.add(engine.world, [floor, ceiling, leftWall, rightWall]);
-
-    // wrap all .physics elements
-    const elements = overlay.querySelectorAll<HTMLElement>(".physics");
+    // 시뮬레이션 오버레이 내부의 모든 .physics 요소들을 Matter.js 객체로 전환
     const objects: PhysicsObject[] = [];
     const overlayRect = overlay.getBoundingClientRect();
-
+    const elements = overlay.querySelectorAll<HTMLElement>(".physics");
     elements.forEach((el) => {
-      const isStatic = el.classList.contains("static");
+      const statics = el.classList.contains("static");
       const rect = el.getBoundingClientRect();
+      // 오버레이 내 좌표로 변환
       const centerX = rect.left - overlayRect.left + rect.width / 2;
       const centerY = rect.top - overlayRect.top + rect.height / 2;
       const body = Bodies.rectangle(centerX, centerY, rect.width, rect.height, {
-        isStatic,
+        isStatic: statics,
       });
       Composite.add(engine.world, body);
       objects.push({ el, body, width: rect.width, height: rect.height });
     });
     objectsRef.current = objects;
-
-    // mouse control
+    // 마우스 제어 활성화
     const mouse = Mouse.create(overlay);
     const constraint = MouseConstraint.create(engine, {
       mouse,
       constraint: { stiffness: 0.2, damping: 0.3, render: { visible: false } },
     });
     Composite.add(engine.world, constraint);
-
-    // speed cap
+    // 동적 객체 속도 제한
     Events.on(engine, "beforeUpdate", () => {
       const maxSpeed = 40;
       objectsRef.current.forEach(({ body }) => {
         if (!body.isStatic) {
           const { x: vx, y: vy } = body.velocity;
-          const speed = Math.hypot(vx, vy);
+          const speed = Math.sqrt(vx * vx + vy * vy);
           if (speed > maxSpeed) {
             const scale = maxSpeed / speed;
             Body.setVelocity(body, { x: vx * scale, y: vy * scale });
@@ -155,39 +140,35 @@ export default function Values() {
         }
       });
     });
-
-    // run physics
     Runner.run(runner, engine);
-
-    // render loop
+    // Matter.js 시뮬레이션 결과를 DOM에 반영하는 업데이트 함수
     const update = () => {
-      objectsRef.current.forEach(({ el, body, width: w, height: h }) => {
-        el.style.left = `${body.position.x - w / 2}px`;
-        el.style.top = `${body.position.y - h / 2}px`;
+      objectsRef.current.forEach((obj) => {
+        const { el, body, width: objWidth, height: objHeight } = obj;
+        el.style.left = `${body.position.x - objWidth / 2}px`;
+        el.style.top = `${body.position.y - objHeight / 2}px`;
         el.style.transform = `rotate(${body.angle}rad)`;
       });
       requestAnimationFrame(update);
     };
     update();
-
-    // cleanup on exit or unmount
     return () => {
       Runner.stop(runner);
       Composite.clear(engine.world, false);
       Engine.clear(engine);
       objectsRef.current = [];
-      boundaryRef.current = null;
       engineRef.current = null;
       runnerRef.current = null;
+      boundaryRef.current = null;
+      areaRef.current = null;
     };
   }, [inView, width, height]);
 
-  // update boundary positions on resize
   useEffect(() => {
-    const b = boundaryRef.current;
-    if (!b) return;
-    const { floor, ceiling, leftWall, rightWall } = b;
-
+    const boundary = boundaryRef.current;
+    if (!boundary) return;
+    const { floor, ceiling, leftWall, rightWall } = boundary;
+    // 바닥 업데이트
     Body.setPosition(floor, { x: width / 2, y: height + wallThickness / 2 });
     Body.setVertices(floor, [
       { x: 0, y: height },
@@ -195,7 +176,7 @@ export default function Values() {
       { x: width, y: height + wallThickness },
       { x: 0, y: height + wallThickness },
     ]);
-
+    // 천장 업데이트
     Body.setPosition(ceiling, { x: width / 2, y: -wallThickness / 2 });
     Body.setVertices(ceiling, [
       { x: 0, y: -wallThickness },
@@ -203,7 +184,7 @@ export default function Values() {
       { x: width, y: 0 },
       { x: 0, y: 0 },
     ]);
-
+    // 왼쪽 벽 업데이트
     Body.setPosition(leftWall, { x: -wallThickness / 2, y: height / 2 });
     Body.setVertices(leftWall, [
       { x: -wallThickness, y: 0 },
@@ -211,7 +192,7 @@ export default function Values() {
       { x: 0, y: height },
       { x: -wallThickness, y: height },
     ]);
-
+    // 오른쪽 벽 업데이트
     Body.setPosition(rightWall, {
       x: width + wallThickness / 2,
       y: height / 2,
@@ -233,7 +214,7 @@ export default function Values() {
             className="box physics"
             style={{ left: `${((i + 1) / (letters.length + 1)) * 100}%` }}
           >
-            <h1 style={{ fontSize: "3rem" }}>{char}</h1>
+            <h1>{char}</h1>
           </div>
         ))}
         <div className="shelf1 physics static">
