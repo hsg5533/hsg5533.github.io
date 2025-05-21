@@ -1,21 +1,27 @@
-.pr-text-box,
-.sec3-title {
-  box-sizing: border-box;
-  display: flex;
-  width: 100%;
-}
+/* ----------------------------------
+   .sec3: 전체 섹션 설정
+---------------------------------- */
 .sec3 {
   display: flex;
+  flex-direction: column;
   background: ivory;
   gap: 15px;
-  flex-direction: column;
 }
+
+/* ----------------------------------
+   .sec3-title: 섹션 제목 영역
+---------------------------------- */
 .sec3-title {
+  display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   height: 120px;
   padding: 1em;
+  box-sizing: border-box;
 }
+
+/* .sec3-title 내부 제목 텍스트 */
 .sec3-title h2 {
   margin: 0;
   color: #25252b;
@@ -23,29 +29,68 @@
   font-family: "Helvetica Neue", sans-serif;
   font-size: 4.5em;
 }
+
+/* ----------------------------------
+   .pr-text-box: 텍스트 및 버튼 묶음
+---------------------------------- */
 .pr-text-box {
-  gap: 20px;
-  padding: 2rem;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
+  gap: 20px;
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
 }
+
+/* 반응형: 모바일에서 세로 배치 */
+@media (max-width: 1024px) {
+  .pr-text-box {
+    display: block;
+  }
+}
+
+/* ----------------------------------
+   .pr-title: 프로젝트 제목
+---------------------------------- */
 .pr-title {
   font-size: 30px;
 }
+
+/* ----------------------------------
+   .pr-desc: 프로젝트 부제/설명
+---------------------------------- */
 .pr-desc {
   font-size: 20px;
   color: #f14666;
 }
+
+/* ----------------------------------
+   .pr-txt: 프로젝트 본문 텍스트
+---------------------------------- */
 .pr-txt {
   font-size: 19px;
 }
+
+/* ----------------------------------
+   .link-box: 버튼 묶음 컨테이너
+---------------------------------- */
+.link-box {
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+}
+
+/* ----------------------------------
+   .link-btn: 버튼 스타일
+---------------------------------- */
 .link-btn {
   font-size: 20px;
   text-align: center;
+  width: 150px;
   height: 55px;
   line-height: 55px;
-  width: 150px;
   border-radius: 10px;
   background: linear-gradient(
       145deg,
@@ -59,11 +104,8 @@
   color: #333;
   transition: 0.2s ease-in-out;
 }
-.link-box {
-  display: flex;
-  gap: 20px;
-  align-items: baseline;
-}
+
+/* 버튼 호버 효과 */
 .link-btn:hover {
   background: #25252b;
   box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.2),
@@ -71,13 +113,12 @@
   color: #e0e0e0;
   cursor: pointer;
 }
+
+/* ----------------------------------
+   .linkbtn > a: 링크 영역 전체 감싸기
+---------------------------------- */
 .linkbtn > a {
   display: block;
   width: 100%;
   height: 100%;
-}
-@media (max-width: 1024px) {
-  .pr-text-box {
-    display: block;
-  }
 }

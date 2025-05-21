@@ -1,22 +1,32 @@
+/* ------------------------------
+   .sec1: 전체 섹션 배경
+------------------------------ */
 .sec1 {
   background: ivory;
 }
-.sec1_R,
+
+/* ------------------------------
+   .sec1_box: 섹션 내부 컨테이너
+------------------------------ */
 .sec1_box {
   display: flex;
-}
-.sec1_box {
   width: 100%;
   height: 100%;
   justify-content: center;
   overflow: hidden;
 }
+
+/* ------------------------------
+   .sec1-title: 섹션 타이틀 영역
+------------------------------ */
 .sec1-title {
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 120px;
 }
+
+/* .sec1-title 내부 제목 텍스트 */
 .sec1-title h2 {
   color: rgb(37, 37, 43);
   margin: 0px;
@@ -25,20 +35,32 @@
   font-size: 4.5em;
   opacity: 0.5;
 }
-.sec1_L,
-.sec1_R {
+
+/* ------------------------------
+   .sec1_L: 왼쪽 영역 (배경 이미지 포함)
+------------------------------ */
+.sec1_L {
   width: 50%;
   height: 100%;
-}
-.sec1_L {
   background: url(../img/background/main3.jpg) center/cover no-repeat;
 }
+
+/* ------------------------------
+   .sec1_R: 오른쪽 영역 (텍스트 포함)
+------------------------------ */
 .sec1_R {
-  padding: 1em;
-  box-sizing: border-box;
+  display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 50%;
+  height: 100%;
+  padding: 1em;
+  box-sizing: border-box;
 }
+
+/* ------------------------------
+   .about-text: 설명 텍스트
+------------------------------ */
 .about-text {
   text-align: center;
   line-height: 100px;
@@ -47,23 +69,35 @@
   margin: 0;
   color: #25252b;
 }
+
+/* ------------------------------
+   반응형 스타일 (1024px 이하)
+------------------------------ */
 @media (max-width: 1024px) {
+  /* 섹션 박스를 세로로 나열 */
   .sec1_box {
     flex-direction: column;
   }
+
+  /* 양쪽 영역을 전체 너비로 변경하고 높이 절반 */
   .sec1_L,
   .sec1_R {
     width: 100%;
     height: 50%;
   }
+
+  /* 설명 텍스트 크기 조절 */
   .about-text {
     line-height: 60px;
     font-size: 25px;
     width: 100%;
   }
+
+  /* 타이틀 영역 높이 조절 */
   .sec1-title {
     height: 60px;
   }
+
   .sec1-title h2 {
     font-size: 2rem;
   }

@@ -11,17 +11,14 @@ export default function Header() {
         e.preventDefault();
         const href = link.getAttribute("href")!;
         const targetEl = document.querySelector<HTMLElement>(href)!;
-
         // 부드러운 스크롤
         targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
       })
     );
-
     // 스크롤 시 실행 함수 (내비게이션 스타일 업데이트)
     window.addEventListener("scroll", () => {
       const scrollPos =
         window.pageYOffset || document.documentElement.scrollTop;
-
       // 링크 활성화 토글
       navbarLinks.forEach((link) => {
         const href = link.getAttribute("href")!;
@@ -50,16 +47,11 @@ export default function Header() {
   return (
     <header className="header">
       {/* 모바일 햄버거 버튼 */}
-      <button
-        className="hamburger"
-        onClick={() => setOpen((prev) => !prev)}
-        aria-label="Toggle navigation"
-      >
+      <button className="hamburger" onClick={() => setOpen(!open)}>
         <span />
         <span />
         <span />
       </button>
-
       <ul ref={navRef} className={`navbar${open ? " open" : ""}`}>
         <li>
           <a href="#main">MAIN</a>

@@ -5,8 +5,8 @@ import Sec3box3 from "./Sec3box3";
 
 interface SliderOptions {
   img: string;
-  btnLeft: string;
-  btnRight: string;
+  btnL: string;
+  btnR: string;
   indicator: string;
   dots: string;
   active: string;
@@ -15,44 +15,37 @@ interface SliderOptions {
 const sliderConfigs: SliderOptions[] = [
   {
     img: ".slide",
-    btnLeft: ".btn_L",
-    btnRight: ".btn_R",
+    btnL: ".btn_L",
+    btnR: ".btn_R",
     indicator: ".indis",
     dots: "indi",
     active: "indi_active",
   },
   {
     img: ".slide2",
-    btnLeft: ".btn_L2",
-    btnRight: ".btn_R2",
+    btnL: ".btn_L2",
+    btnR: ".btn_R2",
     indicator: ".indis2",
     dots: "indi2",
     active: "indi2_active",
   },
   {
     img: ".slide3",
-    btnLeft: ".btn_L3",
-    btnRight: ".btn_R3",
+    btnL: ".btn_L3",
+    btnR: ".btn_R3",
     indicator: ".indis3",
     dots: "indi3",
     active: "indi3_active",
   },
 ];
 
-function slider({
-  img,
-  btnLeft,
-  btnRight,
-  indicator,
-  dots,
-  active,
-}: SliderOptions) {
+function slider({ img, btnL, btnR, indicator, dots, active }: SliderOptions) {
   let current = 0;
   const timer = 1000;
   const indis: HTMLElement[] = [];
   const imgs = document.querySelectorAll<HTMLElement>(img);
-  const left = document.querySelector<HTMLElement>(btnLeft)!;
-  const right = document.querySelector<HTMLElement>(btnRight)!;
+  const left = document.querySelector<HTMLElement>(btnL)!;
+  const right = document.querySelector<HTMLElement>(btnR)!;
   const container = document.querySelector<HTMLElement>(indicator)!;
   const count = imgs.length;
   imgs[0].style.left = "0";

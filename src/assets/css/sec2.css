@@ -1,68 +1,54 @@
-.sec2,
-.sec2-title,
-.skill-chart {
+/* ----------------------------------
+   .sec2: 전체 섹션 스타일
+---------------------------------- */
+.sec2 {
   padding: 1em;
   box-sizing: border-box;
 }
+
+/* ----------------------------------
+   .sec2-title: 섹션 제목 컨테이너
+---------------------------------- */
 .sec2-title {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 10%;
+  padding: 1em;
+  box-sizing: border-box;
 }
+
+/* .sec2-title 내부 제목 텍스트 */
 .sec2-title h2 {
-  letter-spacing: 8px;
   margin: 0;
   color: ivory;
   opacity: 0.5;
   font-family: "Helvetica Neue", sans-serif;
   font-size: 4.5em;
+  letter-spacing: 8px;
 }
-.sec2-box {
-  display: flex;
-  margin: 0 auto;
-  max-width: 1300px;
-  height: 90%;
-  justify-content: center;
-}
+
+/* ----------------------------------
+   .skill-title: 스킬 섹션 제목
+---------------------------------- */
 .skill-title {
-  height: 50px;
-  color: ivory;
-  text-align: center;
   width: 100%;
-  border-radius: 20px;
+  height: 50px;
   line-height: 50px;
+  text-align: center;
+  color: ivory;
   font-size: 25px;
   font-weight: 700;
   letter-spacing: -1px;
+  border-radius: 20px;
 }
-.skill-list {
-  width: 100%;
-  padding: 1.5em;
-  gap: 20px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-.skill-logo {
-  width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.skill-logo > li img {
-  width: 200px;
-  height: 200px;
-}
+
+/* ----------------------------------
+   반응형 (1024px 이하 화면)
+---------------------------------- */
 @media (max-width: 1024px) {
-  .sec2,
-  .sec2-box {
+  .sec2 {
     height: 100%;
-  }
-  .skill-logo {
-    flex-direction: column;
   }
 }

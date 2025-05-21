@@ -30,7 +30,6 @@ class Swiper {
   isClick: boolean;
   cards: NodeListOf<HTMLElement>;
   sequence: string[];
-
   constructor(area: HTMLElement, card: string, mode = "horizontal") {
     this.area = area; // 컨테이너 요소 참조
     this.card = card; // 카드 선택자를 저장
@@ -123,7 +122,6 @@ class Swiper {
 }
 
 export default function Sec2() {
-  const current = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null); // 카드 컨테이너 참조
   const [inView, setInView] = useState(false); // 화면 가시 여부 상태
 
@@ -144,17 +142,6 @@ export default function Sec2() {
     const container = containerRef.current!;
     const imgs = document.querySelectorAll<HTMLElement>(".card img");
     const swiper = new Swiper(container, ".card", "horizontal"); // Swiper 인스턴스 생성
-
-    const slide = () => {
-      imgs.forEach((img, index) => {
-        img.classList.remove("zoom-in", "zoom-out");
-        index !== current.current && img.classList.add("zoom-out");
-      });
-      imgs[current.current].classList.add("zoom-in");
-      current.current = (current.current + 1) % imgs.length;
-      swiper.moveNext();
-    };
-
     swiper.init(); // 초기화 작업 수행
     container.addEventListener("mousedown", (e) => {
       swiper.isClick = true; // 드래그 시작 상태로 전환
@@ -176,9 +163,9 @@ export default function Sec2() {
     container.addEventListener("touchend", (e) => {
       swiper.isClick = false; // 터치 해제
     });
-    slide();
-    // 2. 자동 슬라이드 & 하이라이트
-    const id = setInterval(slide, 1500);
+    swiper.moveNext();
+    // 자동 슬라이드 & 하이라이트
+    const id = setInterval(() => swiper.moveNext(), 1500);
     return () => clearInterval(id); // don’t forget cleanup!
   }, [inView]);
 
@@ -188,9 +175,7 @@ export default function Sec2() {
         <h2>SKILLS</h2>
       </div>
       <div className="skill-title">FRONT-END & BACK-END</div>
-      <div className="skill-list">
-        <div className="skill-title">USED IT</div>
-      </div>
+      <div className="skill-title">USED IT</div>
       <div className="container" ref={containerRef}>
         <div id="first-card" className="card">
           <img src={react} alt="react" />
