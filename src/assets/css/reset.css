@@ -20,12 +20,7 @@ a {
 }
 .sec {
   width: 100%;
+  height: 100vh;
   margin: 0 auto;
   font-family: NPSfontBold, sans-serif;
-}
-.sec1,
-.sec2,
-.sec3,
-.sec4 {
-  height: 100vh;
 }

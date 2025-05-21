@@ -1,90 +1,132 @@
-/* 시뮬레이션 오버레이: 브라우저 전체를 덮으며 컨텐츠 위에 표시 */
-.simulation {
-  width: 100%;
-  height: 100vh; /* 전체 뷰포트 덮기 */
-  pointer-events: none; /* 배경으로 깔리고, 스크롤·클릭이 뒤로 통과 */
-}
-/* Matter.js 시뮬레이션 영역 */
-.area {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-/* 공통 물리 대상 스타일 */
-.physics {
-  pointer-events: auto;
-  position: absolute;
-  cursor: grab;
-}
-.box {
-  width: 100px;
-  height: 100px;
-  top: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ivory;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-.box h1 {
-  font-size: 3rem;
-}
-.physics:active {
-  cursor: grabbing;
-}
-/* 선반 스타일 – 브라우저의 하단에서부터 차례로 배치 */
-.shelf1 {
-  width: 300px;
-  height: 300px;
-  top: 50%;
-  left: 20%;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  transform: translate(-50%, -50%);
-  background-color: #964b00;
-}
-.shelf2 {
-  width: 300px;
-  height: 300px;
-  top: 50%;
-  left: 40%;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  transform: translate(-50%, -50%);
-  background-color: #217be2;
-}
-.shelf3 {
-  width: 300px;
-  height: 300px;
-  top: 50%;
-  left: 60%;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  transform: translate(-50%, -50%);
-  background-color: #009632;
-}
-.shelf4 {
-  width: 300px;
-  height: 300px;
-  top: 50%;
-  left: 80%;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  transform: translate(-50%, -50%);
-  background-color: #96008e;
+/* ------------------------------
+   .values: 전체 섹션 배경
+------------------------------ */
+.values {
+  background: ivory;
 }
 
-.static {
-  padding: 2rem;
+/* ------------------------------
+   .values-box: 섹션 내부 컨테이너
+------------------------------ */
+.values-box {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ------------------------------
+   .values-title: 섹션 타이틀 영역
+------------------------------ */
+.values-title {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 120px;
+}
+
+/* .values-title 내부 제목 텍스트 */
+.values-title h2 {
+  color: rgb(37, 37, 43);
+  margin: 0px;
+  text-align: center;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 4.5em;
+  opacity: 0.5;
+}
+
+/* ------------------------------
+   .values-L: 왼쪽 영역 (배경 이미지 포함)
+------------------------------ */
+
+.values-L {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+/* ------------------------------
+   .values-R: 오른쪽 영역 (텍스트 포함)
+------------------------------ */
+
+.values-R {
+  width: 50%;
+  height: 100%;
+  background: url(../img/background/main2.jpg) center/cover no-repeat;
+}
+
+/* ------------------------------
+   .values-text: 설명 텍스트
+------------------------------ */
+.values-text {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  /* 열 2개, 각각 비율 1:1 */
+  grid-template-columns: 1fr 1fr;
+  /* 행 2개, 높이 각각 100px, auto */
+  grid-template-rows: auto auto;
+  grid-gap: 10px; /* 행·열 사이 간격 */
+  color: #25252b;
+}
+
+.values-item {
+  width: 30rem;
+  height: 30rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
   color: ivory;
-  font-size: 24px;
+  font-size: 1.8rem;
+  background-color: #60606f;
+}
+
+/* ------------------------------
+   반응형 스타일 (1024px 이하)
+------------------------------ */
+@media (max-width: 1024px) {
+  /* 섹션 박스를 세로로 나열 */
+  .values-box {
+    flex-direction: column;
+  }
+
+  /* 양쪽 영역을 전체 너비로 변경하고 높이 절반 */
+  .values-L,
+  .values-R {
+    width: 100%;
+    height: auto;
+  }
+
+  /* 설명 텍스트 크기 조절 */
+  .values-text {
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .values-item {
+    width: 300px;
+    height: auto;
+    padding: 30px;
+    font-size: 1.2rem;
+  }
+  /* 타이틀 영역 높이 조절 */
+  .values-title {
+    height: 60px;
+  }
+
+  .values-title h2 {
+    font-size: 2rem;
+  }
 }
