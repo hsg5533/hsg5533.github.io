@@ -27,21 +27,12 @@
   height: 100%;
   gap: 20px;
   position: relative;
-}
-
-/* ----------------------------------
-   .pr-top: 상단 박스 스타일
----------------------------------- */
-.pr-top {
-  display: flex;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   border-radius: 8px;
+  box-sizing: border-box;
   box-shadow: 8px 8px 15px 0 rgba(0, 0, 0, 0.2),
     -8px -8px 15px 0 rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(25px);
-  box-sizing: border-box;
 }
 
 /* ----------------------------------

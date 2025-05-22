@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import react from "../assets/img/icon/react.png";
 import reactnative from "../assets/img/icon/reactnative.png";
 import springboot from "../assets/img/icon/springboot.png";
@@ -140,7 +140,6 @@ export default function Sec2() {
   useEffect(() => {
     if (!inView) return;
     const container = containerRef.current!;
-    const imgs = document.querySelectorAll<HTMLElement>(".card img");
     const swiper = new Swiper(container, ".card", "horizontal"); // Swiper 인스턴스 생성
     swiper.init(); // 초기화 작업 수행
     container.addEventListener("mousedown", (e) => {

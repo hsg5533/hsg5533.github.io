@@ -7,8 +7,8 @@ interface SliderOptions {
   img: string;
   btnL: string;
   btnR: string;
-  indicator: string;
   dots: string;
+  dot: string;
   active: string;
 }
 
@@ -17,46 +17,46 @@ const sliderConfigs: SliderOptions[] = [
     img: ".slide",
     btnL: ".btn_L",
     btnR: ".btn_R",
-    indicator: ".indis",
-    dots: "indi",
+    dots: ".indis",
+    dot: "indi",
     active: "indi_active",
   },
   {
     img: ".slide2",
     btnL: ".btn_L2",
     btnR: ".btn_R2",
-    indicator: ".indis2",
-    dots: "indi2",
+    dots: ".indis2",
+    dot: "indi2",
     active: "indi2_active",
   },
   {
     img: ".slide3",
     btnL: ".btn_L3",
     btnR: ".btn_R3",
-    indicator: ".indis3",
-    dots: "indi3",
+    dots: ".indis3",
+    dot: "indi3",
     active: "indi3_active",
   },
 ];
 
-function slider({ img, btnL, btnR, indicator, dots, active }: SliderOptions) {
+function slider({ img, btnL, btnR, dots, dot, active }: SliderOptions) {
   let current = 0;
   const timer = 1000;
   const indis: HTMLElement[] = [];
   const imgs = document.querySelectorAll<HTMLElement>(img);
   const left = document.querySelector<HTMLElement>(btnL)!;
   const right = document.querySelector<HTMLElement>(btnR)!;
-  const container = document.querySelector<HTMLElement>(indicator)!;
+  const index = document.querySelector<HTMLElement>(dots)!;
   const count = imgs.length;
   imgs[0].style.left = "0";
 
   // 인디케이터 생성
   for (let i = 0; i < count; i++) {
-    const dot = document.createElement("div");
-    dot.classList.add(dots);
-    if (i === 0) dot.classList.add(active);
-    container.appendChild(dot);
-    indis.push(dot);
+    const div = document.createElement("div");
+    div.classList.add(dot);
+    if (i === 0) div.classList.add(active);
+    index.appendChild(div);
+    indis.push(div);
   }
 
   // 슬라이드 함수

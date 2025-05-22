@@ -7,24 +7,22 @@ import image15 from "../assets/img/background/image15.png";
 export default function Sec3box3() {
   return (
     <div className="project">
-      <div className="pr-top">
-        <div className="pr-box">
-          <div className="pr-img slide3">
-            <img src={image12} alt="" />
-          </div>
-          <div className="pr-img slide3">
-            <img src={image13} alt="" />
-          </div>
-          <div className="pr-img slide3">
-            <img src={image14} alt="" />
-          </div>
-          <div className="pr-img slide3">
-            <img src={image15} alt="" />
-          </div>
-          <input type="button" value="〈" className="pr-btn btn_L3" />
-          <input type="button" value="〉" className="pr-btn btn_R3" />
-          <div className="indis3"></div>
+      <div className="pr-box">
+        <div className="pr-img slide3">
+          <img src={image12} alt="" />
         </div>
+        <div className="pr-img slide3">
+          <img src={image13} alt="" />
+        </div>
+        <div className="pr-img slide3">
+          <img src={image14} alt="" />
+        </div>
+        <div className="pr-img slide3">
+          <img src={image15} alt="" />
+        </div>
+        <input type="button" value="〈" className="pr-btn btn_L3" />
+        <input type="button" value="〉" className="pr-btn btn_R3" />
+        <div className="indis3"></div>
       </div>
       <div className="pr-text-box">
         <div className="pr-text">

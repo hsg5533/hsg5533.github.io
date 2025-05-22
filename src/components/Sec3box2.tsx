@@ -10,33 +10,31 @@ import image11 from "../assets/img/background/image11.png";
 export default function Sec3box2() {
   return (
     <div className="project">
-      <div className="pr-top">
-        <div className="pr-box">
-          <div className="pr-img slide2">
-            <img src={image5} alt="" />
-          </div>
-          <div className="pr-img slide2">
-            <img src={image6} alt="" />
-          </div>
-          <div className="pr-img slide2">
-            <img src={image7} alt="" />
-          </div>
-          <div className="pr-img slide2">
-            <img src={image8} alt="" />
-          </div>
-          <div className="pr-img slide2">
-            <img src={image9} alt="" />
-          </div>
-          <div className="pr-img slide2">
-            <img src={image10} alt="" />
-          </div>
-          <div className="pr-img slide2">
-            <img src={image11} alt="" />
-          </div>
-          <input type="button" value="〈" className="pr-btn btn_L2" />
-          <input type="button" value="〉" className="pr-btn btn_R2" />
-          <div className="indis2"></div>
+      <div className="pr-box">
+        <div className="pr-img slide2">
+          <img src={image5} alt="" />
         </div>
+        <div className="pr-img slide2">
+          <img src={image6} alt="" />
+        </div>
+        <div className="pr-img slide2">
+          <img src={image7} alt="" />
+        </div>
+        <div className="pr-img slide2">
+          <img src={image8} alt="" />
+        </div>
+        <div className="pr-img slide2">
+          <img src={image9} alt="" />
+        </div>
+        <div className="pr-img slide2">
+          <img src={image10} alt="" />
+        </div>
+        <div className="pr-img slide2">
+          <img src={image11} alt="" />
+        </div>
+        <input type="button" value="〈" className="pr-btn btn_L2" />
+        <input type="button" value="〉" className="pr-btn btn_R2" />
+        <div className="indis2"></div>
       </div>
       <div className="pr-text-box">
         <div className="pr-text">
