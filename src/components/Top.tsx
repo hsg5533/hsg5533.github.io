@@ -5,12 +5,9 @@ export default function Top() {
   useEffect(() => {
     const topButton = document.querySelector(".top-btn");
     if (topButton) {
-      topButton.addEventListener("click", function () {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      });
+      topButton.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      );
     }
   }, []);
 

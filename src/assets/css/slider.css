@@ -64,7 +64,7 @@
   height: 100%;
   border: none;
   background-color: transparent;
-  color: #fff;
+  color: #aaa;
   font-size: 80px;
   opacity: 0;
   transition: 0.5s;
@@ -77,14 +77,16 @@
 /* 왼쪽 버튼 위치 설정 */
 .btn_L,
 .btn_L2,
-.btn_L3 {
+.btn_L3,
+.btn_L4 {
   left: 0;
 }
 
 /* 오른쪽 버튼 위치 설정 */
 .btn_R,
 .btn_R2,
-.btn_R3 {
+.btn_R3,
+.btn_R4 {
   right: 0;
 }
 
@@ -93,7 +95,8 @@
 ---------------------------------- */
 .indis,
 .indis2,
-.indis3 {
+.indis3,
+.indis4 {
   position: absolute;
   bottom: 10px;
   left: 50%;
@@ -105,18 +108,20 @@
 /* 인디케이터 기본 점 */
 .indi,
 .indi2,
-.indi3 {
+.indi3,
+.indi4 {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: #fff;
+  background: #aaa;
   opacity: 0.8;
 }
 
 /* 활성화된 인디케이터 점 */
 .indi_active,
 .indi2_active,
-.indi3_active {
+.indi3_active,
+.indi4_active {
   background: #333;
   opacity: 0.8;
 }

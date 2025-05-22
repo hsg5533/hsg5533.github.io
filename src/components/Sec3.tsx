@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Sec3box1 from "./Sec3box1";
 import Sec3box2 from "./Sec3box2";
 import Sec3box3 from "./Sec3box3";
+import Sec3box4 from "./Sec3box4";
 
 interface SliderOptions {
   img: string;
@@ -36,6 +37,14 @@ const sliderConfigs: SliderOptions[] = [
     dots: ".indis3",
     dot: "indi3",
     active: "indi3_active",
+  },
+  {
+    img: ".slide4",
+    btnL: ".btn_L4",
+    btnR: ".btn_R4",
+    dots: ".indis4",
+    dot: "indi4",
+    active: "indi4_active",
   },
 ];
 
@@ -117,6 +126,9 @@ export default function Sec3() {
       </div>
       <div className="sec sec3">
         <Sec3box3 />
+      </div>
+      <div className="sec sec3">
+        <Sec3box4 />
       </div>
     </>
   );

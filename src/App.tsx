@@ -27,7 +27,7 @@ function App() {
   useEffect(() => AOS.init(), []);
 
   return (
-    <div id="wrap">
+    <>
       <Header />
       <Main />
       <Sec1 />
@@ -36,7 +36,7 @@ function App() {
       <Sec3 />
       <Sec4 />
       <Top />
-    </div>
+    </>
   );
 }
 

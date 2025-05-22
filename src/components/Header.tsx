@@ -52,7 +52,7 @@ export default function Header() {
         <span />
         <span />
       </button>
-      <ul ref={navRef} className={`navbar${open ? " open" : ""}`}>
+      <ul ref={navRef} className={`navbar ${open ? "open" : ""}`}>
         <li>
           <a href="#main">MAIN</a>
         </li>
