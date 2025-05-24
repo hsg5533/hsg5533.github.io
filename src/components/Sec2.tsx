@@ -38,9 +38,9 @@ class Swiper {
     this.height = 0; // 컨테이너 높이
     this.initialX = 0; // 마우스/터치 시작 X좌표
     this.initialY = 0; // 마우스/터치 시작 Y좌표
-    this.hThreshold = 0;
-    this.vThreshold = 0;
-    this.isClick = false; // 드래그 중인지 여부x
+    this.hThreshold = 0; // 가로 임계값
+    this.vThreshold = 0; // 세로 임계값
+    this.isClick = false; // 드래그 중인지 여부
     this.cards = document.querySelectorAll<HTMLElement>(this.card); // 모든 카드 요소(NodeList)
     this.sequence = Array.from(this.cards).map((card) => card.id); // 카드의 ID 순서를 배열로 저장
   }
@@ -68,10 +68,9 @@ class Swiper {
     const delta = this.calculateDistance(e); // 이동 방향과 거리 계산
     const threshold =
       this.mode === "horizontal" ? this.hThreshold : this.vThreshold; // 방향별 임계값
-    // 임계값보다 이동이 작으면 회전 없음
     if (Math.abs(delta) < threshold) {
       return;
-    }
+    } // 임계값보다 이동이 작으면 회전 없음
     if (delta > 0) {
       this.moveNext(); // 양수면 다음 카드로 이동
     } else {
@@ -156,10 +155,10 @@ export default function Sec2() {
     container.addEventListener("touchmove", (e) => {
       swiper.rotateObject(e.touches[0]); // 터치 이동에 따라 회전 검사
     });
-    container.addEventListener("mouseup", (e) => {
+    container.addEventListener("mouseup", () => {
       swiper.isClick = false; // 드래그 해제
     });
-    container.addEventListener("touchend", (e) => {
+    container.addEventListener("touchend", () => {
       swiper.isClick = false; // 터치 해제
     });
     swiper.moveNext();
