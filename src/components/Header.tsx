@@ -15,24 +15,6 @@ export default function Header() {
         targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
       })
     );
-    // 스크롤 시 실행 함수 (내비게이션 스타일 업데이트)
-    window.addEventListener("scroll", () => {
-      const scrollPos =
-        window.pageYOffset || document.documentElement.scrollTop;
-      // 링크 활성화 토글
-      navbarLinks.forEach((link) => {
-        const href = link.getAttribute("href")!;
-        const targetEl = document.querySelector<HTMLElement>(href)!;
-        const elemTop = targetEl.offsetTop;
-        const elemBottom = elemTop + targetEl.offsetHeight;
-        if (elemTop <= scrollPos && scrollPos < elemBottom) {
-          navbarLinks.forEach((l) => l.classList.remove("active"));
-          link.classList.add("active");
-        } else {
-          link.classList.remove("active");
-        }
-      });
-    });
   }, []);
 
   // open 토글 시 실제 높이 맞춰주기

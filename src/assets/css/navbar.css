@@ -48,9 +48,6 @@
 .navbar a {
   transition: color 0.3s ease-in-out;
 }
-.navbar a.active {
-  border-bottom: 3px solid;
-}
 /* 모바일에서만 햄버거 보이기 */
 @media (max-width: 1024px) {
   .header {
