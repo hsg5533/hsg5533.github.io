@@ -1,6 +1,11 @@
 /* ----------------------------------
    .sec4-title: 섹션 제목 영역
 ---------------------------------- */
+.sec4 {
+  width: 100%;
+  height: 100%;
+}
+
 .sec4-title {
   display: flex;
   align-items: center;
@@ -86,5 +91,9 @@
 @media (max-width: 1024px) {
   .sec4-box {
     display: block;
+  }
+  .contact-item {
+    width: 100%;
+    height: 100%;
   }
 }

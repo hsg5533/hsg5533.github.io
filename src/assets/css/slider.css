@@ -13,7 +13,7 @@
 @media (max-width: 1024px) {
   .project {
     width: 100%;
-    height: 70%;
+    height: 100%;
   }
 }
 
@@ -29,10 +29,6 @@
   position: relative;
   overflow: hidden;
   border-radius: 8px;
-  box-sizing: border-box;
-  box-shadow: 8px 8px 15px 0 rgba(0, 0, 0, 0.2),
-    -8px -8px 15px 0 rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(25px);
 }
 
 /* ----------------------------------
@@ -44,13 +40,13 @@
   left: 100%;
   width: 100%;
   height: 100%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* 이미지 요소 */
 .pr-img img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 /* ----------------------------------
@@ -79,7 +75,8 @@
 .btn_L2,
 .btn_L3,
 .btn_L4,
-.btn_L5 {
+.btn_L5,
+.btn_L6 {
   left: 0;
 }
 
@@ -88,7 +85,8 @@
 .btn_R2,
 .btn_R3,
 .btn_R4,
-.btn_R5 {
+.btn_R5,
+.btn_R6 {
   right: 0;
 }
 
@@ -99,7 +97,8 @@
 .indis2,
 .indis3,
 .indis4,
-.indis5 {
+.indis5,
+.indis6 {
   position: absolute;
   bottom: 10px;
   left: 50%;
@@ -113,7 +112,8 @@
 .indi2,
 .indi3,
 .indi4,
-.indi5 {
+.indi5,
+.indi6 {
   width: 15px;
   height: 15px;
   border-radius: 50%;
@@ -126,7 +126,8 @@
 .indi2_active,
 .indi3_active,
 .indi4_active,
-.indi5_active {
+.indi5_active,
+.indi6_active {
   background: #333;
   opacity: 0.8;
 }

@@ -4,6 +4,7 @@ import Sec3box2 from "./Sec3box2";
 import Sec3box3 from "./Sec3box3";
 import Sec3box4 from "./Sec3box4";
 import Sec3box5 from "./Sec3box5";
+import Sec3box6 from "./Sec3box6";
 
 interface SliderOptions {
   img: string;
@@ -54,6 +55,14 @@ const sliderConfigs: SliderOptions[] = [
     dots: ".indis5",
     dot: "indi5",
     active: "indi5_active",
+  },
+  {
+    img: ".slide6",
+    btnL: ".btn_L6",
+    btnR: ".btn_R6",
+    dots: ".indis6",
+    dot: "indi6",
+    active: "indi6_active",
   },
 ];
 
@@ -141,6 +150,9 @@ export default function Sec3() {
       </div>
       <div className="sec sec3">
         <Sec3box5 />
+      </div>
+      <div className="sec sec3">
+        <Sec3box6 />
       </div>
     </>
   );

@@ -1,28 +1,28 @@
 import React from "react";
-import image20 from "../assets/img/background/image20.png";
-import image21 from "../assets/img/background/image21.png";
-import image22 from "../assets/img/background/image22.png";
-import image23 from "../assets/img/background/image23.png";
+import image24 from "../assets/img/background/image24.png";
+import image25 from "../assets/img/background/image25.png";
+import image26 from "../assets/img/background/image26.png";
+import image27 from "../assets/img/background/image27.png";
 
-export default function Sec3box5() {
+export default function Sec3box6() {
   return (
     <div className="project">
       <div className="pr-box">
-        <div className="pr-img slide5">
-          <img src={image20} alt="" />
+        <div className="pr-img slide6">
+          <img src={image24} alt="" />
         </div>
-        <div className="pr-img slide5">
-          <img src={image21} alt="" />
+        <div className="pr-img slide6">
+          <img src={image25} alt="" />
         </div>
-        <div className="pr-img slide5">
-          <img src={image22} alt="" />
+        <div className="pr-img slide6">
+          <img src={image26} alt="" />
         </div>
-        <div className="pr-img slide5">
-          <img src={image23} alt="" />
+        <div className="pr-img slide6">
+          <img src={image27} alt="" />
         </div>
-        <input type="button" value="〈" className="pr-btn btn_L5" />
-        <input type="button" value="〉" className="pr-btn btn_R5" />
-        <div className="indis5"></div>
+        <input type="button" value="〈" className="pr-btn btn_L6" />
+        <input type="button" value="〉" className="pr-btn btn_R6" />
+        <div className="indis6"></div>
       </div>
       <div className="pr-text-box">
         <div className="pr-text">
@@ -46,7 +46,7 @@ export default function Sec3box5() {
           <div className="link-btn">
             <a
               target="_blank"
-              href="https://github.com/hsg5533/market-admin.git"
+              href="https://github.com/hsg5533/market-owner.git"
             >
               GitHub
             </a>
