@@ -78,7 +78,8 @@
 .btn_L,
 .btn_L2,
 .btn_L3,
-.btn_L4 {
+.btn_L4,
+.btn_L5 {
   left: 0;
 }
 
@@ -86,7 +87,8 @@
 .btn_R,
 .btn_R2,
 .btn_R3,
-.btn_R4 {
+.btn_R4,
+.btn_R5 {
   right: 0;
 }
 
@@ -96,7 +98,8 @@
 .indis,
 .indis2,
 .indis3,
-.indis4 {
+.indis4,
+.indis5 {
   position: absolute;
   bottom: 10px;
   left: 50%;
@@ -109,7 +112,8 @@
 .indi,
 .indi2,
 .indi3,
-.indi4 {
+.indi4,
+.indi5 {
   width: 15px;
   height: 15px;
   border-radius: 50%;
@@ -121,7 +125,8 @@
 .indi_active,
 .indi2_active,
 .indi3_active,
-.indi4_active {
+.indi4_active,
+.indi5_active {
   background: #333;
   opacity: 0.8;
 }
