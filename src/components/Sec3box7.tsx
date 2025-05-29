@@ -1,32 +1,32 @@
 import React from "react";
-import image24 from "../assets/img/background/image24.png";
-import image25 from "../assets/img/background/image25.png";
-import image26 from "../assets/img/background/image26.png";
-import image27 from "../assets/img/background/image27.png";
+import image28 from "../assets/img/background/image28.png";
+import image29 from "../assets/img/background/image29.png";
+import image30 from "../assets/img/background/image30.png";
+import image31 from "../assets/img/background/image31.png";
 
-export default function Sec3box6() {
+export default function Sec3box7() {
   return (
     <div className="project">
       <div className="pr-box">
-        <div className="pr-img slide6">
-          <img src={image24} alt="" />
+        <div className="pr-img slide7">
+          <img src={image28} alt="" />
         </div>
-        <div className="pr-img slide6">
-          <img src={image25} alt="" />
+        <div className="pr-img slide7">
+          <img src={image29} alt="" />
         </div>
-        <div className="pr-img slide6">
-          <img src={image26} alt="" />
+        <div className="pr-img slide7">
+          <img src={image30} alt="" />
         </div>
-        <div className="pr-img slide6">
-          <img src={image27} alt="" />
+        <div className="pr-img slide7">
+          <img src={image31} alt="" />
         </div>
-        <input type="button" value="〈" className="pr-btn btn_L6" />
-        <input type="button" value="〉" className="pr-btn btn_R6" />
-        <div className="indis6"></div>
+        <input type="button" value="〈" className="pr-btn btn_L7" />
+        <input type="button" value="〉" className="pr-btn btn_R7" />
+        <div className="indis7"></div>
       </div>
       <div className="pr-text-box">
         <div className="pr-text">
-          <div className="pr-title">부전마켓타운 (점주)</div>
+          <div className="pr-title">부전마켓타운 (고객)</div>
           <div className="pr-desc">
             Data Base: mysql, mariadb
             <br />
@@ -46,7 +46,7 @@ export default function Sec3box6() {
           <div className="link-btn">
             <a
               target="_blank"
-              href="https://github.com/hsg5533/market-owner.git"
+              href="https://github.com/hsg5533/market-client.git"
             >
               GitHub
             </a>

@@ -5,68 +5,26 @@ import Sec3box3 from "./Sec3box3";
 import Sec3box4 from "./Sec3box4";
 import Sec3box5 from "./Sec3box5";
 import Sec3box6 from "./Sec3box6";
+import Sec3box7 from "./Sec3box7";
 
 interface SliderOptions {
   img: string;
   btnL: string;
   btnR: string;
   dots: string;
-  dot: string;
-  active: string;
 }
 
-const sliderConfigs: SliderOptions[] = [
-  {
-    img: ".slide",
-    btnL: ".btn_L",
-    btnR: ".btn_R",
-    dots: ".indis",
-    dot: "indi",
-    active: "indi_active",
-  },
-  {
-    img: ".slide2",
-    btnL: ".btn_L2",
-    btnR: ".btn_R2",
-    dots: ".indis2",
-    dot: "indi2",
-    active: "indi2_active",
-  },
-  {
-    img: ".slide3",
-    btnL: ".btn_L3",
-    btnR: ".btn_R3",
-    dots: ".indis3",
-    dot: "indi3",
-    active: "indi3_active",
-  },
-  {
-    img: ".slide4",
-    btnL: ".btn_L4",
-    btnR: ".btn_R4",
-    dots: ".indis4",
-    dot: "indi4",
-    active: "indi4_active",
-  },
-  {
-    img: ".slide5",
-    btnL: ".btn_L5",
-    btnR: ".btn_R5",
-    dots: ".indis5",
-    dot: "indi5",
-    active: "indi5_active",
-  },
-  {
-    img: ".slide6",
-    btnL: ".btn_L6",
-    btnR: ".btn_R6",
-    dots: ".indis6",
-    dot: "indi6",
-    active: "indi6_active",
-  },
-];
+const sliderConfigs: SliderOptions[] = Array.from({ length: 7 }, (_, i) => {
+  const suffix = `${i + 1}`;
+  return {
+    img: `.slide${suffix}`,
+    btnL: `.btn_L${suffix}`,
+    btnR: `.btn_R${suffix}`,
+    dots: `.indis${suffix}`,
+  };
+});
 
-function slider({ img, btnL, btnR, dots, dot, active }: SliderOptions) {
+function slider({ img, btnL, btnR, dots }: SliderOptions) {
   let current = 0;
   const timer = 1000;
   const indis: HTMLElement[] = [];
@@ -75,13 +33,25 @@ function slider({ img, btnL, btnR, dots, dot, active }: SliderOptions) {
   const right = document.querySelector<HTMLElement>(btnR)!;
   const index = document.querySelector<HTMLElement>(dots)!;
   const count = imgs.length;
+
+  // 스타일 지정
+  left.style.left = "0";
+  right.style.right = "0";
   imgs[0].style.left = "0";
+  index.style.transform = "translateX(-50%)";
+  index.style.position = "absolute";
+  index.style.display = "flex";
+  index.style.bottom = "10px";
+  index.style.left = "50%";
+  index.style.gap = "10px";
 
   // 인디케이터 생성
   for (let i = 0; i < count; i++) {
     const div = document.createElement("div");
-    div.classList.add(dot);
-    if (i === 0) div.classList.add(active);
+    div.style.width = "15px";
+    div.style.height = "15px";
+    div.style.borderRadius = "50%";
+    div.style.background = i === 0 ? "#333" : "#aaa";
     index.appendChild(div);
     indis.push(div);
   }
@@ -97,8 +67,8 @@ function slider({ img, btnL, btnR, dots, dot, active }: SliderOptions) {
       duration: timer,
       fill: "forwards",
     });
-    indis[from].classList.remove(active);
-    indis[to].classList.add(active);
+    indis[from].style.background = "#aaa";
+    indis[to].style.background = "#333";
   };
 
   // 내비게이션 핸들러
@@ -117,14 +87,17 @@ function slider({ img, btnL, btnR, dots, dot, active }: SliderOptions) {
   // 인디케이터 클릭
   indis.forEach((dot, idx) => {
     dot.addEventListener("click", () => {
-      const activeIdx = indis.findIndex((el) => el.classList.contains(active));
+      const activeIdx = ((current % count) + count) % count;
+      if (activeIdx === idx) {
+        return;
+      }
       if (activeIdx < idx) {
         slide(activeIdx, "-100%", idx, "100%");
-        current = idx;
-      } else if (activeIdx > idx) {
-        slide(activeIdx, "100%", idx, "-100%");
-        current = idx;
       }
+      if (activeIdx > idx) {
+        slide(activeIdx, "100%", idx, "-100%");
+      }
+      current = idx;
     });
   });
 }
@@ -153,6 +126,9 @@ export default function Sec3() {
       </div>
       <div className="sec sec3">
         <Sec3box6 />
+      </div>
+      <div className="sec sec3">
+        <Sec3box7 />
       </div>
     </>
   );

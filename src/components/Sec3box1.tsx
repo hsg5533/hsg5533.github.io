@@ -8,21 +8,21 @@ export default function Sec3box1() {
   return (
     <div className="project">
       <div className="pr-box">
-        <div className="pr-img slide">
+        <div className="pr-img slide1">
           <img src={image1} alt="" />
         </div>
-        <div className="pr-img slide">
+        <div className="pr-img slide1">
           <img src={image2} alt="" />
         </div>
-        <div className="pr-img slide">
+        <div className="pr-img slide1">
           <img src={image3} alt="" />
         </div>
-        <div className="pr-img slide">
+        <div className="pr-img slide1">
           <img src={image4} alt="" />
         </div>
-        <input type="button" value="〈" className="pr-btn btn_L" />
-        <input type="button" value="〉" className="pr-btn btn_R" />
-        <div className="indis"></div>
+        <input type="button" value="〈" className="pr-btn btn_L1" />
+        <input type="button" value="〉" className="pr-btn btn_R1" />
+        <div className="indis1"></div>
       </div>
       <div className="pr-text-box">
         <div className="pr-text">
