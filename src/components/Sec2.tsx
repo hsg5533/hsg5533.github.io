@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import react from "../assets/img/icon/react.png";
 import reactnative from "../assets/img/icon/reactnative.png";
 import springboot from "../assets/img/icon/springboot.png";
@@ -16,6 +16,24 @@ const offsetZ = 200; // translateZ 오프셋 값
 const amplitudeX = 550; // X축 이동 범위(진폭)
 const amplitudeY = 300; // Y축 이동 범위(진폭)
 const amplitudeZ = 500; // Z축 이동 범위(진폭)
+
+function useView(ref: RefObject<Element | null>, threshold: number) {
+  const savedElement = useRef<Element>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    savedElement.current = ref.current;
+  }, [ref]);
+  useEffect(() => {
+    if (!savedElement.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold }
+    );
+    observer.observe(savedElement.current);
+    return () => observer.disconnect();
+  }, [savedElement, threshold]);
+  return inView;
+}
 
 class Swiper {
   area: HTMLElement;
@@ -122,19 +140,7 @@ class Swiper {
 
 export default function Sec2() {
   const containerRef = useRef<HTMLDivElement>(null); // 카드 컨테이너 참조
-  const [inView, setInView] = useState(false); // 화면 가시 여부 상태
-
-  // IntersectionObserver로 .container 가시성 감지
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.1 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const inView = useView(containerRef, 0.1); // 화면 가시 여부
 
   useEffect(() => {
     if (!inView) return;
