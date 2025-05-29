@@ -20,21 +20,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  width: 33px;
-  height: 40px;
   flex-direction: column;
   justify-content: space-between;
-  /* 사파리 기본 스타일 제거 */
-  -webkit-appearance: none;
-  appearance: none;
 }
 
 /* 햄버거 3줄 */
-.hamburger span {
-  display: block;
-  height: 3px;
-  background: #fff;
-  border-radius: 2px;
+.hamburger img {
+  width: 30px;
+  height: 40px;
 }
 .navbar {
   font-weight: 700;

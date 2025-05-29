@@ -46,6 +46,7 @@ export default function Sec3box6() {
           <div className="link-btn">
             <a
               target="_blank"
+              rel="noreferrer"
               href="https://github.com/hsg5533/market-owner.git"
             >
               GitHub

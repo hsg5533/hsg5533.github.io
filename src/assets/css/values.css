@@ -78,8 +78,8 @@
 }
 
 .values-item {
-  width: 27rem;
-  height: 27rem;
+  width: 90%;
+  height: 90%;
   border-radius: 50%;
   display: flex;
   align-items: center;

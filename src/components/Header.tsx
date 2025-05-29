@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import hamburger from "../assets/img/icon/burger-button.svg";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -28,11 +29,8 @@ export default function Header() {
 
   return (
     <header className="header">
-      {/* 모바일 햄버거 버튼 */}
       <button className="hamburger" onClick={() => setOpen(!open)}>
-        <span />
-        <span />
-        <span />
+        <img src={hamburger} alt="메뉴" />
       </button>
       <ul ref={navRef} className={`navbar ${open ? "open" : ""}`}>
         <li>

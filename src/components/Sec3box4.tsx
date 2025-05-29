@@ -9,16 +9,16 @@ export default function Sec3box4() {
     <div className="project">
       <div className="pr-box">
         <div className="pr-img slide4">
-          <img src={image16} alt="" />
+          <img src={image16} alt="인터오션1" />
         </div>
         <div className="pr-img slide4">
-          <img src={image17} alt="" />
+          <img src={image17} alt="인터오션2" />
         </div>
         <div className="pr-img slide4">
-          <img src={image18} alt="" />
+          <img src={image18} alt="인터오션3" />
         </div>
         <div className="pr-img slide4">
-          <img src={image19} alt="" />
+          <img src={image19} alt="인터오션4" />
         </div>
         <input type="button" value="〈" className="pr-btn btn_L4" />
         <input type="button" value="〉" className="pr-btn btn_R4" />
@@ -36,7 +36,7 @@ export default function Sec3box4() {
         </div>
         <div className="link-box">
           <div className="link-btn">
-            <a target="_blank" href="https://iomedical.co.kr/">
+            <a target="_blank" rel="noreferrer" href="https://iomedical.co.kr/">
               호스팅
             </a>
           </div>

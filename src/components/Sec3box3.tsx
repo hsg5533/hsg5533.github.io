@@ -9,16 +9,16 @@ export default function Sec3box3() {
     <div className="project">
       <div className="pr-box">
         <div className="pr-img slide3">
-          <img src={image12} alt="" />
+          <img src={image12} alt="헬퍼잇 클린1" />
         </div>
         <div className="pr-img slide3">
-          <img src={image13} alt="" />
+          <img src={image13} alt="헬퍼잇 클린2" />
         </div>
         <div className="pr-img slide3">
-          <img src={image14} alt="" />
+          <img src={image14} alt="헬퍼잇 클린3" />
         </div>
         <div className="pr-img slide3">
-          <img src={image15} alt="" />
+          <img src={image15} alt="헬퍼잇 클린4" />
         </div>
         <input type="button" value="〈" className="pr-btn btn_L3" />
         <input type="button" value="〉" className="pr-btn btn_R3" />
@@ -37,7 +37,11 @@ export default function Sec3box3() {
         </div>
         <div className="link-box">
           <div className="link-btn">
-            <a target="_blank" href="https://clean.helperit.co.kr/">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://clean.helperit.co.kr/"
+            >
               호스팅
             </a>
           </div>

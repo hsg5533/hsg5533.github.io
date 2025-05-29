@@ -9,16 +9,16 @@ export default function Sec3box1() {
     <div className="project">
       <div className="pr-box">
         <div className="pr-img slide1">
-          <img src={image1} alt="" />
+          <img src={image1} alt="퍼블리싱1" />
         </div>
         <div className="pr-img slide1">
-          <img src={image2} alt="" />
+          <img src={image2} alt="퍼블리싱2" />
         </div>
         <div className="pr-img slide1">
-          <img src={image3} alt="" />
+          <img src={image3} alt="퍼블리싱3" />
         </div>
         <div className="pr-img slide1">
-          <img src={image4} alt="" />
+          <img src={image4} alt="퍼블리싱4" />
         </div>
         <input type="button" value="〈" className="pr-btn btn_L1" />
         <input type="button" value="〉" className="pr-btn btn_R1" />
@@ -34,12 +34,20 @@ export default function Sec3box1() {
         </div>
         <div className="link-box">
           <div className="link-btn">
-            <a target="_blank" href="https://github.com/hsg5533/coding.git">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://github.com/hsg5533/coding.git"
+            >
               GitHub
             </a>
           </div>
           <div className="link-btn">
-            <a target="_blank" href="https://hsg5533.github.io/coding/">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://hsg5533.github.io/coding/"
+            >
               호스팅
             </a>
           </div>

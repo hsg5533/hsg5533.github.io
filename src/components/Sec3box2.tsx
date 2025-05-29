@@ -12,25 +12,25 @@ export default function Sec3box2() {
     <div className="project">
       <div className="pr-box">
         <div className="pr-img slide2">
-          <img src={image5} alt="" />
+          <img src={image5} alt="헬퍼잇1" />
         </div>
         <div className="pr-img slide2">
-          <img src={image6} alt="" />
+          <img src={image6} alt="헬퍼잇2" />
         </div>
         <div className="pr-img slide2">
-          <img src={image7} alt="" />
+          <img src={image7} alt="헬퍼잇3" />
         </div>
         <div className="pr-img slide2">
-          <img src={image8} alt="" />
+          <img src={image8} alt="헬퍼잇4" />
         </div>
         <div className="pr-img slide2">
-          <img src={image9} alt="" />
+          <img src={image9} alt="헬퍼잇5" />
         </div>
         <div className="pr-img slide2">
-          <img src={image10} alt="" />
+          <img src={image10} alt="헬퍼잇6" />
         </div>
         <div className="pr-img slide2">
-          <img src={image11} alt="" />
+          <img src={image11} alt="헬퍼잇7" />
         </div>
         <input type="button" value="〈" className="pr-btn btn_L2" />
         <input type="button" value="〉" className="pr-btn btn_R2" />
@@ -49,7 +49,7 @@ export default function Sec3box2() {
         </div>
         <div className="link-box">
           <div className="link-btn">
-            <a target="_blank" href="https://helperit.co.kr">
+            <a target="_blank" rel="noreferrer" href="https://helperit.co.kr">
               호스팅
             </a>
           </div>

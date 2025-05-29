@@ -20,18 +20,17 @@
   width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .sec2 {
     overflow: hidden;
   }
   .container {
-    height: 80vh; /* 모바일 환경에서 컨테이너 높이를 뷰포트 높이의 80%로 설정 */
-    perspective: 1500px; /* 3D 원근감을 1500px로 조절 */
-    transform: rotateX(-5deg); /* X축으로 -5도 회전 */
+    height: 80vh; /* 모바일 환경에서 컨테이너 높이 */
+    perspective: 1500px; /* 3D 원근감 */
+    transform: rotateX(-5deg); /* X축 회전 */
   }
   .card {
-    width: 100px; /* 모바일 화면에서 카드 너비를 100px로 지정 */
-    height: 150px; /* 모바일 화면에서 카드 높이를 150px로 지정 */
-    font-size: 20px; /* 텍스트 크기를 20px로 지정 */
+    width: 130px; /* 모바일 화면에서 카드 너비 */
+    height: auto; /* 모바일 화면에서 카드 높이 */
   }
 }
