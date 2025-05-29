@@ -15,12 +15,11 @@ interface SliderOptions {
 }
 
 const sliderConfigs: SliderOptions[] = Array.from({ length: 7 }, (_, i) => {
-  const suffix = `${i + 1}`;
   return {
-    img: `.slide${suffix}`,
-    btnL: `.btn_L${suffix}`,
-    btnR: `.btn_R${suffix}`,
-    dots: `.indis${suffix}`,
+    img: `.slide${i + 1}`,
+    btnL: `.btn_L${i + 1}`,
+    btnR: `.btn_R${i + 1}`,
+    dots: `.indis${i + 1}`,
   };
 });
 
@@ -72,13 +71,13 @@ function slider({ img, btnL, btnR, dots }: SliderOptions) {
   };
 
   // 내비게이션 핸들러
-  right.addEventListener("click", () => {
-    slide(current % count, "-100%", (current + 1) % count, "100%");
-    current++;
-  });
   left.addEventListener("click", () => {
     slide(current % count, "100%", (current - 1 + count) % count, "-100%");
     current--;
+  });
+  right.addEventListener("click", () => {
+    slide(current % count, "-100%", (current + 1) % count, "100%");
+    current++;
   });
 
   // 자동 재생
