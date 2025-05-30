@@ -35,11 +35,13 @@ export default function Main() {
     <div className="main" id="main">
       <div className="mainL">
         <div className="mainL1">
-          <p>
-            {date}
-            <br />
-            {time}
-          </p>
+          <div className="datetime">
+            <p data-aos="fade-up" data-aos-duration="1000">
+              {date}
+              <br />
+              {time}
+            </p>
+          </div>
         </div>
         <div className="mainL2">
           <div className="down-txt">HOSANG</div>

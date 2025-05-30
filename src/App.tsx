@@ -3,6 +3,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import "./assets/css/reset.css";
 import "./assets/css/font.css";
+import "./assets/css/loading.css";
 import "./assets/css/navbar.css";
 import "./assets/css/top.css";
 import "./assets/css/main.css";
@@ -24,10 +25,41 @@ import Top from "./components/Top";
 import Values from "./components/Values";
 
 function App() {
-  useEffect(() => AOS.init(), []);
+  useEffect(() => {
+    AOS.init();
+    const loaders = document.querySelector<HTMLElement>(".loading");
+    if (loaders) {
+      // 페이드아웃 시작
+      loaders.classList.add("hidden");
+      // 트랜지션이 끝나면 완전히 제거
+      loaders.addEventListener(
+        "transitionend",
+        () => {
+          loaders.style.display = "none";
+        },
+        { once: true }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    // 브라우저의 자동 스크롤 복원 방지
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    // 초기 진입 및 새로고침 시 최상단으로 스크롤
+    window.scrollTo(0, 0);
+    // 새로고침 시에도 beforeunload 이벤트로 스크롤을 최상단으로
+    const handleTop = () => window.scrollTo(0, 0);
+    window.addEventListener("beforeunload", handleTop);
+    return () => window.removeEventListener("beforeunload", handleTop);
+  }, []);
 
   return (
     <>
+      <div className="loading">
+        <div className="donut multi"></div>
+      </div>
       <Header />
       <Main />
       <Sec1 />
