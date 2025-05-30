@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 const { innerWidth, innerHeight } = window;
 
-let FrameId: number;
+let frameId: number;
 let mouseX = innerWidth / 2;
 let mouseY = innerHeight / 2;
 let dotX = mouseX;
@@ -19,6 +19,10 @@ export default function Cursor() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // 모바일 환경이면 커서 생성 종료
+    if (innerWidth <= 1024) {
+      return;
+    }
     const dot = dotRef.current!;
     const ring = ringRef.current!;
     const onMouseUp = () => {
@@ -61,7 +65,7 @@ export default function Cursor() {
       dot.style.top = `${dotY}px`;
       ring.style.left = `${ringX}px`;
       ring.style.top = `${ringY}px`;
-      FrameId = requestAnimationFrame(animate);
+      frameId = requestAnimationFrame(animate);
     };
     document.addEventListener("mouseup", onMouseUp);
     document.addEventListener("mousedown", onMouseDown);
@@ -71,7 +75,7 @@ export default function Cursor() {
     document.addEventListener("visibilitychange", onVisibilityChange);
     animate();
     return () => {
-      cancelAnimationFrame(FrameId);
+      cancelAnimationFrame(frameId);
       document.removeEventListener("mouseup", onMouseUp);
       document.removeEventListener("mousedown", onMouseDown);
       document.removeEventListener("mousemove", onMouseMove);
@@ -81,10 +85,15 @@ export default function Cursor() {
     };
   }, []);
 
-  return (
-    <>
-      <div ref={dotRef} className="cursor-dot" />
-      <div ref={ringRef} className="cursor-ring" />
-    </>
-  );
+  // 데스크탑 환경에서 랜더
+  if (innerWidth >= 1024) {
+    return (
+      <>
+        <div ref={dotRef} className="cursor-dot" />
+        <div ref={ringRef} className="cursor-ring" />
+      </>
+    );
+  }
+
+  return null;
 }
