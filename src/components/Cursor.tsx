@@ -74,7 +74,7 @@ export default function Cursor() {
       dot.style.opacity = "0";
       ring.style.opacity = "0";
     };
-    const onVisibilityChange = () => {
+    const onVisibility = () => {
       if (isRender && document.visibilityState === "visible") {
         dot.style.opacity = "1";
         ring.style.opacity = "0.5";
@@ -100,7 +100,7 @@ export default function Cursor() {
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseenter", onMouseEnter);
     document.addEventListener("mouseleave", onMouseLeave);
-    document.addEventListener("visibilitychange", onVisibilityChange);
+    document.addEventListener("visibilitychange", onVisibility);
     animate(); // 애니메이션 시작
     return () => {
       cancelAnimationFrame(frameId);
@@ -110,7 +110,7 @@ export default function Cursor() {
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseenter", onMouseEnter);
       document.removeEventListener("mouseleave", onMouseLeave);
-      document.removeEventListener("visibilitychange", onVisibilityChange);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [isRender, mobile]); // 훅 호출 순서는 고정, 의존성에는 mobile도 포함
 
