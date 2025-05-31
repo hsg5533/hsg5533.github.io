@@ -9,6 +9,7 @@
   box-shadow: 0 0 8px rgba(255, 106, 106, 0.7);
   will-change: left, top;
   z-index: 9999;
+  opacity: 0;
 }
 .cursor-ring {
   position: fixed;
@@ -19,7 +20,7 @@
   pointer-events: none;
   transform: translate(-50%, -50%);
   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-  opacity: 0.5;
   will-change: left, top;
   z-index: 9999;
+  opacity: 0;
 }
