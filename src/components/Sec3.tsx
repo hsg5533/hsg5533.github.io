@@ -6,6 +6,8 @@ import Sec3box4 from "./Sec3box4";
 import Sec3box5 from "./Sec3box5";
 import Sec3box6 from "./Sec3box6";
 import Sec3box7 from "./Sec3box7";
+import Sec3box8 from "./Sec3box8";
+import Sec3box9 from "./Sec3box9";
 
 interface SliderOptions {
   img: string;
@@ -14,7 +16,7 @@ interface SliderOptions {
   dots: string;
 }
 
-const sliderConfigs: SliderOptions[] = Array.from({ length: 7 }, (_, i) => {
+const sliderConfigs: SliderOptions[] = Array.from({ length: 9 }, (_, i) => {
   return {
     img: `.slide${i + 1}`,
     btnL: `.btn_L${i + 1}`,
@@ -128,6 +130,12 @@ export default function Sec3() {
       </div>
       <div className="sec sec3">
         <Sec3box7 />
+      </div>
+      <div className="sec sec3">
+        <Sec3box8 />
+      </div>
+      <div className="sec sec3">
+        <Sec3box9 />
       </div>
     </>
   );
