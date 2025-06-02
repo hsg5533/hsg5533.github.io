@@ -17,6 +17,35 @@ const amplitudeX = 550; // X축 이동 범위(진폭)
 const amplitudeY = 300; // Y축 이동 범위(진폭)
 const amplitudeZ = 500; // Z축 이동 범위(진폭)
 
+// transform 문자열에서 translateZ 값을 추출해 숫자(px 단위)를 반환하는 헬퍼 함수
+function getTranslateZ(transform: string) {
+  const match = transform.match(/translateZ\((-?\d+(\.\d+)?)px\)/);
+  return match ? parseFloat(match[1]) : -Infinity;
+}
+
+// highLight 함수: inline style의 translateZ 값을 비교해서 zoom-in/zoom-out 적용
+function highLight(imgs: NodeListOf<Element>) {
+  let maxZ = -Infinity;
+  let front: Element;
+  imgs.forEach((img) => {
+    const card = img.parentElement as HTMLElement;
+    const transform = card.style.transform; // e.g., "translateX(0px) translateZ(700px) rotateY(0deg)"
+    const z = getTranslateZ(transform);
+    if (z > maxZ) {
+      maxZ = z;
+      front = img;
+    }
+  });
+  imgs.forEach((img) => {
+    img.classList.remove("zoom-in", "zoom-out");
+    if (img === front) {
+      img.classList.add("zoom-in");
+    } else {
+      img.classList.add("zoom-out");
+    }
+  });
+}
+
 function useView(ref: RefObject<Element | null>, threshold: number) {
   const savedElement = useRef<Element>(null);
   const [inView, setInView] = useState(false);
@@ -146,6 +175,7 @@ export default function Sec2() {
     if (!inView) return;
     const container = containerRef.current!;
     const swiper = new Swiper(container, ".card", "horizontal"); // Swiper 인스턴스 생성
+    const imgs = document.querySelectorAll(".card img"); // 로고 이미지
     swiper.init(); // 초기화 작업 수행
     container.addEventListener("mousedown", (e) => {
       swiper.isClick = true; // 드래그 시작 상태로 전환
@@ -168,8 +198,12 @@ export default function Sec2() {
       swiper.isClick = false; // 터치 해제
     });
     swiper.moveNext();
+    highLight(imgs);
     // 자동 슬라이드 & 하이라이트
-    const id = setInterval(() => swiper.moveNext(), 1500);
+    const id = setInterval(() => {
+      swiper.moveNext();
+      highLight(imgs);
+    }, 1500);
     return () => clearInterval(id); // don’t forget cleanup!
   }, [inView]);
 
