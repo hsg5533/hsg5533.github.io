@@ -134,13 +134,14 @@
 /* 모바일: 리스트 형식 – 중앙 수직선 제거 및 전체 너비로 표시 */
 @media screen and (max-width: 1024px) {
   .history {
-    padding: 10px;
+    padding: 15px;
   }
   .history::after {
     display: none;
   }
   .history p {
-    font-size: 1.2rem;
+    font-size: 0.89rem;
+    padding: 15px 20px;
   }
   .history p:nth-child(odd)::before {
     left: 0;

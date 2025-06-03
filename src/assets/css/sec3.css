@@ -23,10 +23,8 @@
 
 /* .sec3-title 내부 제목 텍스트 */
 .sec3-title h2 {
-  margin: 0;
   color: #25252b;
   opacity: 0.5;
-  font-family: "Helvetica Neue", sans-serif;
   font-size: 4rem;
 }
 
@@ -42,13 +40,6 @@
   width: 100%;
   padding: 2rem;
   box-sizing: border-box;
-}
-
-/* 반응형: 모바일에서 세로 배치 */
-@media (max-width: 1024px) {
-  .pr-text-box {
-    display: block;
-  }
 }
 
 /* ----------------------------------
@@ -121,4 +112,23 @@
   display: block;
   width: 100%;
   height: 100%;
+}
+
+/* 반응형: 모바일에서 세로 배치 */
+@media (max-width: 1024px) {
+  .pr-text-box {
+    display: block;
+  }
+  .pr-title {
+    font-size: 22px;
+  }
+  .pr-desc {
+    font-size: 18px;
+  }
+  .pr-txt {
+    font-size: 16px;
+  }
+  .sec3-title h2 {
+    font-size: 3rem;
+  }
 }

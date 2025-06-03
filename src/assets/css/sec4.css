@@ -18,12 +18,10 @@
 
 /* .sec4-title 내부 텍스트 스타일 */
 .sec4-title h2 {
-  margin: 0;
   color: ivory;
   opacity: 0.5;
-  font-family: "Helvetica Neue", sans-serif;
   font-size: 4rem;
-  letter-spacing: 8px;
+  letter-spacing: 2px;
 }
 
 /* ----------------------------------
@@ -95,5 +93,12 @@
   .contact-item {
     width: 100%;
     height: 100%;
+  }
+  .contact-item a img {
+    width: 200px;
+    height: auto;
+  }
+  .sec4-title h2 {
+    font-size: 3rem;
   }
 }
