@@ -36,7 +36,20 @@ export default function Sec3box4() {
         </div>
         <div className="link-box">
           <div className="link-btn">
-            <a target="_blank" rel="noreferrer" href="https://iomedical.co.kr/">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://github.com/hsg5533/iomedical.git"
+            >
+              GitHub
+            </a>
+          </div>
+          <div className="link-btn">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://hsg5533.github.io/iomedical/"
+            >
               호스팅
             </a>
           </div>
