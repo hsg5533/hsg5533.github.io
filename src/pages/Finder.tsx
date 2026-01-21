@@ -600,7 +600,7 @@ export default function Finder() {
       try {
         if (!ortSession) {
           ortSession = await ort.InferenceSession.create("best.onnx", {
-            executionProviders: ["webgl", "wasm"],
+            executionProviders: ["webgpu", "webgl", "wasm"],
             graphOptimizationLevel: "all",
           });
           modelInputName = ortSession.inputNames[0];

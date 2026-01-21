@@ -179,7 +179,7 @@ class BenchmarkManager {
   constructor(targetElement: string) {
     this.workerList = [];
     this.workerMessage = [];
-    this.totalCore = navigator.hardwareConcurrency || 1;
+    this.totalCore = navigator.hardwareConcurrency;
     this.targetInput = document.querySelector(targetElement)!!;
     this.scores = document.querySelector(".scores")!!;
     this.cores = document.querySelector(".detected span")!!;
