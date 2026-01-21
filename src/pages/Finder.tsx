@@ -644,6 +644,9 @@ export default function Finder() {
       stopMediaStream();
       videoElement.srcObject = null;
       clearOverlay();
+      window.removeEventListener("scroll", resizeOverlayToVideo);
+      window.removeEventListener("resize", resizeOverlayToVideo);
+      window.removeEventListener("orientationchange", resizeOverlayToVideo);
     });
     document.getElementById("switch")!!.addEventListener("click", async () => {
       let camIndex = 0;
@@ -670,6 +673,11 @@ export default function Finder() {
       await videoElement.play();
       resizeOverlayToVideo();
     });
+    return () => {
+      window.removeEventListener("scroll", resizeOverlayToVideo);
+      window.removeEventListener("resize", resizeOverlayToVideo);
+      window.removeEventListener("orientationchange", resizeOverlayToVideo);
+    };
   }, []);
 
   return (
