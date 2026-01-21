@@ -7,26 +7,29 @@ export default function Header() {
   const navRef = useRef<HTMLUListElement>(null);
   const navigate = useNavigate();
 
-  const onClick = useCallback((e: Event) => {
-    e.preventDefault();
+  const onClick = useCallback(
+    (e: Event) => {
+      e.preventDefault();
 
-    const link = e.currentTarget as HTMLAnchorElement;
-    const href = link.getAttribute("href") || "";
+      const link = e.currentTarget as HTMLAnchorElement;
+      const href = link.getAttribute("href") || "";
 
-    // 1) 같은 페이지 내 앵커 스크롤
-    if (href.startsWith("#")) {
-      const targetEl = document.querySelector<HTMLElement>(href);
-      if (targetEl) {
-        targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      // 1) 같은 페이지 내 앵커 스크롤
+      if (href.startsWith("#")) {
+        const targetEl = document.querySelector<HTMLElement>(href);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        setOpen(false);
+        return;
       }
-      setOpen(false);
-      return;
-    }
 
-    // 2) 라우트 이동
-    navigate(href);
-    setOpen(false);
-  }, []);
+      // 2) 라우트 이동
+      navigate(href);
+      setOpen(false);
+    },
+    [navigate],
+  );
 
   useEffect(() => {
     const navbarLinks =
@@ -37,7 +40,7 @@ export default function Header() {
     return () => {
       navbarLinks.forEach((link) => link.removeEventListener("click", onClick));
     };
-  }, [navigate]);
+  }, [onClick]);
 
   // open 토글 시 실제 높이 맞춰주기
   useEffect(() => {
