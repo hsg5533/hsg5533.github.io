@@ -685,9 +685,15 @@ export default function Finder() {
       <video id="video" playsInline autoPlay muted></video>
       <canvas id="overlay"></canvas>
       <div className="hud-top">
-        <button id="start">시작</button>
-        <button id="stop">정지</button>
-        <button id="switch">전환</button>
+        <button className="hud-btn" id="start">
+          시작
+        </button>
+        <button className="hud-btn" id="stop">
+          정지
+        </button>
+        <button className="hud-btn" id="switch">
+          전환
+        </button>
         <div id="status"></div>
       </div>
     </div>
