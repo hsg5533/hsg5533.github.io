@@ -1,22 +1,43 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import hamburger from "../assets/img/icon/burger-button.svg";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLUListElement>(null);
+  const navigate = useNavigate();
+
+  const onClick = useCallback((e: Event) => {
+    e.preventDefault();
+
+    const link = e.currentTarget as HTMLAnchorElement;
+    const href = link.getAttribute("href") || "";
+
+    // 1) 같은 페이지 내 앵커 스크롤
+    if (href.startsWith("#")) {
+      const targetEl = document.querySelector<HTMLElement>(href);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      setOpen(false);
+      return;
+    }
+
+    // 2) 라우트 이동
+    navigate(href);
+    setOpen(false);
+  }, []);
 
   useEffect(() => {
-    const navbarLinks = document.querySelectorAll<HTMLElement>(".navbar a");
-    navbarLinks.forEach((link) =>
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const href = link.getAttribute("href")!;
-        const targetEl = document.querySelector<HTMLElement>(href)!;
-        // 부드러운 스크롤
-        targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-      }),
-    );
-  }, []);
+    const navbarLinks =
+      document.querySelectorAll<HTMLAnchorElement>(".navbar a");
+
+    navbarLinks.forEach((link) => link.addEventListener("click", onClick));
+
+    return () => {
+      navbarLinks.forEach((link) => link.removeEventListener("click", onClick));
+    };
+  }, [navigate]);
 
   // open 토글 시 실제 높이 맞춰주기
   useEffect(() => {

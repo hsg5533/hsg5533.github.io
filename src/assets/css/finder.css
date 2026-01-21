@@ -1,5 +1,4 @@
 :root {
-  --bg: #0b0d12;
   --fg: #e8ecff;
   --glass: rgba(255, 255, 255, 0.08);
   --glass2: rgba(255, 255, 255, 0.06);
@@ -16,7 +15,7 @@ body {
 }
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: #17161a;
   color: var(--fg);
   font-family:
     system-ui,

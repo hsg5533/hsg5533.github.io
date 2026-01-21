@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import "aos/dist/aos.css";
 import "../assets/css/reset.css";
-import "../assets/css/cursor.css";
+
 import "../assets/css/font.css";
 import "../assets/css/navbar.css";
 import "../assets/css/top.css";
@@ -24,7 +24,7 @@ import Sec3 from "../components/Sec3";
 import Sec4 from "../components/Sec4";
 import Top from "../components/Top";
 import Values from "../components/Values";
-import Cursor from "../components/Cursor";
+
 import History from "../components/History";
 
 export default function Home() {
@@ -43,7 +43,6 @@ export default function Home() {
 
   return (
     <>
-      <Cursor />
       <Header />
       <Main />
       <Sec1 />
