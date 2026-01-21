@@ -14,7 +14,7 @@ export default function Header() {
         const targetEl = document.querySelector<HTMLElement>(href)!;
         // 부드러운 스크롤
         targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-      })
+      }),
     );
   }, []);
 
@@ -47,6 +47,12 @@ export default function Header() {
         </li>
         <li>
           <a href="#sec4">CONTACT</a>
+        </li>
+        <li>
+          <a href="/speed">SPEED</a>
+        </li>
+        <li>
+          <a href="/finder">FINDER</a>
         </li>
       </ul>
     </header>
