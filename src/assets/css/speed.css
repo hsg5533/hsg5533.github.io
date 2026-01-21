@@ -12,8 +12,6 @@ body {
   background-color: #17161a;
 }
 
-/* 레이아웃 */
-#root,
 main {
   width: 100%;
   height: 100vh;
