@@ -1,0 +1,224 @@
+/* Reset & 기본 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #17161a;
+}
+
+/* 레이아웃 */
+#root,
+main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 공통 중앙 정렬 */
+.center {
+  text-align: center;
+}
+
+/* 버튼 스타일 */
+main button {
+  display: inline-block;
+  vertical-align: middle;
+  letter-spacing: 1px;
+  padding: 1em 1.5em;
+  color: #fffbfe;
+  cursor: pointer;
+  margin-top: 12px;
+  background-color: hsl(
+    var(--hue),
+    calc(var(--saturation) + var(--hover-saturation, 0%)),
+    calc(var(--lightness) + var(--hover-lightness, 0%))
+  );
+}
+button b {
+  letter-spacing: 3px;
+}
+main button.start {
+  font-size: 18px;
+  --hue: 132;
+  --saturation: 95%;
+  --lightness: 22%;
+}
+main button.start:hover {
+  --hover-saturation: 24%;
+}
+main button.start.stop {
+  --hue: 349;
+  --saturation: 89%;
+  --lightness: 52%;
+}
+
+/* 진행 바 */
+.progress-bar {
+  width: 300px;
+  background-color: lightgray;
+  height: 0;
+}
+.progress-bar.visible {
+  margin: 12px auto;
+  height: auto;
+}
+.progress-bar > div {
+  padding: 0.5em;
+  width: 40px;
+  text-align: center;
+  background-color: #1e5128;
+  color: white;
+  font-weight: bold;
+}
+.progress-bar.visible > div {
+  width: 100%;
+  transition: width 20s linear;
+}
+.progress-bar:not(.visible) {
+  opacity: 0;
+}
+
+/* 점수 표시 영역 */
+#single-core {
+  margin: 4px 0;
+}
+.scores {
+  display: none;
+  color: white;
+}
+.scores > div {
+  text-align: center;
+}
+.scores > div > div {
+  display: inline-block;
+  vertical-align: middle;
+}
+.scores > div > div:first-child {
+  margin-right: 10px;
+}
+.scores h4 {
+  text-align: center;
+}
+
+/* 텍스트 스타일 */
+p {
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
+p span {
+  display: inline-block;
+}
+p.detected {
+  color: #d8e9a8;
+}
+
+/* 로딩 스피너 */
+.bench {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+/* 아이콘(재시작) */
+.icon {
+  display: none;
+  width: 24px;
+  cursor: pointer;
+  fill: #ffffffa0;
+  margin: 16px;
+}
+.icon:hover {
+  fill: white;
+}
+
+/* Speedometer 관련 */
+.envelope {
+  background: #0f0f0f;
+  position: relative;
+  border-radius: 50%;
+  box-shadow: inset 0 0 5px 5px #000;
+}
+.speedNobe {
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+  transition: all 1s;
+}
+.speedPosition {
+  position: absolute;
+  color: #fff;
+  text-align: center;
+  line-height: 80px;
+  font-family: arial;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 50%;
+  background: #191919;
+  box-shadow: 0 0 3px 3px black;
+}
+.speedPosition strong {
+  font-size: 30px;
+}
+.speedNobe div {
+  background: #48a3cb;
+  position: absolute;
+  height: 100%;
+  top: 0;
+}
+.nob,
+.numb {
+  position: absolute;
+  opacity: 0.5;
+  transition: opacity 1s;
+}
+.nob {
+  background: #eee;
+  box-shadow: 0 0 2px 1px #eee;
+}
+.numb {
+  color: #eee;
+  text-align: left;
+  overflow: hidden;
+  font-family: arial;
+  font-size: 16px;
+  font-weight: bold;
+}
+.nob.bright {
+  opacity: 1;
+}
+.nob.danger {
+  background: #ff113a;
+  box-shadow: 0 0 2px 1px #ff113a;
+}
+.numb.bright {
+  opacity: 1;
+}
+.numb.danger {
+  color: #ff113a;
+}
