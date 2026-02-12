@@ -1,2 +1,0 @@
-.cursor-dot{background:radial-gradient(circle at 30% 30%,#ff6a6a,#cc3c3c);border-radius:50%;box-shadow:0 0 8px #ff6a6ab3;height:12px;width:12px}.cursor-dot,.cursor-ring{opacity:0;pointer-events:none;position:fixed;transform:translate(-50%,-50%);will-change:left,top;z-index:9999}.cursor-ring{border:2px solid #ff6a6a;border-radius:50%;height:40px;transition:transform .3s ease-out,opacity .3s ease-out;width:40px}
-/*# sourceMappingURL=main.0239436f.css.map*/
