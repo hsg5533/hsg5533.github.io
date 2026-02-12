@@ -34,9 +34,7 @@ export default function Header() {
   useEffect(() => {
     const navbarLinks =
       document.querySelectorAll<HTMLAnchorElement>(".navbar a");
-
     navbarLinks.forEach((link) => link.addEventListener("click", onClick));
-
     return () => {
       navbarLinks.forEach((link) => link.removeEventListener("click", onClick));
     };
@@ -77,6 +75,9 @@ export default function Header() {
         </li>
         <li>
           <a href="/finder">FINDER</a>
+        </li>
+        <li>
+          <a href="/resume">RESUME</a>
         </li>
       </ul>
     </header>

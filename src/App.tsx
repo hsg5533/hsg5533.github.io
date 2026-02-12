@@ -3,10 +3,10 @@ import React, { Suspense, lazy, useEffect } from "react";
 import Cursor from "./components/Cursor";
 import "./assets/css/cursor.css";
 import AOS from "aos";
-
-const Home = lazy(() => import("./pages/Home"));
-const Speed = lazy(() => import("./pages/Speed"));
-const Finder = lazy(() => import("./pages/Finder"));
+import Home from "./pages/Home";
+import Speed from "./pages/Speed";
+import Finder from "./pages/Finder";
+import Resume from "./pages/Resume";
 
 export default function App() {
   useEffect(() => {
@@ -22,6 +22,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/speed" element={<Speed />} />
             <Route path="/finder" element={<Finder />} />
+            <Route path="/resume" element={<Resume />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

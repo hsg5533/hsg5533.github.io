@@ -1,7 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as ort from "onnxruntime-web";
 
 import "../assets/css/finder.css";
+
+interface box {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  score: number;
+  maskCoefficients: Float32Array;
+}
 
 const detectionConfidence = 0.6; // 탐지 신뢰도 임계값
 const maskThreshold = 0.9; // 마스크 이진화 임계값
@@ -19,6 +28,13 @@ function clamp(value: number, min: number, max: number) {
 }
 
 export default function Finder() {
+  const [predict, setPredict] = useState(false);
+  const predictRef = useRef(predict);
+
+  useEffect(() => {
+    predictRef.current = predict;
+  }, [predict]);
+
   useEffect(() => {
     const videoElement = document.getElementById("video") as HTMLVideoElement;
     const overlayCanvas = document.getElementById(
@@ -36,6 +52,7 @@ export default function Finder() {
     const maskColorContext = maskColorCanvas.getContext("2d", {
       willReadFrequently: true,
     }) as CanvasRenderingContext2D;
+    const status = document.getElementById("status");
     let frame: number | null = null;
     let isBusy = false;
     let isRunning = false;
@@ -61,12 +78,8 @@ export default function Finder() {
       overlayCanvas.style.position = "absolute";
       overlayCanvas.style.width = `${Math.round(videoRect.width)}px`;
       overlayCanvas.style.height = `${Math.round(videoRect.height)}px`;
-      overlayCanvas.style.top = `${Math.round(
-        videoRect.top + window.scrollY,
-      )}px`;
-      overlayCanvas.style.left = `${Math.round(
-        videoRect.left + window.scrollX,
-      )}px`;
+      overlayCanvas.style.top = `${Math.round(videoRect.top + window.scrollY)}px`;
+      overlayCanvas.style.left = `${Math.round(videoRect.left + window.scrollX)}px`;
       overlayCanvas.style.pointerEvents = "none";
       if (overlayCanvas.width !== videoWidth) overlayCanvas.width = videoWidth;
       if (overlayCanvas.height !== videoHeight)
@@ -75,12 +88,16 @@ export default function Finder() {
     const inferenceLoop = async (timestamp: number) => {
       if (!isRunning) return;
       frame = requestAnimationFrame(inferenceLoop);
+      if (!predictRef.current) {
+        clearOverlay();
+        return;
+      }
       const minDelta = 1000 / Math.max(1, fixedInferenceFps);
       if (isBusy || timestamp - lastTimestamp < minDelta) return;
       lastTimestamp = timestamp;
       isBusy = true;
-      let detectionTensor = null;
-      let prototypeTensor = null;
+      let detectionTensor: ort.Tensor | null = null;
+      let prototypeTensor: ort.Tensor | null = null;
       const start = performance.now();
       try {
         const { videoWidth, videoHeight } = videoElement;
@@ -131,7 +148,10 @@ export default function Finder() {
           norm: { mean: 255, bias: 0 },
         });
         bmp.close();
-        if (!ortSession || !modelInputName) return;
+        if (!ortSession || !modelInputName) {
+          inputTensor.dispose();
+          return;
+        }
         const end = performance.now();
         const outputs = await ortSession.run({
           [modelInputName]: inputTensor,
@@ -164,10 +184,13 @@ export default function Finder() {
               prototypeTensor = tensor;
           }
         }
-        if (!detectionTensor || !prototypeTensor) return;
+        if (!detectionTensor || !prototypeTensor) {
+          clearOverlay();
+          return;
+        }
         const detectionDims = detectionTensor.dims;
         const prototypeDims = prototypeTensor.dims;
-        const detectionData = await detectionTensor.getData();
+        const detectionData = (await detectionTensor.getData()) as Float32Array;
         const prototypeData = (await prototypeTensor.getData()) as Float32Array;
         detectionTensor.dispose();
         prototypeTensor.dispose();
@@ -181,14 +204,12 @@ export default function Finder() {
           numChannels = dimA;
           numBoxes = dimB;
           getValue = (boxIndex, channelIndex) =>
-            (detectionData as Float32Array)[channelIndex * numBoxes + boxIndex];
+            detectionData[channelIndex * numBoxes + boxIndex];
         } else {
           numBoxes = dimA;
           numChannels = dimB;
           getValue = (boxIndex, channelIndex) =>
-            (detectionData as Float32Array)[
-              boxIndex * numChannels + channelIndex
-            ];
+            detectionData[boxIndex * numChannels + channelIndex];
         }
         const parseVariant = (hasObjectness: boolean) => {
           const classBaseIndex = hasObjectness ? 5 : 4;
@@ -196,7 +217,7 @@ export default function Finder() {
             numChannels - classBaseIndex - numberOfMaskChannels;
           if (classCount <= 0) return [];
           const coefBaseIndex = classBaseIndex + classCount;
-          const boxes = [];
+          const boxes: box[] = [];
           for (let i = 0; i < numBoxes; i++) {
             let centerX = getValue(i, 0);
             let centerY = getValue(i, 1);
@@ -587,12 +608,10 @@ export default function Finder() {
         if (timestamp - lastUiUpdate > 200) {
           lastUiUpdate = timestamp;
           // 화면에 텍스트로 표시
-          const status = document.getElementById("status");
-          if (status) {
-            status.textContent = `사이클 ${lastInfer.toFixed(
-              1,
-            )}ms / 추론 ${lastRun.toFixed(1)}ms`;
-          }
+          if (!status) return;
+          status.textContent = `사이클 ${lastInfer.toFixed(
+            1,
+          )}ms / 추론 ${lastRun.toFixed(1)}ms`;
         }
       }
     };
@@ -673,6 +692,9 @@ export default function Finder() {
       await videoElement.play();
       resizeOverlayToVideo();
     });
+    document
+      .getElementById("predict")!!
+      .addEventListener("click", () => setPredict((prev) => !prev));
     return () => {
       window.removeEventListener("scroll", resizeOverlayToVideo);
       window.removeEventListener("resize", resizeOverlayToVideo);
@@ -694,7 +716,10 @@ export default function Finder() {
         <button className="hud-btn" id="switch">
           전환
         </button>
-        <div id="status"></div>
+        <button className="hud-btn" id="predict">
+          {predict ? "추측 OFF" : "추측 ON"}
+        </button>
+        <div id="status">{predict ? "추측 ON" : "대기 중 (추측 OFF)"}</div>
       </div>
     </div>
   );
