@@ -41,7 +41,7 @@ export default function Sec3box2() {
           <div className="pr-title">헬퍼잇 랜딩페이지</div>
           <div className="pr-desc">React, JAVASCRIPT</div>
           <p className="pr-txt">
-            (주)붙타는고구마에서 헬퍼잇 랜딩페이지 제작을 담당하였습니다.
+            (주)불타는고구마에서 헬퍼잇 랜딩페이지 제작을 담당하였습니다.
             <br />
             웹을 리액트의 장점 중 하나인 컴포넌트를 활용하여 유지보수에
             용이하도록 개발하였습니다.

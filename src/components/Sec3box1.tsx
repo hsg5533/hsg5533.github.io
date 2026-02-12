@@ -35,7 +35,7 @@ export default function Sec3box1() {
             Front End: React Native
           </div>
           <p className="pr-txt">
-            (주)붙타는고구마에서 헬퍼잇 어플리케이션 프로젝트의 프론트엔드 앱
+            (주)불타는고구마에서 헬퍼잇 어플리케이션 프로젝트의 프론트엔드 앱
             제작 및 배포 업무를 담당하였습니다.
           </p>
         </div>

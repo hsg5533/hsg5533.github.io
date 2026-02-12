@@ -29,7 +29,7 @@ export default function Sec3box3() {
           <div className="pr-title">헬퍼잇 클린</div>
           <div className="pr-desc">React, JAVASCRIPT</div>
           <p className="pr-txt">
-            (주)붙타는고구마에서 헬퍼잇의 서비스 중 하나인 청소 웹 제작을
+            (주)불타는고구마에서 헬퍼잇의 서비스 중 하나인 청소 웹 제작을
             담당하였습니다.
             <br />
             디스코드의 웹훅을 사용하여 웹에서 청소 신청을 하면 디스코드로
