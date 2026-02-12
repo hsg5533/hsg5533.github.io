@@ -46,6 +46,7 @@
    .pr-title: 프로젝트 제목
 ---------------------------------- */
 .pr-title {
+  color: #111;
   font-size: 30px;
 }
 
@@ -84,14 +85,12 @@
   height: 55px;
   line-height: 55px;
   border-radius: 10px;
-  background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.6),
-      rgba(255, 255, 255, 0.3)
-    ),
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3)),
     ivory;
   background-blend-mode: soft-light, normal;
-  box-shadow: 8px 8px 15px 0 rgba(0, 0, 0, 0.2),
+  box-shadow:
+    8px 8px 15px 0 rgba(0, 0, 0, 0.2),
     -8px -8px 15px 0 rgba(255, 255, 255, 0.8);
   color: #333;
   transition: 0.2s ease-in-out;
@@ -100,7 +99,8 @@
 /* 버튼 호버 효과 */
 .link-btn:hover {
   background: #25252b;
-  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.2),
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.2),
     inset -4px -4px 8px rgba(37, 37, 43, 0.5);
   color: #e0e0e0;
 }
