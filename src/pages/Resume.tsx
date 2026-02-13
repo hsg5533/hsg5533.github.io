@@ -1,31 +1,47 @@
-import React, { useEffect, useRef, useState } from "react";
+import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "../assets/css/resume.css";
 import me from "../assets/img/icon/me.png";
 import Loading from "../components/Loading";
 
-interface MobileImage {
+interface mobileImage {
   key: string;
   title: string;
   src: string[];
 }
 
+interface target {
+  key: string;
+  title: string;
+  elements: (HTMLElement | null)[];
+}
+
+const desktopRoot: CSSProperties = { backgroundColor: "#fff" };
+
+const mobileRoot: CSSProperties = {
+  position: "absolute",
+  top: 0,
+  left: "-9999px",
+  width: "1200px",
+};
+
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
   const media = window.matchMedia(`(max-width: 1024px)`);
-  const update = () =>
+  const update = useCallback(() => {
     setIsMobile(
       media.matches ||
         /Android|iPhone|iPad|iPod|Mobile|Tablet|Windows Phone/i.test(
           navigator.userAgent,
         ),
     );
+  }, [media]);
   useEffect(() => {
     update();
     media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
-  }, []);
+  }, [media, update]);
   return isMobile;
 }
 
@@ -91,39 +107,46 @@ async function captureToPdf(
   return await imageDataToPdf(srcs, orientation);
 }
 
+async function getMobileImages(targets: target[]) {
+  const images: mobileImage[] = [];
+  for (const target of targets) {
+    const elements = target.elements.filter(Boolean);
+    if (elements.length === 0) continue;
+    const srcs: string[] = [];
+    for (const element of elements) {
+      if (!element) continue;
+      srcs.push(await captureElement(element));
+    }
+    images.push({ key: target.key, title: target.title, src: srcs });
+  }
+  return images;
+}
+
 export default function Resume() {
   const isMobile = useIsMobile();
   const paperRefs = useRef<(HTMLElement | null)[]>([]);
-  const [mobileImages, setMobileImages] = useState<MobileImage[]>([]);
+  const [mobileImages, setMobileImages] = useState<mobileImage[]>([]);
 
-  const desktopRoot: React.CSSProperties = { backgroundColor: "#fff" };
-
-  const mobileRoot: React.CSSProperties = {
-    position: "absolute",
-    top: 0,
-    left: "-9999px",
-    width: "1200px",
-  };
+  const onClick = useCallback(async () => {
+    const pdf = await captureToPdf(
+      Array.from(document.querySelectorAll<HTMLElement>(".pdf-target")),
+      "portrait",
+    );
+    pdf.save("이력서.pdf");
+  }, []);
 
   useEffect(() => {
     const btn = document.getElementById("save");
     if (!btn) return;
-    btn.addEventListener("click", async () => {
-      try {
-        const pdf = await captureToPdf(
-          Array.from(document.querySelectorAll<HTMLElement>(".pdf-target")),
-          "portrait",
-        );
-        pdf.save(`이력서.pdf`);
-      } catch (err) {
-        console.error(err);
-        alert("PDF 생성 중 오류가 발생했습니다.");
-      }
-    });
+    btn.addEventListener("click", onClick);
+    return () => btn.removeEventListener("click", onClick);
+  }, [onClick]); // 버튼 노출 상태 바뀌므로 의존성 유지
+
+  useEffect(() => {
     (async () => {
       if (isMobile) {
-        try {
-          const targets = [
+        setMobileImages(
+          await getMobileImages([
             {
               key: "resume",
               title: "이력서",
@@ -134,23 +157,8 @@ export default function Resume() {
               title: "자기소개",
               elements: [paperRefs.current[1]],
             },
-          ];
-          const images: MobileImage[] = [];
-          for (const target of targets) {
-            const elements = target.elements.filter(Boolean);
-            if (elements.length === 0) continue;
-            const srcs: string[] = [];
-            for (const element of elements) {
-              if (!element) continue;
-              srcs.push(await captureElement(element));
-            }
-            images.push({ key: target.key, title: target.title, src: srcs });
-          }
-
-          setMobileImages(images);
-        } catch (err) {
-          console.error("모바일 콘텐츠 생성 실패:", err);
-        }
+          ]),
+        );
       }
     })();
   }, [isMobile]);
@@ -158,7 +166,7 @@ export default function Resume() {
   if (isMobile && mobileImages.length > 0) {
     return (
       <div className="mobile-pdf-viewer">
-        {mobileImages.map((img, index) => {
+        {mobileImages.map((img) => {
           return (
             <section className="mobile-pdf-card">
               <div className="mobile-pdf-head">
@@ -520,11 +528,13 @@ export default function Resume() {
             </tbody>
           </table>
         </section>
-        <div id="pdfActions" className="pdf-actions no-print">
-          <button id="save" type="button">
-            PDF 저장
-          </button>
-        </div>
+        {!isMobile && (
+          <div id="pdfActions" className="pdf-actions no-print">
+            <button id="save" type="button">
+              PDF 저장
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
