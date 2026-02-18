@@ -79,6 +79,9 @@ export default function Header() {
         <li>
           <a href="/resume">RESUME</a>
         </li>
+        <li>
+          <a href="/wonder">WONDER</a>
+        </li>
       </ul>
     </header>
   );

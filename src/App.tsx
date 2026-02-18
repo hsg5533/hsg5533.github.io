@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Speed from "./pages/Speed";
 import Finder from "./pages/Finder";
 import Resume from "./pages/Resume";
+import Wonder from "./pages/Wonder";
 
 export default function App() {
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/speed" element={<Speed />} />
             <Route path="/finder" element={<Finder />} />
             <Route path="/resume" element={<Resume />} />
+            <Route path="/wonder" element={<Wonder />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
