@@ -21,7 +21,11 @@ header.sticky {
   z-index: 10;
   backdrop-filter: saturate(140%) blur(12px);
   -webkit-backdrop-filter: saturate(140%) blur(12px);
-  background: linear-gradient(to bottom, rgba(11, 15, 25, 0.7), rgba(11, 15, 25, 0.4));
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 15, 25, 0.7),
+    rgba(11, 15, 25, 0.4)
+  );
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -38,7 +42,7 @@ header.sticky {
   gap: 16px;
 }
 
-.title {
+.logo {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -46,7 +50,7 @@ header.sticky {
   font-size: 18px;
 }
 
-.title svg {
+.logo svg {
   filter: drop-shadow(0 0 6px rgba(124, 221, 255, 0.4));
 }
 
@@ -164,13 +168,21 @@ header.sticky {
 }
 
 .btn-accent {
-  background: linear-gradient(135deg, rgba(124, 221, 255, 0.15), rgba(167, 139, 250, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(124, 221, 255, 0.15),
+    rgba(167, 139, 250, 0.15)
+  );
   border-color: rgba(124, 221, 255, 0.3);
   color: var(--accent);
 }
 
 .btn-accent:hover {
-  background: linear-gradient(135deg, rgba(124, 221, 255, 0.25), rgba(167, 139, 250, 0.25));
+  background: linear-gradient(
+    135deg,
+    rgba(124, 221, 255, 0.25),
+    rgba(167, 139, 250, 0.25)
+  );
   border-color: rgba(124, 221, 255, 0.5);
   box-shadow: 0 4px 16px rgba(124, 221, 255, 0.15);
 }
@@ -265,7 +277,11 @@ header.sticky {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at 50% 0%, rgba(124, 221, 255, 0.03), transparent 60%);
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(124, 221, 255, 0.03),
+    transparent 60%
+  );
   z-index: 1;
 }
 
@@ -337,7 +353,11 @@ canvas {
 }
 
 .grid .btn:active {
-  background: linear-gradient(135deg, rgba(124, 221, 255, 0.2), rgba(167, 139, 250, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(124, 221, 255, 0.2),
+    rgba(167, 139, 250, 0.15)
+  );
   border-color: rgba(124, 221, 255, 0.4);
   box-shadow: 0 0 16px rgba(124, 221, 255, 0.15);
 }
@@ -408,9 +428,15 @@ canvas {
 
 /* ─── Animations ─── */
 @keyframes floaty {
-  from { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 .floaty {
@@ -423,9 +449,15 @@ canvas {
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(124, 221, 255, 0.5); }
-  70% { box-shadow: 0 0 0 12px rgba(124, 221, 255, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(124, 221, 255, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(124, 221, 255, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(124, 221, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(124, 221, 255, 0);
+  }
 }
 
 /* ─── Responsive ─── */

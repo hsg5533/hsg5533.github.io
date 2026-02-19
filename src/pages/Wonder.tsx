@@ -398,7 +398,7 @@ export default function Wonder() {
     <>
       <header className="sticky">
         <div className="max bar">
-          <div className="title">
+          <div className="logo">
             <svg
               width="24"
               height="24"
