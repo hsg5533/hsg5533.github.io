@@ -617,13 +617,6 @@ export default function Finder() {
     };
     document.getElementById("start")!!.addEventListener("click", async () => {
       try {
-        if (!ortSession) {
-          ortSession = await ort.InferenceSession.create("best.onnx", {
-            executionProviders: ["webgpu", "webgl", "wasm"],
-            graphOptimizationLevel: "all",
-          });
-          modelInputName = ortSession.inputNames[0];
-        }
         stopMediaStream();
         videoElement.srcObject = await navigator.mediaDevices.getUserMedia({
           audio: false,
@@ -636,6 +629,9 @@ export default function Finder() {
         });
         await videoElement.play();
         resizeOverlayToVideo();
+        window.removeEventListener("scroll", resizeOverlayToVideo);
+        window.removeEventListener("resize", resizeOverlayToVideo);
+        window.removeEventListener("orientationchange", resizeOverlayToVideo);
         window.addEventListener("scroll", resizeOverlayToVideo, {
           passive: true,
         });
@@ -692,9 +688,23 @@ export default function Finder() {
       await videoElement.play();
       resizeOverlayToVideo();
     });
-    document
-      .getElementById("predict")!!
-      .addEventListener("click", () => setPredict((prev) => !prev));
+    document.getElementById("predict")!!.addEventListener("click", async () => {
+      const next = !predictRef.current;
+      setPredict(next);
+      if (next && !ortSession) {
+        if (status) status.textContent = "모델 로딩 중...";
+        try {
+          ortSession = await ort.InferenceSession.create("best.onnx", {
+            executionProviders: ["webgpu", "webgl", "wasm"],
+            graphOptimizationLevel: "all",
+          });
+          modelInputName = ortSession.inputNames[0];
+        } catch (error) {
+          if (error instanceof Error) console.error(error.message);
+          if (status) status.textContent = "모델 로딩 실패";
+        }
+      }
+    });
     return () => {
       window.removeEventListener("scroll", resizeOverlayToVideo);
       window.removeEventListener("resize", resizeOverlayToVideo);
