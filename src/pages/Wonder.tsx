@@ -410,9 +410,10 @@ export default function Wonder() {
                 d="M12 2l2.7 5.47L20.8 8l-4 3.9.94 5.8L12 15.9 6.26 17.7l.94-5.8L3.2 8l6.1-.53L12 2z"
                 stroke="var(--accent)"
                 strokeWidth="1.2"
+                fill="rgba(124,221,255,0.08)"
               />
             </svg>
-            <span style={{ color: "white" }}>wonderlab</span>
+            <span style={{ color: "var(--text)" }}>wonderlab</span>
           </div>
         </div>
       </header>
@@ -428,6 +429,7 @@ export default function Wonder() {
               id="tab-particles"
               onClick={() => setTab("particles")}
             >
+              <span className="tab-icon">✦</span>
               파티클
             </button>
             <button
@@ -438,9 +440,9 @@ export default function Wonder() {
               id="tab-melody"
               onClick={() => setTab("melody")}
             >
+              <span className="tab-icon">♪</span>
               멜로디
             </button>
-
             <button
               className="tab"
               role="tab"
@@ -449,16 +451,17 @@ export default function Wonder() {
               id="tab-freq"
               onClick={() => setTab("freq")}
             >
+              <span className="tab-icon">〜</span>
               주파수
             </button>
           </div>
         </div>
 
         <div id="pane-particles" hidden={tab !== "particles"}>
-          <div className="max">
+          <div className="pane-body">
             <div className="controls">
               <label className="control">
-                💥 강도
+                <span className="control-label">강도</span>
                 <input
                   type="range"
                   min={8}
@@ -470,7 +473,7 @@ export default function Wonder() {
                 />
               </label>
               <label className="control">
-                🧲 중력
+                <span className="control-label">중력</span>
                 <input
                   type="range"
                   min={0}
@@ -483,14 +486,14 @@ export default function Wonder() {
                 />
               </label>
               <button
-                className="btn"
+                className="btn btn-danger"
                 onClick={() => (particles.current.length = 0)}
               >
-                화면 지우기
+                지우기
               </button>
-              <span className="desc" style={{ color: "var(--muted)" }}>
+              <span className="hint">
                 클릭/탭: 폭죽 · 드래그: 소용돌이 ·{" "}
-                <span className="kbd">C</span> : 지우기
+                <span className="kbd">C</span> 지우기
               </span>
             </div>
           </div>
@@ -510,10 +513,10 @@ export default function Wonder() {
           aria-labelledby="tab-melody"
           hidden={tab !== "melody"}
         >
-          <div className="max" style={{ padding: "10px 16px 12px" }}>
-            <div className="controls">
+          <div className="pane-body">
+            <div className="controls" style={{ marginBottom: 16 }}>
               <button
-                className="btn pulse"
+                className="btn btn-accent pulse"
                 onClick={async () => {
                   await ensureAudio();
                   if (track.current.length === 0) {
@@ -542,10 +545,10 @@ export default function Wonder() {
                   }
                 }}
               >
-                ▶︎ 재생
+                ▶ 재생
               </button>
               <button
-                className="btn"
+                className={`btn ${record ? "btn-danger" : ""}`}
                 onClick={() => {
                   setRecord((r) => {
                     const next = !r;
@@ -557,7 +560,7 @@ export default function Wonder() {
                   });
                 }}
               >
-                {record ? "⏹ 멈춤" : "⏺ 녹음"}
+                {record ? "■ 멈춤" : "● 녹음"}
               </button>
               <button
                 className="btn"
@@ -566,49 +569,46 @@ export default function Wonder() {
                 지우기
               </button>
             </div>
-          </div>
-          <div className="max">
+
             <div className="grid" aria-label="멜로디 타일">
-              {OCTS.map((oct) =>
-                NOTES.map((step) => {
-                  const midi = 12 * oct + step;
-                  const name = NOTE_NAMES[midi % 12] + oct;
-                  const freq = midiToHz(midi);
-                  let hold: number | undefined;
-                  const onUp = () => {
-                    if (hold) window.clearInterval(hold);
-                  };
-                  return (
-                    <button
-                      key={name}
-                      className="btn"
-                      style={{
-                        width: "100%",
-                        height: 64,
-                        justifyContent: "center",
-                      }}
-                      aria-label={name}
-                      onPointerDown={(e) => {
-                        e.preventDefault();
-                        playFreq(freq, 0.5);
-                        if (record) {
-                          const t = performance.now() - start.current;
-                          track.current.push({ t, freq, dur: 500 });
-                        }
-                        hold = window.setInterval(
-                          () => playFreq(freq, 0.5),
-                          400,
-                        );
-                      }}
-                      onPointerUp={onUp}
-                      onPointerLeave={onUp}
-                      onPointerCancel={onUp}
-                    >
-                      {name}
-                    </button>
-                  );
-                }),
-              )}
+              {OCTS.map((oct) => (
+                <React.Fragment key={`oct-${oct}`}>
+                  <span className="oct-label">Oct {oct}</span>
+                  {NOTES.map((step) => {
+                    const midi = 12 * oct + step;
+                    const name = NOTE_NAMES[midi % 12] + oct;
+                    const freq = midiToHz(midi);
+                    let hold: number | undefined;
+                    const onUp = () => {
+                      if (hold) window.clearInterval(hold);
+                    };
+                    return (
+                      <button
+                        key={name}
+                        className="btn"
+                        aria-label={name}
+                        onPointerDown={(e) => {
+                          e.preventDefault();
+                          playFreq(freq, 0.5);
+                          if (record) {
+                            const t = performance.now() - start.current;
+                            track.current.push({ t, freq, dur: 500 });
+                          }
+                          hold = window.setInterval(
+                            () => playFreq(freq, 0.5),
+                            400,
+                          );
+                        }}
+                        onPointerUp={onUp}
+                        onPointerLeave={onUp}
+                        onPointerCancel={onUp}
+                      >
+                        {name}
+                      </button>
+                    );
+                  })}
+                </React.Fragment>
+              ))}
             </div>
           </div>
         </div>
@@ -620,97 +620,28 @@ export default function Wonder() {
           aria-labelledby="tab-freq"
           hidden={tab !== "freq"}
         >
-          <div className="max">
-            <label className="control">
-              🎯 주파수(Hz)
-              <input
-                type="number"
-                value={hertz}
-                onChange={(e) =>
-                  setHertz(clampHz(Number(e.currentTarget.value)))
-                }
-              />
-            </label>
-
-            <label className="control">
-              ⏱️ 길이(s)
-              <input
-                type="number"
-                value={duration}
-                onChange={(e) =>
-                  setDuration(
-                    Math.min(10, Math.max(0.1, Number(e.currentTarget.value))),
-                  )
-                }
-              />
-            </label>
-
-            <label className="control">
-              🌊 파형
-              <select
-                value={wave}
-                onChange={(e) =>
-                  setWave(e.currentTarget.value as OscillatorType)
-                }
-              >
-                <option value="sine">sine</option>
-                <option value="square">square</option>
-                <option value="sawtooth">sawtooth</option>
-                <option value="triangle">triangle</option>
-              </select>
-            </label>
-            <label className="control">
-              🔊 볼륨
-              <input
-                type="range"
-                min={0}
-                max={100}
-                value={Math.round(volume * 100)}
-                onChange={(e) => setVolume(Number(e.currentTarget.value) / 100)}
-              />
-            </label>
-
-            <div className="note">
-              <strong>스위프(Sweep)</strong>
-
+          <div className="pane-body">
+            <div className="section-title">기본 설정</div>
+            <div className="freq-grid">
               <label className="control">
-                시작(Hz)
+                <span className="control-label">주파수(Hz)</span>
                 <input
                   type="number"
-                  min={20}
-                  max={20000}
-                  step={1}
-                  value={sweepStart}
+                  value={hertz}
                   onChange={(e) =>
-                    setSweepStart(clampHz(Number(e.currentTarget.value)))
+                    setHertz(clampHz(Number(e.currentTarget.value)))
                   }
                 />
               </label>
               <label className="control">
-                끝(Hz)
+                <span className="control-label">길이(s)</span>
                 <input
                   type="number"
-                  min={20}
-                  max={20000}
-                  step={1}
-                  value={sweepEnd}
+                  value={duration}
                   onChange={(e) =>
-                    setSweepEnd(clampHz(Number(e.currentTarget.value)))
-                  }
-                />
-              </label>
-              <label className="control">
-                시간(s)
-                <input
-                  type="number"
-                  min={0.1}
-                  max={20}
-                  step={0.1}
-                  value={sweepDuration}
-                  onChange={(e) =>
-                    setSweepDuration(
+                    setDuration(
                       Math.min(
-                        20,
+                        10,
                         Math.max(0.1, Number(e.currentTarget.value)),
                       ),
                     )
@@ -718,17 +649,146 @@ export default function Wonder() {
                 />
               </label>
               <label className="control">
-                곡선
+                <span className="control-label">파형</span>
                 <select
-                  value={sweep ? "exp" : "lin"}
-                  onChange={(e) => setSweep(e.currentTarget.value === "exp")}
+                  value={wave}
+                  onChange={(e) =>
+                    setWave(e.currentTarget.value as OscillatorType)
+                  }
                 >
-                  <option value="lin">linear</option>
-                  <option value="exp">exponential</option>
+                  <option value="sine">sine</option>
+                  <option value="square">square</option>
+                  <option value="sawtooth">sawtooth</option>
+                  <option value="triangle">triangle</option>
                 </select>
               </label>
+              <label className="control">
+                <span className="control-label">볼륨</span>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={Math.round(volume * 100)}
+                  onChange={(e) =>
+                    setVolume(Number(e.currentTarget.value) / 100)
+                  }
+                />
+              </label>
+            </div>
+
+            <div className="btn-group" style={{ marginBottom: 16 }}>
+              <button
+                className="btn btn-accent"
+                onClick={async () => {
+                  await ensureAudio();
+                  const { ctx, master } = getAudio();
+                  const o = ctx.createOscillator();
+                  const v = ctx.createGain();
+                  const env = ctx.createGain();
+                  o.type = wave;
+                  o.frequency.value = clampHz(hertz);
+                  v.gain.value = volume;
+                  env.gain.value = 0;
+                  o.connect(env);
+                  env.connect(v);
+                  v.connect(master);
+                  const now = ctx.currentTime;
+                  env.gain.linearRampToValueAtTime(1, now + 0.02);
+                  env.gain.linearRampToValueAtTime(0, now + duration);
+                  o.start(now);
+                  o.stop(now + duration + 0.02);
+                }}
+              >
+                ▶ 1회 재생
+              </button>
               <button
                 className="btn"
+                onClick={async () => {
+                  await ensureAudio();
+                  stopTone();
+                  const { ctx, master } = getAudio();
+                  const o = ctx.createOscillator();
+                  const v = ctx.createGain();
+                  o.type = wave;
+                  o.frequency.value = clampHz(hertz);
+                  v.gain.value = 0;
+                  o.connect(v);
+                  v.connect(master);
+                  const now = ctx.currentTime;
+                  v.gain.linearRampToValueAtTime(volume, now + 0.05);
+                  o.start(now);
+                  oscillatorNode.current = o;
+                  gainNode.current = v;
+                }}
+              >
+                ∞ 지속 재생
+              </button>
+              <button className="btn btn-danger" onClick={stopTone}>
+                ■ 정지
+              </button>
+            </div>
+
+            <div className="note">
+              <strong>Sweep</strong>
+              <div className="freq-grid">
+                <label className="control">
+                  <span className="control-label">시작(Hz)</span>
+                  <input
+                    type="number"
+                    min={20}
+                    max={20000}
+                    step={1}
+                    value={sweepStart}
+                    onChange={(e) =>
+                      setSweepStart(clampHz(Number(e.currentTarget.value)))
+                    }
+                  />
+                </label>
+                <label className="control">
+                  <span className="control-label">끝(Hz)</span>
+                  <input
+                    type="number"
+                    min={20}
+                    max={20000}
+                    step={1}
+                    value={sweepEnd}
+                    onChange={(e) =>
+                      setSweepEnd(clampHz(Number(e.currentTarget.value)))
+                    }
+                  />
+                </label>
+                <label className="control">
+                  <span className="control-label">시간(s)</span>
+                  <input
+                    type="number"
+                    min={0.1}
+                    max={20}
+                    step={0.1}
+                    value={sweepDuration}
+                    onChange={(e) =>
+                      setSweepDuration(
+                        Math.min(
+                          20,
+                          Math.max(0.1, Number(e.currentTarget.value)),
+                        ),
+                      )
+                    }
+                  />
+                </label>
+                <label className="control">
+                  <span className="control-label">곡선</span>
+                  <select
+                    value={sweep ? "exp" : "lin"}
+                    onChange={(e) => setSweep(e.currentTarget.value === "exp")}
+                  >
+                    <option value="lin">linear</option>
+                    <option value="exp">exponential</option>
+                  </select>
+                </label>
+              </div>
+              <button
+                className="btn btn-accent"
+                style={{ marginTop: 10 }}
                 onClick={async () => {
                   await ensureAudio();
                   const { ctx, master } = getAudio();
@@ -765,60 +825,11 @@ export default function Wonder() {
                   o.stop(now + sweepDuration + 0.1);
                 }}
               >
-                스위프 재생
+                ▶ 스위프 재생
               </button>
             </div>
 
-            <button
-              className="btn"
-              onClick={async () => {
-                await ensureAudio();
-                const { ctx, master } = getAudio();
-                const o = ctx.createOscillator();
-                const v = ctx.createGain();
-                const env = ctx.createGain();
-                o.type = wave;
-                o.frequency.value = clampHz(hertz);
-                v.gain.value = volume;
-                env.gain.value = 0;
-                o.connect(env);
-                env.connect(v);
-                v.connect(master);
-                const now = ctx.currentTime;
-                env.gain.linearRampToValueAtTime(1, now + 0.02);
-                env.gain.linearRampToValueAtTime(0, now + duration);
-                o.start(now);
-                o.stop(now + duration + 0.02);
-              }}
-            >
-              1회 재생
-            </button>
-            <button
-              className="btn"
-              onClick={async () => {
-                await ensureAudio();
-                stopTone();
-                const { ctx, master } = getAudio();
-                const o = ctx.createOscillator();
-                const v = ctx.createGain();
-                o.type = wave;
-                o.frequency.value = clampHz(hertz);
-                v.gain.value = 0;
-                o.connect(v);
-                v.connect(master);
-                const now = ctx.currentTime;
-                v.gain.linearRampToValueAtTime(volume, now + 0.05);
-                o.start(now);
-                oscillatorNode.current = o;
-                gainNode.current = v;
-              }}
-            >
-              지속 재생
-            </button>
-            <button className="btn" onClick={stopTone}>
-              정지
-            </button>
-            <div className="canvas-wrap" style={{ height: 180, marginTop: 10 }}>
+            <div className="scope-wrap">
               <canvas aria-label="오실로스코프 파형" ref={scopeRef} />
             </div>
           </div>
