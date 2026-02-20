@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import * as ort from "onnxruntime-web";
 
 import "../assets/css/finder.css";
@@ -11,7 +11,7 @@ interface box {
   score: number;
   maskCoefficients: Float32Array;
 }
-
+let predict = false;
 const detectionConfidence = 0.6; // 탐지 신뢰도 임계값
 const maskThreshold = 0.9; // 마스크 이진화 임계값
 const fixedInferenceFps = 10; // 고정 추론 FPS 설정 (0 또는 음수는 무제한)
@@ -28,13 +28,6 @@ function clamp(value: number, min: number, max: number) {
 }
 
 export default function Finder() {
-  const [predict, setPredict] = useState(false);
-  const predictRef = useRef(predict);
-
-  useEffect(() => {
-    predictRef.current = predict;
-  }, [predict]);
-
   useEffect(() => {
     const videoElement = document.getElementById("video") as HTMLVideoElement;
     const overlayCanvas = document.getElementById(
@@ -52,7 +45,8 @@ export default function Finder() {
     const maskColorContext = maskColorCanvas.getContext("2d", {
       willReadFrequently: true,
     }) as CanvasRenderingContext2D;
-    const status = document.getElementById("status");
+    const statusElement = document.getElementById("status");
+    const predictElement = document.getElementById("predict");
     let frame: number | null = null;
     let isBusy = false;
     let isRunning = false;
@@ -88,7 +82,7 @@ export default function Finder() {
     const inferenceLoop = async (timestamp: number) => {
       if (!isRunning) return;
       frame = requestAnimationFrame(inferenceLoop);
-      if (!predictRef.current) {
+      if (!predict) {
         clearOverlay();
         return;
       }
@@ -608,8 +602,8 @@ export default function Finder() {
         if (timestamp - lastUiUpdate > 200) {
           lastUiUpdate = timestamp;
           // 화면에 텍스트로 표시
-          if (!status) return;
-          status.textContent = `사이클 ${lastInfer.toFixed(
+          if (!statusElement) return;
+          statusElement.textContent = `사이클 ${lastInfer.toFixed(
             1,
           )}ms / 추론 ${lastRun.toFixed(1)}ms`;
         }
@@ -688,11 +682,14 @@ export default function Finder() {
       await videoElement.play();
       resizeOverlayToVideo();
     });
-    document.getElementById("predict")!!.addEventListener("click", async () => {
-      const next = !predictRef.current;
-      setPredict(next);
+    if (!predictElement || !statusElement) return;
+    predictElement.addEventListener("click", async () => {
+      const next = !predict;
+      predict = next;
+      predictElement.textContent = next ? "추측 on" : "추측 off";
+      statusElement.textContent = next ? "추측 on" : "추측 off";
       if (next && !ortSession) {
-        if (status) status.textContent = "모델 로딩 중...";
+        statusElement.textContent = "모델 로딩 중...";
         try {
           ortSession = await ort.InferenceSession.create("best.onnx", {
             executionProviders: ["webgpu", "webgl", "wasm"],
@@ -701,7 +698,7 @@ export default function Finder() {
           modelInputName = ortSession.inputNames[0];
         } catch (error) {
           if (error instanceof Error) console.error(error.message);
-          if (status) status.textContent = "모델 로딩 실패";
+          statusElement.textContent = "모델 로딩 실패";
         }
       }
     });
@@ -727,9 +724,9 @@ export default function Finder() {
           전환
         </button>
         <button className="hud-btn" id="predict">
-          {predict ? "추측 OFF" : "추측 ON"}
+          추측 OFF
         </button>
-        <div id="status">{predict ? "추측 ON" : "대기 중 (추측 OFF)"}</div>
+        <div id="status">추측 OFF</div>
       </div>
     </div>
   );
