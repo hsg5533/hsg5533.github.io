@@ -86,7 +86,7 @@ export default function Finder() {
         clearOverlay();
         return;
       }
-      const minDelta = 1000 / Math.max(1, fixedInferenceFps);
+      const minDelta = fixedInferenceFps > 0 ? 1000 / fixedInferenceFps : 0;
       if (isBusy || timestamp - lastTimestamp < minDelta) return;
       lastTimestamp = timestamp;
       isBusy = true;
@@ -501,7 +501,7 @@ export default function Finder() {
             else if (simp.length < 4) eps *= 0.8;
             else break;
           }
-          if (!simp) return;
+          if (!simp || simp.length < 4) return;
           let qcx = 0;
           let qcy = 0;
           for (let i = 0; i < 4; i++) {
@@ -592,9 +592,7 @@ export default function Finder() {
         );
         overlayContext.restore();
       } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        }
+        if (error instanceof Error) console.error(error.message);
       } finally {
         isBusy = false;
         lastInfer = performance.now() - start;
