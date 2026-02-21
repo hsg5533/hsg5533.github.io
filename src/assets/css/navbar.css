@@ -1,9 +1,5 @@
 .header {
   position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   top: 0;
   left: 0;
   width: 100%;
@@ -12,26 +8,25 @@
   background: #333;
   box-sizing: border-box;
   padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* 햄버거 버튼 기본 숨김 */
+/* 햄버거 버튼 기본 숨김(모바일에서만 보이게) */
 .hamburger {
   display: none;
   background: none;
   border: none;
   cursor: pointer;
-  flex-direction: column;
-  justify-content: space-between;
 }
-
-/* 햄버거 3줄 */
 .hamburger img {
   width: 30px;
   height: 40px;
 }
+
 .navbar {
   font-weight: 700;
-  z-index: 9999;
   color: #fff;
   gap: 30px;
   font-size: 25px;
@@ -41,33 +36,90 @@
 .navbar a {
   transition: color 0.3s ease-in-out;
 }
-/* 모바일에서만 햄버거 보이기 */
+
+/* ===== Drawer ===== */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 2;
+}
+.drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: min(360px, 85vw);
+  background: #333;
+  color: #fff;
+  z-index: 3;
+  transform: translateX(100%);
+  transition: transform 0.28s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 16px;
+}
+.drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.drawer-title {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+.drawer-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+}
+
+.drawer-nav {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.drawer-nav li a {
+  display: block;
+  padding: 12px 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 18px;
+}
+.drawer-nav li a:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== 모바일 ===== */
 @media (max-width: 1024px) {
   .header {
     height: 3.3rem;
-    align-items: flex-start;
-  }
-  .hamburger {
-    display: flex;
-  }
-
-  /* 메뉴는 처음엔 접혀있는 상태 */
-  .navbar {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: #333;
-    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.4s ease-in-out;
   }
 
-  .navbar li {
-    width: 100%;
-    text-align: center;
-    margin: 0.5rem 0;
+  .hamburger {
+    display: block;
+  }
+
+  .navbar-desktop {
+    display: none; /* 모바일에서는 상단 네비 숨기고 drawer만 사용 */
   }
 }

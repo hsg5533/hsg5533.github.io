@@ -1,88 +1,89 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import hamburger from "../assets/img/icon/burger-button.svg";
+import { isMobile } from "../utils/modules";
+
+const offset = isMobile() ? 100 : 53;
+
+const items = [
+  { label: "MAIN", href: "#main" },
+  { label: "ABOUT ME", href: "#sec1" },
+  { label: "STACK", href: "#sec2" },
+  { label: "DEMO", href: "#sec3" },
+  { label: "CONTACT", href: "#sec4" },
+  { label: "SPEED", href: "/speed" },
+  { label: "FINDER", href: "/finder" },
+  { label: "RESUME", href: "/resume" },
+  { label: "WONDER", href: "/wonder" },
+];
 
 export default function Header() {
-  const [open, setOpen] = useState(false);
-  const navRef = useRef<HTMLUListElement>(null);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const drawerRef = useRef<HTMLElement | null>(null);
 
-  const onClick = useCallback(
-    (e: Event) => {
+  const handleItemClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
-
-      const link = e.currentTarget as HTMLAnchorElement;
-      const href = link.getAttribute("href") || "";
-
-      // 1) 같은 페이지 내 앵커 스크롤
+      const href = e.currentTarget.getAttribute("href") || "";
       if (href.startsWith("#")) {
         const targetEl = document.querySelector<HTMLElement>(href);
         if (targetEl) {
-          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+          const top =
+            window.scrollY + targetEl.getBoundingClientRect().top - offset;
+          window.scrollTo({ top, behavior: "smooth" });
         }
-        setOpen(false);
-        return;
+      } else {
+        navigate(href);
       }
-
-      // 2) 라우트 이동
-      navigate(href);
       setOpen(false);
     },
     [navigate],
   );
 
   useEffect(() => {
-    const navbarLinks =
-      document.querySelectorAll<HTMLAnchorElement>(".navbar a");
-    navbarLinks.forEach((link) => link.addEventListener("click", onClick));
-    return () => {
-      navbarLinks.forEach((link) => link.removeEventListener("click", onClick));
-    };
-  }, [onClick]);
-
-  // open 토글 시 실제 높이 맞춰주기
-  useEffect(() => {
-    if (navRef.current) {
-      navRef.current.style.maxHeight = open
-        ? `${navRef.current.scrollHeight}px`
-        : `0px`;
-    }
-  }, [open]);
+    const onResize = () => !isMobile() && setOpen(false);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   return (
-    <header className="header">
-      <button className="hamburger" onClick={() => setOpen(!open)}>
-        <img src={hamburger} alt="메뉴" />
-      </button>
-      <ul ref={navRef} className={`navbar ${open ? "open" : ""}`}>
-        <li>
-          <a href="#main">MAIN</a>
-        </li>
-        <li>
-          <a href="#sec1">ABOUT ME</a>
-        </li>
-        <li>
-          <a href="#sec2">STACK</a>
-        </li>
-        <li>
-          <a href="#sec3">DEMO</a>
-        </li>
-        <li>
-          <a href="#sec4">CONTACT</a>
-        </li>
-        <li>
-          <a href="/speed">SPEED</a>
-        </li>
-        <li>
-          <a href="/finder">FINDER</a>
-        </li>
-        <li>
-          <a href="/resume">RESUME</a>
-        </li>
-        <li>
-          <a href="/wonder">WONDER</a>
-        </li>
-      </ul>
-    </header>
+    <>
+      <header className="header">
+        <button className="hamburger" onClick={() => setOpen(true)}>
+          <img src={hamburger} alt="메뉴" />
+        </button>
+        <ul className="navbar navbar-desktop">
+          {items.map((it) => (
+            <li key={it.href}>
+              <a href={it.href} onClick={handleItemClick}>
+                {it.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </header>
+      <div
+        className={`drawer-backdrop ${open ? "open" : ""}`}
+        onClick={() => setOpen(false)}
+      />
+      <nav className={`drawer ${open ? "open" : ""}`} ref={drawerRef}>
+        <div className="drawer-header">
+          <span className="drawer-title">MENU</span>
+          <button className="drawer-close" onClick={() => setOpen(false)}>
+            ✕
+          </button>
+        </div>
+        <ul className="drawer-nav">
+          {items.map((it) => (
+            <li key={it.href}>
+              <a href={it.href} onClick={handleItemClick}>
+                {it.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </>
   );
 }

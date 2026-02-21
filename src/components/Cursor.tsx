@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-
-const { innerWidth } = window;
+import { useEffect, useRef, useState } from "react";
+import { isMobile } from "../utils/modules";
 
 let dotX = 0;
 let dotY = 0;
@@ -12,16 +11,6 @@ let frameId: number;
 
 function lerp(start: number, end: number, t: number) {
   return start + (end - start) * t;
-}
-
-function isMobile() {
-  const ua = navigator.userAgent.toLowerCase();
-  const mobileRegex =
-    /android|iphone|ipad|ipod|blackberry|bb10|opera mini|windows phone/;
-  const isUA = mobileRegex.test(ua);
-  const hasTouch = "ontouchstart" in window;
-  const narrowScreen = innerWidth <= 1024;
-  return isUA || (hasTouch && narrowScreen);
 }
 
 export default function Cursor() {
