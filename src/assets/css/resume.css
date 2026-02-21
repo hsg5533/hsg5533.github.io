@@ -3,6 +3,20 @@
   --line-dark: #767b80;
   --head: #eef4e8;
 }
+
+/* ====== 프로필(상단 4행)만 행 높이를 고정해서 rowSpan 분배 이슈 제거 ====== */
+.profile-table .profile-row th,
+.profile-table .profile-row td {
+  height: 45px; /* 45px x 4 = 180px */
+  padding: 0;
+}
+
+/* 사진 셀/이미지: baseline gap 제거 + 딱 180px */
+.profile-table td.photo img {
+  display: block;
+  height: 180px;
+}
+
 * {
   margin: 0;
   padding: 0;

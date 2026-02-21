@@ -4,6 +4,7 @@ import jsPDF from "jspdf";
 import "../assets/css/resume.css";
 import me from "../assets/img/icon/me.png";
 import Loading from "../components/Loading";
+import { isMobile } from "../utils/modules";
 
 interface mobileImage {
   key: string;
@@ -25,25 +26,6 @@ const mobileRoot: CSSProperties = {
   left: "-9999px",
   width: "1200px",
 };
-
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-  const media = window.matchMedia(`(max-width: 1024px)`);
-  const update = useCallback(() => {
-    setIsMobile(
-      media.matches ||
-        /Android|iPhone|iPad|iPod|Mobile|Tablet|Windows Phone/i.test(
-          navigator.userAgent,
-        ),
-    );
-  }, [media]);
-  useEffect(() => {
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, [media, update]);
-  return isMobile;
-}
 
 async function captureElement(element: HTMLElement) {
   const contentHeight = Math.max(
@@ -123,7 +105,6 @@ async function getMobileImages(targets: target[]) {
 }
 
 export default function Resume() {
-  const isMobile = useIsMobile();
   const paperRefs = useRef<(HTMLElement | null)[]>([]);
   const [mobileImages, setMobileImages] = useState<mobileImage[]>([]);
 
@@ -144,7 +125,7 @@ export default function Resume() {
 
   useEffect(() => {
     (async () => {
-      if (isMobile) {
+      if (isMobile()) {
         setMobileImages(
           await getMobileImages([
             {
@@ -161,9 +142,9 @@ export default function Resume() {
         );
       }
     })();
-  }, [isMobile]);
+  }, []);
 
-  if (isMobile && mobileImages.length > 0) {
+  if (isMobile() && mobileImages.length > 0) {
     return (
       <div className="mobile-pdf-viewer">
         {mobileImages.map((img) => {
@@ -203,10 +184,10 @@ export default function Resume() {
   return (
     <>
       <Loading
-        isOpen={isMobile && mobileImages.length === 0}
+        isOpen={isMobile() && mobileImages.length === 0}
         message={"문서 생성 중..."}
       />
-      <div style={isMobile ? mobileRoot : desktopRoot}>
+      <div style={isMobile() ? mobileRoot : desktopRoot}>
         <section
           className="page pdf-target"
           ref={(el) => {
@@ -214,7 +195,7 @@ export default function Resume() {
           }}
         >
           <h1 className="title">이 력 서</h1>
-          <table>
+          <table className="profile-table">
             <colgroup>
               <col />
               <col />
@@ -223,7 +204,7 @@ export default function Resume() {
               <col />
             </colgroup>
             <tbody>
-              <tr>
+              <tr className="profile-row">
                 <td rowSpan={4} className="photo">
                   <img src={me} alt="증명사진" />
                 </td>
@@ -232,7 +213,7 @@ export default function Resume() {
                 <th>지원부문</th>
                 <td className="center bold">S/W 개발자</td>
               </tr>
-              <tr>
+              <tr className="profile-row">
                 <th>생년월일</th>
                 <td className="center bold">1996년 04월 25일</td>
                 <th>병역</th>
@@ -240,13 +221,13 @@ export default function Resume() {
                   필_육군(통신병: 2017.04~2018.12)
                 </td>
               </tr>
-              <tr>
+              <tr className="profile-row">
                 <th>이메일</th>
                 <td className="center bold">hsg5533@naver.com</td>
                 <th>핸드폰</th>
                 <td className="center bold">010-4420-6430</td>
               </tr>
-              <tr>
+              <tr className="profile-row">
                 <th>주소</th>
                 <td colSpan={3} className="center bold">
                   부산 해운대구 반송1동 아랫반송로 26번길 15-10
