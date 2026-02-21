@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import hamburger from "../assets/img/icon/burger-button.svg";
 import { isMobile } from "../utils/modules";
 
-const offset = isMobile() ? 100 : 53;
-
 const items = [
   { label: "MAIN", href: "#main" },
   { label: "ABOUT ME", href: "#sec1" },
@@ -29,8 +27,7 @@ export default function Header() {
       if (href.startsWith("#")) {
         const targetEl = document.querySelector<HTMLElement>(href);
         if (targetEl) {
-          const top =
-            window.scrollY + targetEl.getBoundingClientRect().top - offset;
+          const top = window.scrollY + targetEl.getBoundingClientRect().top;
           window.scrollTo({ top, behavior: "smooth" });
         }
       } else {
