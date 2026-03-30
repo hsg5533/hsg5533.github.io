@@ -28,25 +28,23 @@ const mobileRoot: CSSProperties = {
 };
 
 async function captureElement(element: HTMLElement) {
-  const contentHeight = Math.max(
-    element.scrollHeight,
-    element.offsetHeight,
-    element.clientHeight,
-  );
-  const contentWidth = Math.max(
-    element.scrollWidth,
-    element.offsetWidth,
-    element.clientWidth,
-  );
+  const isIframe = element.ownerDocument !== document;
+  const captureWidth = isIframe
+    ? Math.max(element.scrollWidth, element.clientWidth)
+    : element.getBoundingClientRect().width;
+  const captureHeight = isIframe
+    ? Math.max(element.scrollHeight, element.clientHeight)
+    : element.getBoundingClientRect().height;
+  const { clientWidth, clientHeight } = document.documentElement;
   const canvas = await html2canvas(element, {
     useCORS: true,
     allowTaint: false,
-    width: contentWidth,
-    height: contentHeight,
-    windowWidth: contentWidth,
-    windowHeight: contentHeight,
-    scrollX: -element.scrollLeft,
-    scrollY: -element.scrollTop,
+    width: captureWidth,
+    height: captureHeight,
+    windowWidth: isIframe ? captureWidth : clientWidth,
+    windowHeight: isIframe ? captureHeight : clientHeight,
+    scrollX: isIframe ? undefined : -window.scrollX,
+    scrollY: isIframe ? undefined : -window.scrollY,
     scale: Math.max(2, window.devicePixelRatio || 1),
   });
   return canvas.toDataURL("image/png");
@@ -67,12 +65,12 @@ async function imageDataToPdf(
     const img = new Image();
     img.src = srcs[i];
     await new Promise<void>((resolve) => (img.onload = () => resolve()));
+    const ratio = contentH / contentW;
     const imgH = (img.height * contentW) / img.width;
-    if (imgH > contentH) {
-      const ratio = contentH / imgH;
-      pdf.addImage(srcs[i], "PNG", margin, margin, contentW * ratio, contentH);
-    } else {
+    if (ratio > 1) {
       pdf.addImage(srcs[i], "PNG", margin, margin, contentW, imgH);
+    } else {
+      pdf.addImage(srcs[i], "PNG", margin, margin, contentW, contentH);
     }
   }
   return pdf;
