@@ -1,4 +1,5 @@
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import { useView } from "../utils/modules";
 import react from "../assets/img/icon/react.png";
 import reactnative from "../assets/img/icon/reactnative.png";
 import springboot from "../assets/img/icon/springboot.png";
@@ -44,24 +45,6 @@ function highLight(imgs: NodeListOf<Element>) {
       img.classList.add("zoom-out");
     }
   });
-}
-
-function useView(ref: RefObject<Element | null>, threshold: number) {
-  const savedElement = useRef<Element>(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    savedElement.current = ref.current;
-  }, [ref]);
-  useEffect(() => {
-    if (!savedElement.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
-      { threshold }
-    );
-    observer.observe(savedElement.current);
-    return () => observer.disconnect();
-  }, [savedElement, threshold]);
-  return inView;
 }
 
 class Swiper {

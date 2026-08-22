@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko"; // 한국어 가져오기
+import Hint from "./Hint";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
@@ -45,6 +46,7 @@ export default function Main() {
       <div className="main-mark" aria-hidden="true">
         PORTFOLIO
       </div>
+      <Hint />
     </div>
   );
 }

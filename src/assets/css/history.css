@@ -13,6 +13,9 @@
    .history-header: 섹션 타이틀 영역 (사진 배경 없음)
 ------------------------------ */
 .history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto 40px;
@@ -28,7 +31,9 @@
 }
 
 .history-header p {
-  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic",
+    "Segoe UI", sans-serif;
   font-size: 1.1rem;
   color: #a5a3ad;
 }
@@ -40,7 +45,6 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 64px;
   box-sizing: border-box;
   border-top: 1px solid rgba(244, 243, 239, 0.1);
 }
@@ -52,9 +56,9 @@
   align-items: baseline;
   gap: 32px;
   padding: 28px 0 28px 20px;
-  margin-left: -20px;
   border-bottom: 1px solid rgba(244, 243, 239, 0.1);
-  transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+  transition:
+    background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
     padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .history-row::before {
@@ -83,7 +87,9 @@
 }
 
 .history-desc {
-  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic",
+    "Segoe UI", sans-serif;
   font-size: 1.05rem;
   line-height: 1.5;
   color: #f4f3ef;
