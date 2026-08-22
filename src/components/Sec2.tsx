@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useView } from "../utils/modules";
 import react from "../assets/img/icon/react.png";
 import reactnative from "../assets/img/icon/reactnative.png";

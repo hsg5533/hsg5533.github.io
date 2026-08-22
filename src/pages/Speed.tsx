@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "../assets/css/speed.css";
 
 interface SpeedometerOptions {

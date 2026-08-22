@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { useView } from "../utils/modules";
 import "../assets/css/hint.css";
 
@@ -6,12 +6,12 @@ export default function Hint() {
   const ref = useRef<HTMLButtonElement>(null);
   const visible = useView(ref, 0);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     const target = document.querySelector<HTMLElement>("#sec1");
     if (!target) return;
     const top = window.scrollY + target.getBoundingClientRect().top;
     window.scrollTo({ top, behavior: "smooth" });
-  };
+  }, []);
 
   return (
     <button

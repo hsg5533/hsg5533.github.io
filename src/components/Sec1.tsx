@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Sec1() {
   return (
     <div className="sec sec1" id="sec1">

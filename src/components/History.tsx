@@ -1,5 +1,3 @@
-import React from "react";
-
 const items = [
   {
     range: "2015.03 ~ 2018.08",

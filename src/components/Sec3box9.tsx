@@ -1,4 +1,3 @@
-import React from "react";
 import image38 from "../assets/img/background/image38.png";
 import image39 from "../assets/img/background/image39.png";
 import image40 from "../assets/img/background/image40.png";

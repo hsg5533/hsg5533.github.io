@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import top from "../assets/img/icon/topbtn2.png";
 
 export default function Top() {

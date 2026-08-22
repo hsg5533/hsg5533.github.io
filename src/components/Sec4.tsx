@@ -1,4 +1,3 @@
-import React from "react";
 import kakao from "../assets/img/icon/kakao.png";
 import github from "../assets/img/icon/githubicon.png";
 

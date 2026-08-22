@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import Cursor from "./components/Cursor";
 import "./assets/css/cursor.css";
 import "./assets/css/navbar.css";
