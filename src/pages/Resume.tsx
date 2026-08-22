@@ -18,7 +18,15 @@ interface target {
   elements: (HTMLElement | null)[];
 }
 
-const desktopRoot: CSSProperties = { backgroundColor: "#fff" };
+const desktopRoot: CSSProperties = {
+  backgroundColor: "#0c0b0f",
+  minHeight: "100vh",
+  padding: "64px 24px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  overflowX: "auto",
+};
 
 const mobileRoot: CSSProperties = {
   position: "absolute",
@@ -243,7 +251,7 @@ export default function Resume() {
                 <th>졸업구분</th>
               </tr>
               <tr>
-                <td className="center bold">2015.03 ~ 2018.08</td>
+                <td className="center mono">2015.03 ~ 2018.08</td>
                 <td colSpan={2} className="center bold">
                   동명대학교
                 </td>
@@ -251,7 +259,7 @@ export default function Resume() {
                 <td className="center bold">졸업</td>
               </tr>
               <tr>
-                <td className="center bold">2012.03 ~ 2015.02</td>
+                <td className="center mono">2012.03 ~ 2015.02</td>
                 <td colSpan={2} className="center bold">
                   내성고등학교
                 </td>
@@ -269,7 +277,7 @@ export default function Resume() {
                 <th>교육기관명</th>
               </tr>
               <tr>
-                <td className="center bold">2021.12.28. ~ 2022.07.30</td>
+                <td className="center mono">2021.12.28. ~ 2022.07.30</td>
                 <td colSpan={3} className="center bold">
                   빅데이터 시각화를 통한 빅데이터 UI콘텐츠 개발
                 </td>
@@ -301,7 +309,7 @@ export default function Resume() {
                 <td colSpan={2} className="center bold">
                   한국산업인력공단
                 </td>
-                <td className="center bold">2022.06</td>
+                <td className="center mono">2022.06</td>
               </tr>
               <tr>
                 <td colSpan={2} className="center bold">
@@ -310,7 +318,7 @@ export default function Resume() {
                 <td colSpan={2} className="center bold">
                   경남지방경찰청
                 </td>
-                <td className="center bold">2011.10</td>
+                <td className="center mono">2011.10</td>
               </tr>
               <tr>
                 <td colSpan={5} className="subtitle">
@@ -324,7 +332,7 @@ export default function Resume() {
                 <th colSpan={2}>프로젝트명</th>
               </tr>
               <tr>
-                <td className="center bold">2022.03.27~2022.04.09</td>
+                <td className="center mono">2022.03.27~2022.04.09</td>
                 <td className="center bold">팀프로젝트</td>
                 <td className="center bold">부산IT교육센터</td>
                 <td colSpan={2} className="center bold">
@@ -345,7 +353,7 @@ export default function Resume() {
                 </td>
               </tr>
               <tr>
-                <td className="center bold">2021.05.09~2022.05.22</td>
+                <td className="center mono">2021.05.09~2022.05.22</td>
                 <td className="center bold">팀프로젝트</td>
                 <td className="center bold">부산IT교육센터</td>
                 <td colSpan={2} className="center bold">
@@ -377,7 +385,7 @@ export default function Resume() {
                 <th>퇴사사유</th>
               </tr>
               <tr>
-                <td className="center bold">2022.09.13. ~ 2023.02.24</td>
+                <td className="center mono">2022.09.13. ~ 2023.02.24</td>
                 <td className="center bold">테이블온</td>
                 <td colSpan={2} className="center bold">
                   RnD 및 웹 서비스 개발
@@ -385,7 +393,7 @@ export default function Resume() {
                 <td className="center bold">경영악화</td>
               </tr>
               <tr>
-                <td className="center bold">2023.05.01 ~ 2025.01.01</td>
+                <td className="center mono">2023.05.01 ~ 2025.01.01</td>
                 <td className="center bold">불타는고구마</td>
                 <td colSpan={2} className="center bold">
                   React Native 하이브리드 앱 개발 및 배포
@@ -393,7 +401,7 @@ export default function Resume() {
                 <td className="center bold">개인사정</td>
               </tr>
               <tr>
-                <td className="center bold">2025.02.06 ~ 2025.05.15</td>
+                <td className="center mono">2025.02.06 ~ 2025.05.15</td>
                 <td className="center bold">인터오션</td>
                 <td colSpan={2} className="center bold">
                   자사 홈페이지 유지보수

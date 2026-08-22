@@ -6,11 +6,12 @@ import { isMobile } from "../utils/modules";
 const items = [
   { label: "MAIN", href: "#main" },
   { label: "ABOUT ME", href: "#sec1" },
-  { label: "STACK", href: "#sec2" },
-  { label: "DEMO", href: "#sec3" },
+  { label: "VALUES", href: "#values" },
+  { label: "HISTORY", href: "#history" },
+  { label: "SKILLS", href: "#sec2" },
+  { label: "PROJECT", href: "#sec3" },
   { label: "CONTACT", href: "#sec4" },
   { label: "SPEED", href: "/speed" },
-  { label: "FINDER", href: "/finder" },
   { label: "RESUME", href: "/resume" },
   { label: "WONDER", href: "/wonder" },
 ];
@@ -29,6 +30,8 @@ export default function Header() {
         if (targetEl) {
           const top = window.scrollY + targetEl.getBoundingClientRect().top;
           window.scrollTo({ top, behavior: "smooth" });
+        } else {
+          navigate("/");
         }
       } else {
         navigate(href);
@@ -47,6 +50,9 @@ export default function Header() {
   return (
     <>
       <header className="header">
+        <a href="#main" className="brand" onClick={handleItemClick}>
+          HOSANG<span className="brand-dot">.</span>
+        </a>
         <button className="hamburger" onClick={() => setOpen(true)}>
           <img src={hamburger} alt="메뉴" />
         </button>

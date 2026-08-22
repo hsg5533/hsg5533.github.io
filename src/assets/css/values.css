@@ -1,128 +1,178 @@
 /* ------------------------------
-   .values: 전체 섹션 배경
+   .values: 전체 섹션 배경 (사이트 다른 섹션과 동일한 다크 톤)
 ------------------------------ */
 .values {
-  background: ivory;
-}
-
-/* ------------------------------
-   .values-box: 섹션 내부 컨테이너
------------------------------- */
-.values-box {
+  background: #0c0b0f;
   display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  overflow: hidden;
-}
-
-/* ------------------------------
-   .values-title: 섹션 타이틀 영역
------------------------------- */
-.values-title {
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 120px;
-}
-
-/* .values-title 내부 제목 텍스트 */
-.values-title h2 {
-  color: rgb(37, 37, 43);
-  margin: 0px;
-  text-align: center;
-  font-size: 4.5em;
-  opacity: 0.5;
 }
 
 /* ------------------------------
-   .values-L: 왼쪽 영역 (배경 이미지 포함)
+   .values-inner: 섹션 내부 컨테이너
 ------------------------------ */
-
-.values-L {
+.values-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 64px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 50%;
-  height: 100%;
-  padding: 1em;
-  box-sizing: border-box;
+  gap: 32px;
 }
 
 /* ------------------------------
-   .values-R: 오른쪽 영역 (텍스트 포함)
+   .values-header: 섹션 타이틀 영역
 ------------------------------ */
+.values-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-.values-R {
-  width: 50%;
-  height: 100%;
-  background: url(../img/background/main2.jpg) center/cover no-repeat;
+.values-kicker {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #ff5470;
+}
+
+.values-header h2 {
+  font-family: NPSfontBold, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: #f4f3ef;
+  margin: 0;
+  font-size: 3rem;
 }
 
 /* ------------------------------
-   .values-text: 설명 텍스트
+   .values-grid: 벤토 그리드 (4개 항목, 비대칭 구성)
 ------------------------------ */
-.values-text {
-  width: 100%;
-  height: 100%;
+.values-grid {
   display: grid;
-  align-items: center;
-  justify-items: center;
-  /* 열 2개, 각각 비율 1:1 */
-  grid-template-columns: 1fr 1fr;
-  /* 행 2개, 높이 각각 100px, auto */
-  grid-template-rows: auto auto;
-  grid-gap: 10px; /* 행·열 사이 간격 */
-  color: #25252b;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, minmax(140px, 1fr));
+  gap: 16px;
 }
 
 .values-item {
-  width: 90%;
-  height: 90%;
-  border-radius: 50%;
+  position: relative;
   display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  color: ivory;
-  font-size: 1.8rem;
-  background-color: #60606f;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.values-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 48px rgba(12, 11, 15, 0.55);
+}
+.values-item:active {
+  transform: translateY(-1px) scale(0.99);
+}
+.values-item p {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Malgun Gothic", "Segoe UI", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.values-index {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+/* 대표 항목: 사진 배경 + 흰 텍스트, 2x2 차지 */
+.item-photo {
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+  background:
+    linear-gradient(180deg, rgba(12, 11, 15, 0.1) 40%, rgba(12, 11, 15, 0.75) 100%),
+    url(../img/background/main2.jpg) center/cover no-repeat;
+  border: 1px solid rgba(244, 243, 239, 0.1);
+}
+.item-photo p {
+  color: #f4f3ef;
+  font-size: 1.3rem;
+}
+.item-photo .values-index {
+  color: rgba(244, 243, 239, 0.7);
+}
+
+/* 넓은 항목: 다크 서피스 + 좌측 액센트 바 (04와 동일 톤) */
+.item-wide {
+  grid-column: 3 / 5;
+  grid-row: 1;
+  background: #201f26;
+  border-left: 3px solid #ff5470;
+  color: #f4f3ef;
+}
+.item-wide:hover {
+  background: #29282f;
+}
+.item-wide .values-index {
+  color: #6f6d78;
+}
+
+/* 강조 항목: 다크 서피스 + 좌측 액센트 바 (04와 동일 톤) */
+.item-accent {
+  grid-column: 3;
+  grid-row: 2;
+  background: #201f26;
+  border-left: 3px solid #ff5470;
+  color: #f4f3ef;
+}
+.item-accent:hover {
+  background: #29282f;
+}
+.item-accent .values-index {
+  color: #6f6d78;
+}
+
+/* 서브 항목: 다크 서피스 + 좌측 액센트 바 */
+.item-soft {
+  grid-column: 4;
+  grid-row: 2;
+  background: #201f26;
+  border-left: 3px solid #ff5470;
+  color: #f4f3ef;
+}
+.item-soft:hover {
+  background: #29282f;
+}
+.item-soft .values-index {
+  color: #6f6d78;
 }
 
 /* ------------------------------
    반응형 스타일 (1024px 이하)
 ------------------------------ */
 @media (max-width: 1024px) {
-  /* 섹션 박스를 세로로 나열 */
-  .values-box {
-    flex-direction: column;
+  .values-inner {
+    padding: 32px 16px;
   }
-
-  /* 양쪽 영역을 전체 너비로 변경하고 높이 절반 */
-  .values-L,
-  .values-R {
-    width: 100%;
-    height: auto;
-  }
-
-  /* 설명 텍스트 크기 조절 */
-  .values-text {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .values-item {
-    width: 280px;
-    height: auto;
-    padding: 20px 30px;
-    font-size: 1rem;
-  }
-  /* 타이틀 영역 높이 조절 */
-  .values-title {
-    height: 60px;
-  }
-
-  .values-title h2 {
+  .values-header h2 {
     font-size: 2rem;
+  }
+  .values-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+  .item-photo,
+  .item-wide,
+  .item-accent,
+  .item-soft {
+    grid-column: 1;
+    grid-row: auto;
+    min-height: 160px;
+  }
+  .item-photo p {
+    font-size: 1.1rem;
   }
 }

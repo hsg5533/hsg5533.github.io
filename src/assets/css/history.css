@@ -1,156 +1,120 @@
 .timeline {
-  height: 100%;
+  height: auto;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  background-color: ivory;
+  background: #0c0b0f;
+  padding: 96px 0;
+  box-sizing: border-box;
 }
 
-/* 전체 배경 이미지 + 그라데이션 적용 섹션 */
-.hero {
-  width: 100%; /* 원하는 최대 너비 */
-  height: 400px; /* 필요 시 원하는 높이로 변경 */
-  /* 그라데이션 → 이미지 순으로 지정해, 이미지 위에 반투명 레이어 */
-  background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 1),
-      /* 왼쪽 흰색 반투명 */ rgba(0, 0, 0, 0) /* 오른쪽 투명 */
-    ),
-    url("../img/background/history_cover.jpg") /* 실제 이미지 경로 */ center /
-      cover no-repeat;
-  display: flex; /* 내부 요소를 가로/세로 정렬하기 위해 flex 사용 */
-  flex-direction: column; /* 텍스트를 세로로 쌓이도록 */
-  justify-content: center; /* 수직 방향 가운데 정렬 */
-  align-items: center;
+/* ------------------------------
+   .history-header: 섹션 타이틀 영역 (사진 배경 없음)
+------------------------------ */
+.history-header {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  padding: 0 64px;
+  box-sizing: border-box;
 }
 
-/* 타이틀 스타일 */
-.hero h1 {
-  font-size: 4rem;
-  margin-bottom: 20px;
-  color: #525252; /* 텍스트를 흰색으로 (그라데이션과 대비) */
+.history-header h1 {
+  font-family: NPSfontBold, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 3rem;
+  margin: 0 0 8px;
+  color: #f4f3ef;
 }
 
-/* 부제 스타일 */
-.hero p {
-  font-size: 2rem;
-  line-height: 1.4;
-  color: #353535; /* 텍스트를 흰색으로 (그라데이션과 대비) */
+.history-header p {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif;
+  font-size: 1.1rem;
+  color: #a5a3ad;
 }
 
-/* 반응형 예시 */
-@media (max-width: 1024px) {
-  .hero {
-    align-items: center; /* 모바일에서 중앙 정렬 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    padding: 0px;
-  }
-  .hero h1 {
-    font-size: 2.2rem;
-  }
-  .hero p {
-    font-size: 1.2rem;
-  }
+/* ------------------------------
+   .history-list: 세로 원장(ledger) 리스트
+------------------------------ */
+.history-list {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 64px;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(244, 243, 239, 0.1);
 }
 
-.history {
+.history-row {
   position: relative;
-  margin: 40px auto;
-  padding: 40px 0;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  align-items: baseline;
+  gap: 32px;
+  padding: 28px 0 28px 20px;
+  margin-left: -20px;
+  border-bottom: 1px solid rgba(244, 243, 239, 0.1);
+  transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-/* 데스크탑: 중앙 수직선 (컨테이너의 50% 위치) */
-.history::after {
+.history-row::before {
   content: "";
   position: absolute;
-  width: 4px;
-  background: #7e7e7e;
   top: 0;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* 데스크탑용 연혁 항목 */
-.history p {
-  position: relative;
-  background: #25252b;
-  color: ivory;
-  font-size: 1.3rem;
-  padding: 20px 30px;
-  margin-bottom: 30px;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* 왼쪽 항목: 중앙에서 45% 만큼 뺀 위치 (즉, 오른쪽 경계가 50%에 위치) */
-.history p:nth-child(odd) {
-  left: 50%;
-  transform: translateX(-100%);
-  text-align: end;
-}
-
-/* 오른쪽 항목: 왼쪽 경계가 50%에 위치 */
-.history p:nth-child(even) {
-  left: 50%;
-  transform: translateX(0%);
-  text-align: start;
-}
-
-/* 포인터 스타일 – 원형, 20px 크기 */
-.history p::before {
-  content: "";
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: transparent;
-  border: 4px solid #f39c12;
-}
-
-/* 왼쪽 항목의 포인터: 오른쪽 상단에 배치 (포인터의 중앙이 50%에 오도록) */
-.history p:nth-child(odd)::before {
-  top: 0;
-  right: 0;
-  transform: translateX(50%);
-}
-
-/* 오른쪽 항목의 포인터: 왼쪽 상단에 배치 (포인터의 중앙이 50%에 오도록) */
-.history p:nth-child(even)::before {
-  top: 0;
   left: 0;
-  transform: translateX(-50%);
+  width: 0;
+  background: #ff5470;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.history-row:hover {
+  background: rgba(255, 84, 112, 0.06);
+  padding-left: 32px;
+}
+.history-row:hover::before {
+  width: 3px;
 }
 
-/* 날짜 스타일 */
-.history p strong {
-  display: block;
-  font-size: 1.2em;
-  color: #f39c12;
-  margin-bottom: 8px;
+.history-range {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: #ff5470;
 }
 
-/* 모바일: 리스트 형식 – 중앙 수직선 제거 및 전체 너비로 표시 */
-@media screen and (max-width: 1024px) {
-  .history {
-    padding: 15px;
+.history-desc {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #f4f3ef;
+}
+
+/* ------------------------------
+   반응형
+------------------------------ */
+@media (max-width: 1024px) {
+  .timeline {
+    padding: 64px 0;
   }
-  .history::after {
-    display: none;
+  .history-header {
+    padding: 0 16px;
   }
-  .history p {
-    font-size: 0.89rem;
-    padding: 15px 20px;
+  .history-header h1 {
+    font-size: 2rem;
   }
-  .history p:nth-child(odd)::before {
-    left: 0;
-    transform: translateX(-50%);
+  .history-header p {
+    font-size: 0.95rem;
   }
-  .history p:nth-child(odd),
-  .history p:nth-child(even) {
-    left: 0;
-    transform: translateX(0%);
-    text-align: start;
+  .history-list {
+    padding: 0 16px;
+  }
+  .history-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 20px 0 20px 16px;
+    margin-left: -16px;
+  }
+  .history-desc {
+    font-size: 0.92rem;
   }
 }

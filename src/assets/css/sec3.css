@@ -1,31 +1,185 @@
 /* ----------------------------------
-   .sec3: 전체 섹션 설정
+   .sec3: 프로젝트 섹션 전체 (인덱스 + 스테이지)
 ---------------------------------- */
 .sec3 {
+  height: auto;
+  min-height: 100vh;
+  max-width: 1800px;
   display: flex;
   flex-direction: column;
-  background: ivory;
-  gap: 15px;
-}
-
-/* ----------------------------------
-   .sec3-title: 섹션 제목 영역
----------------------------------- */
-.sec3-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 120px;
-  padding: 1em;
+  background: #0c0b0f;
+  padding: 24px 24px;
   box-sizing: border-box;
 }
 
-/* .sec3-title 내부 제목 텍스트 */
-.sec3-title h2 {
-  color: #25252b;
-  opacity: 0.5;
-  font-size: 4rem;
+/* ----------------------------------
+   .sec3-header: 섹션 제목 영역
+---------------------------------- */
+.sec3-header {
+  flex-shrink: 0;
+  width: 100%;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sec3-kicker {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.32em;
+  color: #ff5470;
+  text-transform: uppercase;
+}
+
+.sec3-header h2 {
+  font-family: NPSfontBold, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: #f4f3ef;
+  font-size: 3rem;
+  margin: 0;
+}
+
+/* ----------------------------------
+   .sec3-layout: 인덱스(좌) + 스테이지(우) 2단 구성
+---------------------------------- */
+.sec3-layout {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 32px;
+  align-items: stretch;
+}
+
+/* ----------------------------------
+   .sec3-index: 프로젝트 목록 (좌측 고정)
+---------------------------------- */
+.sec3-index {
+  position: sticky;
+  top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 1px solid rgba(244, 243, 239, 0.1);
+}
+
+.sec3-index-item {
+  all: unset;
+  cursor: none;
+  box-sizing: border-box;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  color: #a5a3ad;
+  transition:
+    color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sec3-index-item:hover {
+  color: #f4f3ef;
+  background: #17161a;
+}
+.sec3-index-item.active {
+  color: #f4f3ef;
+  border-left-color: #ff5470;
+  background: #17161a;
+}
+
+.sec3-index-num {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: #6f6d78;
+  flex-shrink: 0;
+}
+.sec3-index-item.active .sec3-index-num {
+  color: #ff5470;
+}
+
+.sec3-index-label {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Malgun Gothic", "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* ----------------------------------
+   .sec3-stage: 선택된 프로젝트 상세 (우측)
+---------------------------------- */
+.sec3-stage {
+  position: relative;
+  height: 100%;
+  min-height: 460px;
+}
+
+.sec3-panel {
+  height: 100%;
+  display: none;
+}
+.sec3-panel.active {
+  display: block;
+  animation: sec3-panel-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes sec3-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sec3-panel.active {
+    animation: none;
+  }
+}
+
+.sec3-panel .project {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+  width: 100%;
+  height: 100%;
+}
+
+.sec3-panel .pr-box {
+  flex: 1;
+  min-height: 0;
+  aspect-ratio: auto;
+  border-radius: 8px;
+}
+
+.sec3-panel .pr-text-box {
+  flex: none;
+}
+
+.sec3-panel .pr-title {
+  font-family: NPSfontBold, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 2rem;
+}
+
+.sec3-panel .pr-txt {
+  font-size: 1rem;
+  display: block;
+  overflow: visible;
+}
+
+/* ----------------------------------
+   .project: 패널 내부 공통 레이아웃
+---------------------------------- */
+.project {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
 }
 
 /* ----------------------------------
@@ -33,38 +187,52 @@
 ---------------------------------- */
 .pr-text-box {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
   width: 100%;
-  padding: 2rem;
   box-sizing: border-box;
+}
+
+.pr-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 /* ----------------------------------
    .pr-title: 프로젝트 제목
 ---------------------------------- */
 .pr-title {
-  color: #111;
-  font-size: 30px;
+  font-family: NPSfontBold, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: #f4f3ef;
+  font-size: 1.15rem;
 }
 
 /* ----------------------------------
    .pr-desc: 프로젝트 부제/설명
 ---------------------------------- */
 .pr-desc {
-  font-size: 20px;
-  color: #f14666;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  color: #ff5470;
+  line-height: 1.6;
 }
 
 /* ----------------------------------
    .pr-txt: 프로젝트 본문 텍스트
 ---------------------------------- */
 .pr-txt {
-  color: #111;
-  font-size: 19px;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Malgun Gothic", "Segoe UI", sans-serif;
+  color: #a5a3ad;
+  font-size: 0.85rem;
+  line-height: 1.6;
   text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ----------------------------------
@@ -72,39 +240,36 @@
 ---------------------------------- */
 .link-box {
   display: flex;
-  gap: 20px;
-  margin-top: 2rem;
-  align-items: baseline;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
 }
 
 /* ----------------------------------
    .link-btn: 버튼 스타일
 ---------------------------------- */
 .link-btn {
-  font-size: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Malgun Gothic", "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
   text-align: center;
-  width: 150px;
-  height: 55px;
-  line-height: 55px;
-  border-radius: 10px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3)),
-    ivory;
-  background-blend-mode: soft-light, normal;
-  box-shadow:
-    8px 8px 15px 0 rgba(0, 0, 0, 0.2),
-    -8px -8px 15px 0 rgba(255, 255, 255, 0.8);
-  color: #333;
-  transition: 0.2s ease-in-out;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: #201f26;
+  border: 1px solid rgba(244, 243, 239, 0.1);
+  color: #f4f3ef;
+  transition:
+    background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* 버튼 호버 효과 */
 .link-btn:hover {
-  background: #25252b;
-  box-shadow:
-    inset 4px 4px 8px rgba(0, 0, 0, 0.2),
-    inset -4px -4px 8px rgba(37, 37, 43, 0.5);
-  color: #e0e0e0;
+  background: #ff5470;
+  border-color: #ff5470;
+  color: #17161a;
 }
 
 /* ----------------------------------
@@ -116,21 +281,66 @@
   height: 100%;
 }
 
-/* 반응형: 모바일에서 세로 배치 */
+/* ----------------------------------
+   반응형
+---------------------------------- */
 @media (max-width: 1024px) {
-  .pr-text-box {
-    display: block;
+  .sec3 {
+    padding: 16px 16px;
   }
-  .pr-title {
-    font-size: 22px;
+  .sec3-header h2 {
+    font-size: 2.2rem;
   }
-  .pr-desc {
-    font-size: 18px;
+  .sec3-layout {
+    flex: none;
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
-  .pr-txt {
-    font-size: 16px;
+  .sec3-stage {
+    height: auto;
   }
-  .sec3-title h2 {
-    font-size: 3rem;
+  .sec3-panel {
+    height: auto;
+  }
+  .sec3-panel .project {
+    height: auto;
+  }
+  .sec3-panel .pr-box {
+    height: auto;
+  }
+  .sec3-index {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+    border-left: none;
+    border-bottom: 1px solid rgba(244, 243, 239, 0.1);
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+  .sec3-index-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    flex-shrink: 0;
+    min-width: 140px;
+  }
+  .sec3-index-item.active {
+    border-left: none;
+    border-bottom-color: #ff5470;
+  }
+  .sec3-index-label {
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  .sec3-panel .project {
+    flex-direction: column;
+  }
+  .sec3-panel .pr-box {
+    min-height: 240px;
+  }
+  .sec3-panel .pr-title {
+    font-size: 1.4rem;
   }
 }

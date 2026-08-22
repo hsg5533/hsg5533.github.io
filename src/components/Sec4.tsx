@@ -1,31 +1,33 @@
 import React from "react";
 import kakao from "../assets/img/icon/kakao.png";
-import email from "../assets/img/icon/email.png";
 import github from "../assets/img/icon/githubicon.png";
 
 export default function Sec4() {
   return (
     <div className="sec sec4" id="sec4">
-      <div className="sec4-title">
-        <h2>CONTACT</h2>
-      </div>
-      <div className="sec4-box">
-        <div className="contact-item">
-          <a href="https://open.kakao.com/me/hsg5533">
-            <img src={kakao} alt="kakao" />
-            <div className="contact-item-desc">KAKAO</div>
+      <div className="sec4-inner">
+        <span className="sec4-kicker">GET IN TOUCH</span>
+        <a className="sec4-email" href="mailto:hsg55334@naver.com">
+          hsg55334@naver.com
+        </a>
+        <div className="sec4-secondary">
+          <a
+            className="sec4-chip"
+            target="_blank"
+            rel="noreferrer"
+            href="https://open.kakao.com/me/hsg5533"
+          >
+            <img src={kakao} alt="" />
+            <span>KAKAO</span>
           </a>
-        </div>
-        <div className="contact-item">
-          <a href="mailto:hsg55334@naver.com">
-            <img src={email} alt="email" />
-            <div className="contact-item-desc">EMAIL</div>
-          </a>
-        </div>
-        <div className="contact-item">
-          <a href="https://github.com/hsg5533">
-            <img src={github} alt="guthub" />
-            <div className="contact-item-desc">GITHUB PROFILE</div>
+          <a
+            className="sec4-chip"
+            target="_blank"
+            rel="noreferrer"
+            href="https://github.com/hsg5533"
+          >
+            <img src={github} alt="" />
+            <span>GITHUB</span>
           </a>
         </div>
       </div>

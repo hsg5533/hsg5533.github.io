@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
-import Sec3box1 from "./Sec3box1";
-import Sec3box2 from "./Sec3box2";
-import Sec3box3 from "./Sec3box3";
-import Sec3box4 from "./Sec3box4";
-import Sec3box5 from "./Sec3box5";
-import Sec3box6 from "./Sec3box6";
-import Sec3box7 from "./Sec3box7";
-import Sec3box8 from "./Sec3box8";
-import Sec3box9 from "./Sec3box9";
+
+const box = import.meta.glob<{ default: React.ComponentType }>(
+  "./Sec3box*.tsx",
+  { eager: true },
+);
+const boxes = Object.keys(box)
+  .sort()
+  .map((key) => box[key].default);
 
 interface SliderOptions {
   img: string;
@@ -49,10 +48,10 @@ function slider({ img, btnL, btnR, dots }: SliderOptions) {
   // 인디케이터 생성
   for (let i = 0; i < count; i++) {
     const div = document.createElement("div");
-    div.style.width = "15px";
-    div.style.height = "15px";
+    div.style.width = "7px";
+    div.style.height = "7px";
     div.style.borderRadius = "50%";
-    div.style.background = i === 0 ? "#333" : "#aaa";
+    div.style.background = i === 0 ? "#ff5470" : "#6f6d78";
     index.appendChild(div);
     indis.push(div);
   }
@@ -68,8 +67,8 @@ function slider({ img, btnL, btnR, dots }: SliderOptions) {
       duration: timer,
       fill: "forwards",
     });
-    indis[from].style.background = "#aaa";
-    indis[to].style.background = "#333";
+    indis[from].style.background = "#6f6d78";
+    indis[to].style.background = "#ff5470";
   };
 
   // 내비게이션 핸들러
@@ -103,40 +102,67 @@ function slider({ img, btnL, btnR, dots }: SliderOptions) {
   });
 }
 
+// Sec3box1~9의 렌더 순서와 반드시 일치해야 하는 인덱스 라벨
+const titles = [
+  "헬퍼잇 어플리케이션",
+  "헬퍼잇 랜딩페이지",
+  "헬퍼잇 클린",
+  "인터오션 헬스케어사업부",
+  "부전마켓타운 (어드민)",
+  "부전마켓타운 (점주)",
+  "부전마켓타운 (고객)",
+  "대기어때",
+  "coding.com",
+];
+
 export default function Sec3() {
-  useEffect(() => sliderConfigs.forEach((config) => slider(config)), []);
+  useEffect(() => {
+    sliderConfigs.forEach((config) => slider(config));
+
+    const items = document.querySelectorAll<HTMLElement>(".sec3-index-item");
+    const panels = document.querySelectorAll<HTMLElement>(".sec3-panel");
+    items.forEach((item, i) => {
+      item.addEventListener("click", () => {
+        items.forEach((el) => el.classList.remove("active"));
+        panels.forEach((el) => el.classList.remove("active"));
+        item.classList.add("active");
+        panels[i].classList.add("active");
+      });
+    });
+  }, []);
+
   return (
-    <>
-      <div className="sec sec3" id="sec3">
-        <div className="sec3-title">
-          <h2>PORJECT</h2>
+    <div className="sec sec3" id="sec3">
+      <div className="sec3-header">
+        <span className="sec3-kicker">SELECTED WORK</span>
+        <h2>PROJECT</h2>
+      </div>
+      <div className="sec3-layout">
+        <nav className="sec3-index">
+          {titles.map((title, i) => (
+            <button
+              type="button"
+              className={`sec3-index-item${i === 0 ? " active" : ""}`}
+              key={i}
+            >
+              <span className="sec3-index-num">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="sec3-index-label">{title}</span>
+            </button>
+          ))}
+        </nav>
+        <div className="sec3-stage">
+          {boxes.map((Box, i) => (
+            <div
+              className={`sec3-panel${i === 0 ? " active" : ""}`}
+              key={i}
+            >
+              <Box />
+            </div>
+          ))}
         </div>
-        <Sec3box1 />
       </div>
-      <div className="sec sec3">
-        <Sec3box2 />
-      </div>
-      <div className="sec sec3">
-        <Sec3box3 />
-      </div>
-      <div className="sec sec3">
-        <Sec3box4 />
-      </div>
-      <div className="sec sec3">
-        <Sec3box5 />
-      </div>
-      <div className="sec sec3">
-        <Sec3box6 />
-      </div>
-      <div className="sec sec3">
-        <Sec3box7 />
-      </div>
-      <div className="sec sec3">
-        <Sec3box8 />
-      </div>
-      <div className="sec sec3">
-        <Sec3box9 />
-      </div>
-    </>
+    </div>
   );
 }

@@ -1,104 +1,114 @@
 /* ----------------------------------
-   .sec4-title: 섹션 제목 영역
+   .sec4: 컨택트 섹션 (대형 이메일 시그니처)
 ---------------------------------- */
 .sec4 {
   width: 100%;
-  height: 100vh;
-}
-
-.sec4-title {
+  height: auto;
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 120px;
-  padding: 1em;
+  background: #0c0b0f;
   box-sizing: border-box;
 }
 
-/* .sec4-title 내부 텍스트 스타일 */
-.sec4-title h2 {
-  color: ivory;
-  opacity: 0.5;
-  font-size: 4rem;
-  letter-spacing: 2px;
-}
-
-/* ----------------------------------
-   .sec4-box: 연락처 전체 박스
----------------------------------- */
-.sec4-box {
+.sec4-inner {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 48px;
+  box-sizing: border-box;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.sec4-kicker {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.32em;
+  color: #ff5470;
+  text-transform: uppercase;
+}
+
+.sec4-email {
+  position: relative;
+  display: inline-block;
+  font-family: NPSfontBold, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: #f4f3ef;
+  font-size: clamp(2rem, 7vw, 5.5rem);
+  line-height: 1.1;
+  word-break: break-word;
+  padding-bottom: 12px;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sec4-email::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
   width: 100%;
-  height: 50%;
-  margin-top: 50px;
-  padding: 1rem;
-  gap: 50px;
-  color: #444;
-  font-size: 20px;
-  font-weight: 900;
-  text-align: center;
-  box-sizing: border-box;
+  height: 2px;
+  background: #ff5470;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sec4-email:hover,
+.sec4-email:focus-visible {
+  color: #ff5470;
+}
+.sec4-email:hover::after,
+.sec4-email:focus-visible::after {
+  transform: scaleX(1);
 }
 
-/* ----------------------------------
-   .contact-item: 각 연락처 항목
----------------------------------- */
-.contact-item {
-  width: calc((100% - 50px) / 2); /* 오타 수정: clac → calc */
-  height: 100%;
+.sec4-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
 }
 
-/* 연락처 항목 내부 링크 전체 감싸기 */
-.contact-item a {
-  display: block;
-  width: 100%;
-  height: 100%;
+.sec4-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: #17161a;
+  border: 1px solid rgba(244, 243, 239, 0.1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-/* 연락처 이미지 스타일 + 애니메이션 */
-.contact-item a img {
-  width: 300px;
-  height: 300px;
-  animation: bounce3 1s infinite alternate;
+.sec4-chip:hover {
+  transform: translateY(-3px);
+  border-color: #ff5470;
 }
-
-/* 연락처 설명 텍스트 */
-.contact-item-desc {
-  margin-top: 10px;
-  font-size: 25px;
-  color: ivory;
+.sec4-chip img {
+  width: 26px;
+  height: 26px;
 }
-
-/* ----------------------------------
-   bounce3 애니메이션 정의
----------------------------------- */
-@keyframes bounce3 {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(15px);
-  }
+.sec4-chip span {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Malgun Gothic", "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: #f4f3ef;
 }
 
 /* ----------------------------------
    반응형: 화면 너비 1024px 이하일 때
 ---------------------------------- */
 @media (max-width: 1024px) {
-  .sec4-box {
-    display: block;
+  .sec4-inner {
+    padding: 0 20px;
   }
-  .contact-item {
-    width: 100%;
-    height: 100%;
+  .sec4-secondary {
+    gap: 12px;
   }
-  .contact-item a img {
-    width: 200px;
-    height: auto;
-  }
-  .sec4-title h2 {
-    font-size: 3rem;
+  .sec4-chip {
+    padding: 10px 18px;
   }
 }

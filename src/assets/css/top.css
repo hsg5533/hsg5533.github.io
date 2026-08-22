@@ -1,29 +1,36 @@
 .top-btn {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  height: 70px;
-  border-radius: 50%;
+  bottom: 24px;
+  right: 24px;
+  height: 64px;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 5;
+}
+.top-btn:hover {
+  transform: translateY(-4px);
 }
 .top-btn img {
-  width: 70px;
-  height: 70px;
+  width: 64px;
+  height: 64px;
 }
 .top-btn span {
+  position: absolute;
+  right: 72px;
   opacity: 0;
-  color: #f14666;
-  font-size: 20px;
-  transform: translateY(25px);
-  transition: 0.2s;
+  color: #ff5470;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: -1px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  transform: translateX(10px);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .top-btn:hover span {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(0);
 }

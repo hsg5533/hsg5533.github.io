@@ -1,99 +1,117 @@
 .main {
-  display: flex;
+  position: relative;
   width: 100%;
   height: 100vh;
-}
-.mainL,
-.mainL1,
-.mainL2,
-.mainR {
-  width: 50%;
-  height: 100%;
-  display: flex;
-}
-.mainL1 {
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
-  color: ivory;
-  font-size: 2.5rem;
-  text-align: center;
-}
-.mainL2 {
   overflow: hidden;
-  padding: 1em;
-  box-sizing: border-box;
-  background: ivory;
-  position: relative;
-}
-.mainR {
-  flex-direction: column;
   background: url(../img/background/main.jpg) center/cover no-repeat;
 }
-.down-txt,
-.up-txt {
+
+.main-scrim {
   position: absolute;
-  opacity: 0.5;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    100deg,
+    rgba(12, 11, 15, 0.92) 0%,
+    rgba(12, 11, 15, 0.6) 42%,
+    rgba(12, 11, 15, 0.18) 72%
+  );
+}
+
+.main-content {
+  position: absolute;
+  left: 64px;
+  bottom: 96px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 560px;
+}
+
+.main-kicker {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #ff5470;
+}
+
+.main-name {
+  margin: 0;
+  font-family: NPSfontBold, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-weight: normal;
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #f4f3ef;
+}
+
+.main-clock {
+  position: absolute;
+  top: 104px;
+  right: 64px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(244, 243, 239, 0.1);
+  background: rgba(23, 22, 26, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.main-clock-date {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: #a5a3ad;
+}
+
+.main-clock-time {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 20px;
   font-weight: 700;
-  font-size: 160px;
-  color: #25252b;
-  top: 50%;
-  left: 100%;
+  color: #f4f3ef;
 }
-.up-txt {
-  animation: 10s linear infinite slideText;
+
+.main-mark {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  font-family: NPSfontBold, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: clamp(3rem, 10vw, 8rem);
+  letter-spacing: 0.12em;
+  color: #f4f3ef;
+  opacity: 0.06;
+  pointer-events: none;
 }
-.down-txt {
-  animation: 10s linear infinite slideText1;
-}
-@keyframes slideText {
-  0% {
-    transform: translate(-65%, 500%) rotate(-90deg);
-  }
-  100% {
-    transform: translate(-65%, -500%) rotate(-90deg);
-  }
-}
-@keyframes slideText1 {
-  0% {
-    transform: translate(-100%, -500%) rotate(-90deg);
-  }
-  100% {
-    transform: translate(-100%, 500%) rotate(-90deg);
-  }
-}
+
 @media (max-width: 1024px) {
-  .main,
-  .mainL {
-    flex-direction: column;
+  .main-content {
+    left: 24px;
+    right: 24px;
+    bottom: 64px;
+    max-width: none;
   }
-  .mainL .datetime {
-    margin: auto 0;
-    transform: translate(0%, 50%);
+  .main-clock {
+    top: 88px;
+    right: 24px;
+    padding: 8px 14px;
   }
-  .mainL1 {
-    font-size: 1.5rem;
-    justify-content: flex-end;
+  .main-clock-time {
+    font-size: 16px;
   }
-  .mainL2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .mainL,
-  .mainL1,
-  .mainL2,
-  .mainR {
-    width: 100%;
-  }
-  .down-txt,
-  .up-txt {
-    display: flex;
-    flex-direction: column;
-    position: unset;
-    animation: unset;
-    font-size: 50px;
+  .main-mark {
+    display: none;
   }
 }

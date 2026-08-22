@@ -47,13 +47,6 @@ const KONAMI_SEQ = [
   "a",
 ];
 
-// 문서 루트의 CSS 변수 값 읽기
-function getVarColor(name: string): string {
-  return getComputedStyle(document.documentElement)
-    .getPropertyValue(name)
-    .trim();
-}
-
 // DPI(디바이스 픽셀 비율)에 맞춰 캔버스 실제 크기 조정
 function resizeCanvas(cv: HTMLCanvasElement): void {
   const { width, height } = cv.getBoundingClientRect();
@@ -101,13 +94,7 @@ function rand(min: number, max: number) {
 
 // 파티클 버스트(생성만) — 컴포넌트는 결과만 push
 function makeBurst(x: number, y: number, count: number) {
-  const colors = [
-    getVarColor("--accent"),
-    getVarColor("--accent-2"),
-    getVarColor("--good"),
-    getVarColor("--warn"),
-    getVarColor("--bad"),
-  ];
+  const colors = ["#ff5470", "#ffb020", "#6ee7b7", "#ffe27a", "#ff2f52"];
 
   const out: Particle[] = [];
   for (let i = 0; i < count; i++) {
@@ -396,28 +383,6 @@ export default function Wonder() {
 
   return (
     <>
-      <header className="sticky">
-        <div className="max bar">
-          <div className="logo">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M12 2l2.7 5.47L20.8 8l-4 3.9.94 5.8L12 15.9 6.26 17.7l.94-5.8L3.2 8l6.1-.53L12 2z"
-                stroke="var(--accent)"
-                strokeWidth="1.2"
-                fill="rgba(124,221,255,0.08)"
-              />
-            </svg>
-            <span style={{ color: "var(--text)" }}>wonderlab</span>
-          </div>
-        </div>
-      </header>
-
       <div className="wonder">
         <div className="head max">
           <div className="tabs" role="tablist">

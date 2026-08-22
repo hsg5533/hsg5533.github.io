@@ -33,22 +33,18 @@ export default function Main() {
 
   return (
     <div className="main" id="main">
-      <div className="mainL">
-        <div className="mainL1">
-          <div className="datetime">
-            <p data-aos="fade-up" data-aos-duration="1000">
-              {date}
-              <br />
-              {time}
-            </p>
-          </div>
-        </div>
-        <div className="mainL2">
-          <div className="down-txt">HOSANG</div>
-          <div className="up-txt">PORTFOLIO</div>
-        </div>
+      <div className="main-scrim" />
+      <div className="main-content" data-aos="fade-up" data-aos-duration="1000">
+        <span className="main-kicker">FRONT-END &amp; BACK-END DEVELOPER</span>
+        <h1 className="main-name">정호상</h1>
       </div>
-      <div className="mainR"></div>
+      <div className="main-clock">
+        <span className="main-clock-date">{date}</span>
+        <span className="main-clock-time">{time}</span>
+      </div>
+      <div className="main-mark" aria-hidden="true">
+        PORTFOLIO
+      </div>
     </div>
   );
 }
