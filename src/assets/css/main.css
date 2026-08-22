@@ -92,7 +92,7 @@
   font-size: clamp(3rem, 10vw, 8rem);
   letter-spacing: 0.12em;
   color: #f4f3ef;
-  opacity: 0.06;
+  opacity: 0.5;
   pointer-events: none;
 }
 
