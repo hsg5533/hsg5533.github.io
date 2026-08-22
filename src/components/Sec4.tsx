@@ -7,8 +7,8 @@ export default function Sec4() {
     <div className="sec sec4" id="sec4">
       <div className="sec4-inner">
         <span className="sec4-kicker">GET IN TOUCH</span>
-        <a className="sec4-email" href="mailto:hsg55334@naver.com">
-          hsg55334@naver.com
+        <a className="sec4-email" href="mailto:hsg5533@naver.com">
+          hsg5533@naver.com
         </a>
         <div className="sec4-secondary">
           <a

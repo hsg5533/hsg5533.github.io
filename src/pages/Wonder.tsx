@@ -92,9 +92,12 @@ function rand(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
+// 파티클/만화경 공용 스파크 팔레트
+const SPARK_COLORS = ["#ff5470", "#ffb020", "#6ee7b7", "#ffe27a", "#ff2f52"];
+
 // 파티클 버스트(생성만) — 컴포넌트는 결과만 push
 function makeBurst(x: number, y: number, count: number) {
-  const colors = ["#ff5470", "#ffb020", "#6ee7b7", "#ffe27a", "#ff2f52"];
+  const colors = SPARK_COLORS;
 
   const out: Particle[] = [];
   for (let i = 0; i < count; i++) {
@@ -111,6 +114,41 @@ function makeBurst(x: number, y: number, count: number) {
     });
   }
   return out;
+}
+
+// 중심점 기준으로 점 하나를 N분할 회전 + 반사 대칭 복제해서 찍는다
+function drawKaleidoPoint(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  x: number,
+  y: number,
+  segments: number,
+  radius: number,
+  color: string,
+) {
+  const dx = x - cx;
+  const dy = y - cy;
+  const dist = Math.hypot(dx, dy);
+  const baseAngle = Math.atan2(dy, dx);
+  const wedge = (Math.PI * 2) / segments;
+
+  ctx.fillStyle = color;
+  ctx.shadowColor = color;
+  ctx.shadowBlur = radius * 2;
+
+  for (let i = 0; i < segments; i++) {
+    const angle = baseAngle + i * wedge;
+    const mirrorAngle = -baseAngle + i * wedge;
+
+    for (const a of [angle, mirrorAngle]) {
+      const px = cx + Math.cos(a) * dist;
+      const py = cy + Math.sin(a) * dist;
+      ctx.beginPath();
+      ctx.arc(px, py, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
 }
 
 let gAudioCtx: AudioContext | null = null;
@@ -158,11 +196,16 @@ export default function Wonder() {
   const [tab, setTab] = useState<TabId>("particles");
   const particlesRef = useRef<HTMLCanvasElement>(null);
   const scopeRef = useRef<HTMLCanvasElement>(null);
+  const kaleidoRef = useRef<HTMLCanvasElement>(null);
   const position = useRef<{ x: number; y: number } | null>(null);
   const particles = useRef<Particle[]>([]);
   const dragging = useRef(false);
   const intensity = useRef(36);
   const gravity = useRef(0.18);
+  const kaleidoDragging = useRef(false);
+  const kaleidoLast = useRef<{ x: number; y: number } | null>(null);
+  const kaleidoSegments = useRef(8);
+  const kaleidoColorIndex = useRef(0);
   const scopeRAF = useRef<number | null>(null);
   const scopeBuf = useRef<U8AB | null>(null);
   const track = useRef<TrackEvent[]>([]);
@@ -185,6 +228,7 @@ export default function Wonder() {
     const onResize = () => {
       if (particlesRef.current) resizeCanvas(particlesRef.current);
       if (scopeRef.current) resizeCanvas(scopeRef.current);
+      if (kaleidoRef.current) resizeCanvas(kaleidoRef.current);
     };
     onResize();
     window.addEventListener("resize", onResize);
@@ -269,6 +313,62 @@ export default function Wonder() {
     window.addEventListener("pointerup", () => (dragging.current = false));
     window.addEventListener("pointercancel", () => (dragging.current = false));
   }, []);
+
+  // 만화경: 캔버스 중심 기준으로 그려서 대칭 복제, 드래그로 이어그리기
+  useEffect(() => {
+    const cv = kaleidoRef.current!;
+
+    const stamp = (x: number, y: number) => {
+      const ctx = cv.getContext("2d")!;
+      const cx = cv.width / 2;
+      const cy = cv.height / 2;
+      const color = SPARK_COLORS[kaleidoColorIndex.current % SPARK_COLORS.length];
+      drawKaleidoPoint(ctx, cx, cy, x, y, kaleidoSegments.current, 3, color);
+    };
+
+    const onDown = (e: PointerEvent) => {
+      kaleidoDragging.current = true;
+      const pos = canvasPos(cv, e);
+      kaleidoColorIndex.current += 1;
+      stamp(pos.x, pos.y);
+      kaleidoLast.current = pos;
+    };
+    const onMove = (e: PointerEvent) => {
+      if (!kaleidoDragging.current) return;
+      const { x, y } = canvasPos(cv, e);
+      const last = kaleidoLast.current!;
+      const dx = x - last.x;
+      const dy = y - last.y;
+      const dist = Math.hypot(dx, dy);
+      const steps = Math.min(12, Math.max(1, Math.floor(dist / 4)));
+      for (let i = 0; i < steps; i++) {
+        stamp(last.x + (dx * i) / steps, last.y + (dy * i) / steps);
+      }
+      kaleidoLast.current = { x, y };
+    };
+    const onUp = () => {
+      kaleidoDragging.current = false;
+    };
+
+    cv.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    return () => {
+      cv.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+    };
+  }, []);
+
+  // 만화경 탭은 숨겨진 상태(hidden)로 마운트되어 크기가 0이므로,
+  // 탭이 활성화될 때마다 실제 표시 크기로 다시 맞춘다
+  useEffect(() => {
+    if (tab === "kaleido" && kaleidoRef.current) {
+      resizeCanvas(kaleidoRef.current);
+    }
+  }, [tab]);
 
   useEffect(() => {
     if (tab === "freq") {
@@ -400,6 +500,17 @@ export default function Wonder() {
             <button
               className="tab"
               role="tab"
+              aria-selected={tab === "kaleido"}
+              aria-controls="pane-kaleido"
+              id="tab-kaleido"
+              onClick={() => setTab("kaleido")}
+            >
+              <span className="tab-icon">❄</span>
+              만화경
+            </button>
+            <button
+              className="tab"
+              role="tab"
               aria-selected={tab === "melody"}
               aria-controls="pane-melody"
               id="tab-melody"
@@ -467,6 +578,50 @@ export default function Wonder() {
               aria-label="파티클 캔버스"
               tabIndex={0}
               ref={particlesRef}
+            />
+          </div>
+        </div>
+
+        {/* Kaleido Pane */}
+        <div
+          id="pane-kaleido"
+          role="tabpanel"
+          aria-labelledby="tab-kaleido"
+          hidden={tab !== "kaleido"}
+        >
+          <div className="pane-body">
+            <div className="controls">
+              <label className="control">
+                <span className="control-label">대칭</span>
+                <input
+                  type="range"
+                  min={2}
+                  max={16}
+                  step={1}
+                  defaultValue={8}
+                  onChange={(e) =>
+                    (kaleidoSegments.current = Number(e.currentTarget.value))
+                  }
+                />
+              </label>
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  const cv = kaleidoRef.current;
+                  if (!cv) return;
+                  cv.getContext("2d")!.clearRect(0, 0, cv.width, cv.height);
+                }}
+              >
+                지우기
+              </button>
+              <span className="hint">드래그: 대칭 그리기</span>
+            </div>
+          </div>
+          <div className="canvas-wrap">
+            <canvas
+              aria-label="만화경 캔버스"
+              tabIndex={0}
+              ref={kaleidoRef}
             />
           </div>
         </div>
