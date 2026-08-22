@@ -5,6 +5,15 @@
   satisfying press states) built entirely from design tokens.
 */
 
+/* ─── Page: centers the panel in the viewport (below the fixed header) ─── */
+.wonder-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ─── Main Container ─── */
 .wonder {
   background: #17161a;
@@ -14,7 +23,8 @@
   position: relative;
   box-shadow: 0 18px 48px rgba(12, 11, 15, 0.55);
   max-width: 1400px;
-  margin: 64px auto;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .wonder .head {
@@ -92,8 +102,9 @@
 
 /* ─── Buttons ─── */
 .btn {
-  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
-    "Malgun Gothic", "Segoe UI", sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic",
+    "Segoe UI", sans-serif;
   border: 1px solid rgba(244, 243, 239, 0.1);
   background: #201f26;
   color: #f4f3ef;
@@ -514,8 +525,11 @@ canvas {
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
+  .wonder-page {
+    padding: 80px 8px;
+  }
+
   .wonder {
-    margin: 16px 8px;
     border-radius: 8px;
   }
 

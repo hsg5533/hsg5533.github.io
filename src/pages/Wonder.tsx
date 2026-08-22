@@ -11,7 +11,7 @@ type Particle = {
   size: number;
   hue: string;
 };
-type TabId = "particles" | "melody" | "kaleido" | "fortune" | "freq";
+type TabId = "particles" | "melody" | "kaleido" | "freq";
 type U8AB = Uint8Array & { buffer: ArrayBuffer };
 
 const NOTES = [0, 2, 4, 5, 7, 9, 11, 12];
@@ -322,7 +322,8 @@ export default function Wonder() {
       const ctx = cv.getContext("2d")!;
       const cx = cv.width / 2;
       const cy = cv.height / 2;
-      const color = SPARK_COLORS[kaleidoColorIndex.current % SPARK_COLORS.length];
+      const color =
+        SPARK_COLORS[kaleidoColorIndex.current % SPARK_COLORS.length];
       drawKaleidoPoint(ctx, cx, cy, x, y, kaleidoSegments.current, 3, color);
     };
 
@@ -483,412 +484,286 @@ export default function Wonder() {
 
   return (
     <>
-      <div className="wonder">
-        <div className="head max">
-          <div className="tabs" role="tablist">
-            <button
-              className="tab"
-              role="tab"
-              aria-selected={tab === "particles"}
-              aria-controls="pane-particles"
-              id="tab-particles"
-              onClick={() => setTab("particles")}
-            >
-              <span className="tab-icon">✦</span>
-              파티클
-            </button>
-            <button
-              className="tab"
-              role="tab"
-              aria-selected={tab === "kaleido"}
-              aria-controls="pane-kaleido"
-              id="tab-kaleido"
-              onClick={() => setTab("kaleido")}
-            >
-              <span className="tab-icon">❄</span>
-              만화경
-            </button>
-            <button
-              className="tab"
-              role="tab"
-              aria-selected={tab === "melody"}
-              aria-controls="pane-melody"
-              id="tab-melody"
-              onClick={() => setTab("melody")}
-            >
-              <span className="tab-icon">♪</span>
-              멜로디
-            </button>
-            <button
-              className="tab"
-              role="tab"
-              aria-selected={tab === "freq"}
-              aria-controls="pane-freq"
-              id="tab-freq"
-              onClick={() => setTab("freq")}
-            >
-              <span className="tab-icon">〜</span>
-              주파수
-            </button>
-          </div>
-        </div>
-
-        <div id="pane-particles" hidden={tab !== "particles"}>
-          <div className="pane-body">
-            <div className="controls">
-              <label className="control">
-                <span className="control-label">강도</span>
-                <input
-                  type="range"
-                  min={8}
-                  max={90}
-                  defaultValue={36}
-                  onChange={(e) =>
-                    (intensity.current = Number(e.currentTarget.value))
-                  }
-                />
-              </label>
-              <label className="control">
-                <span className="control-label">중력</span>
-                <input
-                  type="range"
-                  min={0}
-                  max={1}
-                  step={0.02}
-                  defaultValue={0.18}
-                  onChange={(e) =>
-                    (gravity.current = Number(e.currentTarget.value))
-                  }
-                />
-              </label>
+      <div className="wonder-page">
+        <div className="wonder">
+          <div className="head max">
+            <div className="tabs" role="tablist">
               <button
-                className="btn btn-danger"
-                onClick={() => (particles.current.length = 0)}
+                className="tab"
+                role="tab"
+                aria-selected={tab === "particles"}
+                aria-controls="pane-particles"
+                id="tab-particles"
+                onClick={() => setTab("particles")}
               >
-                지우기
+                <span className="tab-icon">✦</span>
+                파티클
               </button>
-              <span className="hint">
-                클릭/탭: 폭죽 · 드래그: 소용돌이 ·{" "}
-                <span className="kbd">C</span> 지우기
-              </span>
+              <button
+                className="tab"
+                role="tab"
+                aria-selected={tab === "kaleido"}
+                aria-controls="pane-kaleido"
+                id="tab-kaleido"
+                onClick={() => setTab("kaleido")}
+              >
+                <span className="tab-icon">❄</span>
+                만화경
+              </button>
+              <button
+                className="tab"
+                role="tab"
+                aria-selected={tab === "melody"}
+                aria-controls="pane-melody"
+                id="tab-melody"
+                onClick={() => setTab("melody")}
+              >
+                <span className="tab-icon">♪</span>
+                멜로디
+              </button>
+              <button
+                className="tab"
+                role="tab"
+                aria-selected={tab === "freq"}
+                aria-controls="pane-freq"
+                id="tab-freq"
+                onClick={() => setTab("freq")}
+              >
+                <span className="tab-icon">〜</span>
+                주파수
+              </button>
             </div>
           </div>
-          <div className="canvas-wrap">
-            <canvas
-              aria-label="파티클 캔버스"
-              tabIndex={0}
-              ref={particlesRef}
-            />
-          </div>
-        </div>
 
-        {/* Kaleido Pane */}
-        <div
-          id="pane-kaleido"
-          role="tabpanel"
-          aria-labelledby="tab-kaleido"
-          hidden={tab !== "kaleido"}
-        >
-          <div className="pane-body">
-            <div className="controls">
-              <label className="control">
-                <span className="control-label">대칭</span>
-                <input
-                  type="range"
-                  min={2}
-                  max={16}
-                  step={1}
-                  defaultValue={8}
-                  onChange={(e) =>
-                    (kaleidoSegments.current = Number(e.currentTarget.value))
-                  }
-                />
-              </label>
-              <button
-                className="btn btn-danger"
-                onClick={() => {
-                  const cv = kaleidoRef.current;
-                  if (!cv) return;
-                  cv.getContext("2d")!.clearRect(0, 0, cv.width, cv.height);
-                }}
-              >
-                지우기
-              </button>
-              <span className="hint">드래그: 대칭 그리기</span>
-            </div>
-          </div>
-          <div className="canvas-wrap">
-            <canvas
-              aria-label="만화경 캔버스"
-              tabIndex={0}
-              ref={kaleidoRef}
-            />
-          </div>
-        </div>
-
-        {/* Melody Pane */}
-        <div
-          id="pane-melody"
-          role="tabpanel"
-          aria-labelledby="tab-melody"
-          hidden={tab !== "melody"}
-        >
-          <div className="pane-body">
-            <div className="controls" style={{ marginBottom: 16 }}>
-              <button
-                className="btn btn-accent pulse"
-                onClick={async () => {
-                  await ensureAudio();
-                  if (track.current.length === 0) {
-                    const demo = [0, 2, 4, 7, 12, 7, 4, 2, 0].map((n) => ({
-                      t: n * 160,
-                      freq: midiToHz(60 + n),
-                      dur: 260,
-                    }));
-                    track.current.splice(0, 0, ...demo);
-                  }
-                  const { ctx, master } = getAudio();
-                  const start = ctx.currentTime + 0.05;
-                  for (const ev of track.current) {
-                    const when = start + ev.t / 1000;
-                    const o = ctx.createOscillator();
-                    const g = ctx.createGain();
-                    o.type = "sine";
-                    o.frequency.value = ev.freq;
-                    o.connect(g);
-                    g.connect(master);
-                    g.gain.setValueAtTime(0, when);
-                    g.gain.linearRampToValueAtTime(0.9, when + 0.02);
-                    g.gain.linearRampToValueAtTime(0, when + ev.dur / 1000);
-                    o.start(when);
-                    o.stop(when + ev.dur / 1000 + 0.02);
-                  }
-                }}
-              >
-                ▶ 재생
-              </button>
-              <button
-                className={`btn ${record ? "btn-danger" : ""}`}
-                onClick={() => {
-                  setRecord((r) => {
-                    const next = !r;
-                    if (next) {
-                      track.current.length = 0;
-                      start.current = performance.now();
+          <div id="pane-particles" hidden={tab !== "particles"}>
+            <div className="pane-body">
+              <div className="controls">
+                <label className="control">
+                  <span className="control-label">강도</span>
+                  <input
+                    type="range"
+                    min={8}
+                    max={90}
+                    defaultValue={36}
+                    onChange={(e) =>
+                      (intensity.current = Number(e.currentTarget.value))
                     }
-                    return next;
-                  });
-                }}
-              >
-                {record ? "■ 멈춤" : "● 녹음"}
-              </button>
-              <button
-                className="btn"
-                onClick={() => (track.current.length = 0)}
-              >
-                지우기
-              </button>
+                  />
+                </label>
+                <label className="control">
+                  <span className="control-label">중력</span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.02}
+                    defaultValue={0.18}
+                    onChange={(e) =>
+                      (gravity.current = Number(e.currentTarget.value))
+                    }
+                  />
+                </label>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => (particles.current.length = 0)}
+                >
+                  지우기
+                </button>
+                <span className="hint">
+                  클릭/탭: 폭죽 · 드래그: 소용돌이 ·{" "}
+                  <span className="kbd">C</span> 지우기
+                </span>
+              </div>
             </div>
-
-            <div className="grid" aria-label="멜로디 타일">
-              {OCTS.map((oct) => (
-                <React.Fragment key={`oct-${oct}`}>
-                  <span className="oct-label">Oct {oct}</span>
-                  {NOTES.map((step) => {
-                    const midi = 12 * oct + step;
-                    const name = NOTE_NAMES[midi % 12] + oct;
-                    const freq = midiToHz(midi);
-                    let hold: number | undefined;
-                    const onUp = () => {
-                      if (hold) window.clearInterval(hold);
-                    };
-                    return (
-                      <button
-                        key={name}
-                        className="btn"
-                        aria-label={name}
-                        onPointerDown={(e) => {
-                          e.preventDefault();
-                          playFreq(freq, 0.5);
-                          if (record) {
-                            const t = performance.now() - start.current;
-                            track.current.push({ t, freq, dur: 500 });
-                          }
-                          hold = window.setInterval(
-                            () => playFreq(freq, 0.5),
-                            400,
-                          );
-                        }}
-                        onPointerUp={onUp}
-                        onPointerLeave={onUp}
-                        onPointerCancel={onUp}
-                      >
-                        {name}
-                      </button>
-                    );
-                  })}
-                </React.Fragment>
-              ))}
+            <div className="canvas-wrap">
+              <canvas
+                aria-label="파티클 캔버스"
+                tabIndex={0}
+                ref={particlesRef}
+              />
             </div>
           </div>
-        </div>
 
-        {/* Frequency Pane */}
-        <div
-          id="pane-freq"
-          role="tabpanel"
-          aria-labelledby="tab-freq"
-          hidden={tab !== "freq"}
-        >
-          <div className="pane-body">
-            <div className="section-title">기본 설정</div>
-            <div className="freq-grid">
-              <label className="control">
-                <span className="control-label">주파수(Hz)</span>
-                <input
-                  type="number"
-                  value={hertz}
-                  onChange={(e) =>
-                    setHertz(clampHz(Number(e.currentTarget.value)))
-                  }
-                />
-              </label>
-              <label className="control">
-                <span className="control-label">길이(s)</span>
-                <input
-                  type="number"
-                  value={duration}
-                  onChange={(e) =>
-                    setDuration(
-                      Math.min(
-                        10,
-                        Math.max(0.1, Number(e.currentTarget.value)),
-                      ),
-                    )
-                  }
-                />
-              </label>
-              <label className="control">
-                <span className="control-label">파형</span>
-                <select
-                  value={wave}
-                  onChange={(e) =>
-                    setWave(e.currentTarget.value as OscillatorType)
-                  }
+          {/* Kaleido Pane */}
+          <div
+            id="pane-kaleido"
+            role="tabpanel"
+            aria-labelledby="tab-kaleido"
+            hidden={tab !== "kaleido"}
+          >
+            <div className="pane-body">
+              <div className="controls">
+                <label className="control">
+                  <span className="control-label">대칭</span>
+                  <input
+                    type="range"
+                    min={2}
+                    max={16}
+                    step={1}
+                    defaultValue={8}
+                    onChange={(e) =>
+                      (kaleidoSegments.current = Number(e.currentTarget.value))
+                    }
+                  />
+                </label>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {
+                    const cv = kaleidoRef.current;
+                    if (!cv) return;
+                    cv.getContext("2d")!.clearRect(0, 0, cv.width, cv.height);
+                  }}
                 >
-                  <option value="sine">sine</option>
-                  <option value="square">square</option>
-                  <option value="sawtooth">sawtooth</option>
-                  <option value="triangle">triangle</option>
-                </select>
-              </label>
-              <label className="control">
-                <span className="control-label">볼륨</span>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={Math.round(volume * 100)}
-                  onChange={(e) =>
-                    setVolume(Number(e.currentTarget.value) / 100)
-                  }
-                />
-              </label>
+                  지우기
+                </button>
+                <span className="hint">드래그: 대칭 그리기</span>
+              </div>
             </div>
-
-            <div className="btn-group" style={{ marginBottom: 16 }}>
-              <button
-                className="btn btn-accent"
-                onClick={async () => {
-                  await ensureAudio();
-                  const { ctx, master } = getAudio();
-                  const o = ctx.createOscillator();
-                  const v = ctx.createGain();
-                  const env = ctx.createGain();
-                  o.type = wave;
-                  o.frequency.value = clampHz(hertz);
-                  v.gain.value = volume;
-                  env.gain.value = 0;
-                  o.connect(env);
-                  env.connect(v);
-                  v.connect(master);
-                  const now = ctx.currentTime;
-                  env.gain.linearRampToValueAtTime(1, now + 0.02);
-                  env.gain.linearRampToValueAtTime(0, now + duration);
-                  o.start(now);
-                  o.stop(now + duration + 0.02);
-                }}
-              >
-                ▶ 1회 재생
-              </button>
-              <button
-                className="btn"
-                onClick={async () => {
-                  await ensureAudio();
-                  stopTone();
-                  const { ctx, master } = getAudio();
-                  const o = ctx.createOscillator();
-                  const v = ctx.createGain();
-                  o.type = wave;
-                  o.frequency.value = clampHz(hertz);
-                  v.gain.value = 0;
-                  o.connect(v);
-                  v.connect(master);
-                  const now = ctx.currentTime;
-                  v.gain.linearRampToValueAtTime(volume, now + 0.05);
-                  o.start(now);
-                  oscillatorNode.current = o;
-                  gainNode.current = v;
-                }}
-              >
-                ∞ 지속 재생
-              </button>
-              <button className="btn btn-danger" onClick={stopTone}>
-                ■ 정지
-              </button>
+            <div className="canvas-wrap">
+              <canvas
+                aria-label="만화경 캔버스"
+                tabIndex={0}
+                ref={kaleidoRef}
+              />
             </div>
+          </div>
 
-            <div className="note">
-              <strong>Sweep</strong>
+          {/* Melody Pane */}
+          <div
+            id="pane-melody"
+            role="tabpanel"
+            aria-labelledby="tab-melody"
+            hidden={tab !== "melody"}
+          >
+            <div className="pane-body">
+              <div className="controls" style={{ marginBottom: 16 }}>
+                <button
+                  className="btn btn-accent pulse"
+                  onClick={async () => {
+                    await ensureAudio();
+                    if (track.current.length === 0) {
+                      const demo = [0, 2, 4, 7, 12, 7, 4, 2, 0].map((n) => ({
+                        t: n * 160,
+                        freq: midiToHz(60 + n),
+                        dur: 260,
+                      }));
+                      track.current.splice(0, 0, ...demo);
+                    }
+                    const { ctx, master } = getAudio();
+                    const start = ctx.currentTime + 0.05;
+                    for (const ev of track.current) {
+                      const when = start + ev.t / 1000;
+                      const o = ctx.createOscillator();
+                      const g = ctx.createGain();
+                      o.type = "sine";
+                      o.frequency.value = ev.freq;
+                      o.connect(g);
+                      g.connect(master);
+                      g.gain.setValueAtTime(0, when);
+                      g.gain.linearRampToValueAtTime(0.9, when + 0.02);
+                      g.gain.linearRampToValueAtTime(0, when + ev.dur / 1000);
+                      o.start(when);
+                      o.stop(when + ev.dur / 1000 + 0.02);
+                    }
+                  }}
+                >
+                  ▶ 재생
+                </button>
+                <button
+                  className={`btn ${record ? "btn-danger" : ""}`}
+                  onClick={() => {
+                    setRecord((r) => {
+                      const next = !r;
+                      if (next) {
+                        track.current.length = 0;
+                        start.current = performance.now();
+                      }
+                      return next;
+                    });
+                  }}
+                >
+                  {record ? "■ 멈춤" : "● 녹음"}
+                </button>
+                <button
+                  className="btn"
+                  onClick={() => (track.current.length = 0)}
+                >
+                  지우기
+                </button>
+              </div>
+
+              <div className="grid" aria-label="멜로디 타일">
+                {OCTS.map((oct) => (
+                  <React.Fragment key={`oct-${oct}`}>
+                    <span className="oct-label">Oct {oct}</span>
+                    {NOTES.map((step) => {
+                      const midi = 12 * oct + step;
+                      const name = NOTE_NAMES[midi % 12] + oct;
+                      const freq = midiToHz(midi);
+                      let hold: number | undefined;
+                      const onUp = () => {
+                        if (hold) window.clearInterval(hold);
+                      };
+                      return (
+                        <button
+                          key={name}
+                          className="btn"
+                          aria-label={name}
+                          onPointerDown={(e) => {
+                            e.preventDefault();
+                            playFreq(freq, 0.5);
+                            if (record) {
+                              const t = performance.now() - start.current;
+                              track.current.push({ t, freq, dur: 500 });
+                            }
+                            hold = window.setInterval(
+                              () => playFreq(freq, 0.5),
+                              400,
+                            );
+                          }}
+                          onPointerUp={onUp}
+                          onPointerLeave={onUp}
+                          onPointerCancel={onUp}
+                        >
+                          {name}
+                        </button>
+                      );
+                    })}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Frequency Pane */}
+          <div
+            id="pane-freq"
+            role="tabpanel"
+            aria-labelledby="tab-freq"
+            hidden={tab !== "freq"}
+          >
+            <div className="pane-body">
+              <div className="section-title">기본 설정</div>
               <div className="freq-grid">
                 <label className="control">
-                  <span className="control-label">시작(Hz)</span>
+                  <span className="control-label">주파수(Hz)</span>
                   <input
                     type="number"
-                    min={20}
-                    max={20000}
-                    step={1}
-                    value={sweepStart}
+                    value={hertz}
                     onChange={(e) =>
-                      setSweepStart(clampHz(Number(e.currentTarget.value)))
+                      setHertz(clampHz(Number(e.currentTarget.value)))
                     }
                   />
                 </label>
                 <label className="control">
-                  <span className="control-label">끝(Hz)</span>
+                  <span className="control-label">길이(s)</span>
                   <input
                     type="number"
-                    min={20}
-                    max={20000}
-                    step={1}
-                    value={sweepEnd}
+                    value={duration}
                     onChange={(e) =>
-                      setSweepEnd(clampHz(Number(e.currentTarget.value)))
-                    }
-                  />
-                </label>
-                <label className="control">
-                  <span className="control-label">시간(s)</span>
-                  <input
-                    type="number"
-                    min={0.1}
-                    max={20}
-                    step={0.1}
-                    value={sweepDuration}
-                    onChange={(e) =>
-                      setSweepDuration(
+                      setDuration(
                         Math.min(
-                          20,
+                          10,
                           Math.max(0.1, Number(e.currentTarget.value)),
                         ),
                       )
@@ -896,61 +771,194 @@ export default function Wonder() {
                   />
                 </label>
                 <label className="control">
-                  <span className="control-label">곡선</span>
+                  <span className="control-label">파형</span>
                   <select
-                    value={sweep ? "exp" : "lin"}
-                    onChange={(e) => setSweep(e.currentTarget.value === "exp")}
+                    value={wave}
+                    onChange={(e) =>
+                      setWave(e.currentTarget.value as OscillatorType)
+                    }
                   >
-                    <option value="lin">linear</option>
-                    <option value="exp">exponential</option>
+                    <option value="sine">sine</option>
+                    <option value="square">square</option>
+                    <option value="sawtooth">sawtooth</option>
+                    <option value="triangle">triangle</option>
                   </select>
                 </label>
+                <label className="control">
+                  <span className="control-label">볼륨</span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    value={Math.round(volume * 100)}
+                    onChange={(e) =>
+                      setVolume(Number(e.currentTarget.value) / 100)
+                    }
+                  />
+                </label>
               </div>
-              <button
-                className="btn btn-accent"
-                style={{ marginTop: 10 }}
-                onClick={async () => {
-                  await ensureAudio();
-                  const { ctx, master } = getAudio();
-                  const o = ctx.createOscillator();
-                  const v = ctx.createGain();
-                  o.type = wave;
-                  const start = clampHz(sweepStart);
-                  const end = clampHz(sweepEnd);
-                  v.gain.value = 0;
-                  o.connect(v);
-                  v.connect(master);
 
-                  const now = ctx.currentTime;
-                  v.gain.linearRampToValueAtTime(volume, now + 0.05);
+              <div className="btn-group" style={{ marginBottom: 16 }}>
+                <button
+                  className="btn btn-accent"
+                  onClick={async () => {
+                    await ensureAudio();
+                    const { ctx, master } = getAudio();
+                    const o = ctx.createOscillator();
+                    const v = ctx.createGain();
+                    const env = ctx.createGain();
+                    o.type = wave;
+                    o.frequency.value = clampHz(hertz);
+                    v.gain.value = volume;
+                    env.gain.value = 0;
+                    o.connect(env);
+                    env.connect(v);
+                    v.connect(master);
+                    const now = ctx.currentTime;
+                    env.gain.linearRampToValueAtTime(1, now + 0.02);
+                    env.gain.linearRampToValueAtTime(0, now + duration);
+                    o.start(now);
+                    o.stop(now + duration + 0.02);
+                  }}
+                >
+                  ▶ 1회 재생
+                </button>
+                <button
+                  className="btn"
+                  onClick={async () => {
+                    await ensureAudio();
+                    stopTone();
+                    const { ctx, master } = getAudio();
+                    const o = ctx.createOscillator();
+                    const v = ctx.createGain();
+                    o.type = wave;
+                    o.frequency.value = clampHz(hertz);
+                    v.gain.value = 0;
+                    o.connect(v);
+                    v.connect(master);
+                    const now = ctx.currentTime;
+                    v.gain.linearRampToValueAtTime(volume, now + 0.05);
+                    o.start(now);
+                    oscillatorNode.current = o;
+                    gainNode.current = v;
+                  }}
+                >
+                  ∞ 지속 재생
+                </button>
+                <button className="btn btn-danger" onClick={stopTone}>
+                  ■ 정지
+                </button>
+              </div>
 
-                  if (sweep) {
-                    const safeStart = Math.max(0.001, start);
-                    const safeEnd = Math.max(0.001, end);
-                    o.frequency.setValueAtTime(safeStart, now);
-                    o.frequency.exponentialRampToValueAtTime(
-                      safeEnd,
-                      now + sweepDuration,
+              <div className="note">
+                <strong>Sweep</strong>
+                <div className="freq-grid">
+                  <label className="control">
+                    <span className="control-label">시작(Hz)</span>
+                    <input
+                      type="number"
+                      min={20}
+                      max={20000}
+                      step={1}
+                      value={sweepStart}
+                      onChange={(e) =>
+                        setSweepStart(clampHz(Number(e.currentTarget.value)))
+                      }
+                    />
+                  </label>
+                  <label className="control">
+                    <span className="control-label">끝(Hz)</span>
+                    <input
+                      type="number"
+                      min={20}
+                      max={20000}
+                      step={1}
+                      value={sweepEnd}
+                      onChange={(e) =>
+                        setSweepEnd(clampHz(Number(e.currentTarget.value)))
+                      }
+                    />
+                  </label>
+                  <label className="control">
+                    <span className="control-label">시간(s)</span>
+                    <input
+                      type="number"
+                      min={0.1}
+                      max={20}
+                      step={0.1}
+                      value={sweepDuration}
+                      onChange={(e) =>
+                        setSweepDuration(
+                          Math.min(
+                            20,
+                            Math.max(0.1, Number(e.currentTarget.value)),
+                          ),
+                        )
+                      }
+                    />
+                  </label>
+                  <label className="control">
+                    <span className="control-label">곡선</span>
+                    <select
+                      value={sweep ? "exp" : "lin"}
+                      onChange={(e) =>
+                        setSweep(e.currentTarget.value === "exp")
+                      }
+                    >
+                      <option value="lin">linear</option>
+                      <option value="exp">exponential</option>
+                    </select>
+                  </label>
+                </div>
+                <button
+                  className="btn btn-accent"
+                  style={{ marginTop: 10 }}
+                  onClick={async () => {
+                    await ensureAudio();
+                    const { ctx, master } = getAudio();
+                    const o = ctx.createOscillator();
+                    const v = ctx.createGain();
+                    o.type = wave;
+                    const start = clampHz(sweepStart);
+                    const end = clampHz(sweepEnd);
+                    v.gain.value = 0;
+                    o.connect(v);
+                    v.connect(master);
+
+                    const now = ctx.currentTime;
+                    v.gain.linearRampToValueAtTime(volume, now + 0.05);
+
+                    if (sweep) {
+                      const safeStart = Math.max(0.001, start);
+                      const safeEnd = Math.max(0.001, end);
+                      o.frequency.setValueAtTime(safeStart, now);
+                      o.frequency.exponentialRampToValueAtTime(
+                        safeEnd,
+                        now + sweepDuration,
+                      );
+                    } else {
+                      o.frequency.setValueAtTime(start, now);
+                      o.frequency.linearRampToValueAtTime(
+                        end,
+                        now + sweepDuration,
+                      );
+                    }
+
+                    v.gain.linearRampToValueAtTime(
+                      0,
+                      now + sweepDuration + 0.05,
                     );
-                  } else {
-                    o.frequency.setValueAtTime(start, now);
-                    o.frequency.linearRampToValueAtTime(
-                      end,
-                      now + sweepDuration,
-                    );
-                  }
+                    o.start(now);
+                    o.stop(now + sweepDuration + 0.1);
+                  }}
+                >
+                  ▶ 스위프 재생
+                </button>
+              </div>
 
-                  v.gain.linearRampToValueAtTime(0, now + sweepDuration + 0.05);
-                  o.start(now);
-                  o.stop(now + sweepDuration + 0.1);
-                }}
-              >
-                ▶ 스위프 재생
-              </button>
-            </div>
-
-            <div className="scope-wrap">
-              <canvas aria-label="오실로스코프 파형" ref={scopeRef} />
+              <div className="scope-wrap">
+                <canvas aria-label="오실로스코프 파형" ref={scopeRef} />
+              </div>
             </div>
           </div>
         </div>
