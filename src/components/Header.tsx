@@ -9,10 +9,10 @@ const items = [
   { label: "VALUES", href: "#values" },
   { label: "HISTORY", href: "#history" },
   { label: "SKILLS", href: "#sec2" },
+  { label: "RESUME", href: "#resume" },
   { label: "PROJECT", href: "#sec3" },
   { label: "CONTACT", href: "#sec4" },
   { label: "SPEED", href: "/speed" },
-  { label: "RESUME", href: "/resume" },
   { label: "WONDER", href: "/wonder" },
 ];
 

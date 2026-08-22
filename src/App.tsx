@@ -7,7 +7,6 @@ import AOS from "aos";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Speed from "./pages/Speed";
-import Resume from "./pages/Resume";
 import Wonder from "./pages/Wonder";
 
 export default function App() {
@@ -24,7 +23,6 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/speed" element={<Speed />} />
-            <Route path="/resume" element={<Resume />} />
             <Route path="/wonder" element={<Wonder />} />
           </Routes>
         </Suspense>

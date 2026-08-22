@@ -1,7 +1,6 @@
 /*
-  Loading overlay. Never part of the html2canvas capture path (it is a
-  sibling modal, not inside .pdf-target), so it is free to use
-  backdrop-filter and the fuller dark-tech chrome language.
+  Loading overlay modal. Free to use backdrop-filter and the fuller
+  dark-tech chrome language.
 */
 
 .loading-modal-overlay {

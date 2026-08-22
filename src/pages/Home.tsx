@@ -22,6 +22,7 @@ import Sec3 from "../components/Sec3";
 import Sec4 from "../components/Sec4";
 import Top from "../components/Top";
 import Values from "../components/Values";
+import Resume from "../components/Resume";
 
 import History from "../components/History";
 
@@ -46,6 +47,7 @@ export default function Home() {
       <Values />
       <History />
       <Sec2 />
+      <Resume />
       <Sec3 />
       <Sec4 />
       <Top />
