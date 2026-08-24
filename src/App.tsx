@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, useEffect } from "react";
 import Cursor from "./components/Cursor";
 import "./assets/css/cursor.css";
@@ -24,6 +24,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/speed" element={<Speed />} />
             <Route path="/wonder" element={<Wonder />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

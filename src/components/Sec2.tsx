@@ -18,6 +18,21 @@ const amplitudeX = 550; // X축 이동 범위(진폭)
 const amplitudeY = 300; // Y축 이동 범위(진폭)
 const amplitudeZ = 500; // Z축 이동 범위(진폭)
 
+const skills = [
+  { id: "first-card", src: react, alt: "react" },
+  { id: "second-card", src: reactnative, alt: "reactnative" },
+  { id: "third-card", src: springboot, alt: "springboot" },
+  { id: "fourth-card", src: js, alt: "javascript" },
+  { id: "fifth-card", src: ts, alt: "typescript" },
+  { id: "sixth-card", src: java, alt: "java" },
+  { id: "seventh-card", src: html, alt: "html" },
+  { id: "eighth-card", src: css, alt: "css" },
+  { id: "ninth-card", src: vscode, alt: "vscode" },
+  { id: "tenth-card", src: python, alt: "python" },
+  { id: "eleventh-card", src: sql, alt: "sql" },
+  { id: "twelfth-card", src: mysql, alt: "mysql" },
+];
+
 // transform 문자열에서 translateZ 값을 추출해 숫자(px 단위)를 반환하는 헬퍼 함수
 function getTranslateZ(transform: string) {
   const match = transform.match(/translateZ\((-?\d+(\.\d+)?)px\)/);
@@ -29,7 +44,8 @@ function highLight(imgs: NodeListOf<Element>) {
   let maxZ = -Infinity;
   let front: Element;
   imgs.forEach((img) => {
-    const card = img.parentElement as HTMLElement;
+    if (!img.parentElement) return;
+    const card = img.parentElement;
     const transform = card.style.transform; // e.g., "translateX(0px) translateZ(700px) rotateY(0deg)"
     const z = getTranslateZ(transform);
     if (z > maxZ) {
@@ -155,39 +171,54 @@ export default function Sec2() {
   const inView = useView(containerRef, 0.1); // 화면 가시 여부
 
   useEffect(() => {
-    if (!inView) return;
-    const container = containerRef.current!;
+    if (!inView || !containerRef.current) return;
+    const container = containerRef.current;
     const swiper = new Swiper(container, ".card", "horizontal"); // Swiper 인스턴스 생성
-    const imgs = document.querySelectorAll(".card img"); // 로고 이미지
+    const imgs = container.querySelectorAll(".card img"); // 로고 이미지
     swiper.init(); // 초기화 작업 수행
-    container.addEventListener("mousedown", (e) => {
+
+    const handleDragStart = (e: MouseEvent) => {
       swiper.isClick = true; // 드래그 시작 상태로 전환
       swiper.setInitalPoint(e); // 드래그 시작 위치 설정
-    });
-    container.addEventListener("touchstart", (e) => {
+    };
+    const handleTouchStart = (e: TouchEvent) => {
       swiper.isClick = true; // 터치 시작 상태로 전환
       swiper.setInitalPoint(e.touches[0]); // 터치 시작 위치 설정
-    });
-    container.addEventListener("mousemove", (e) => {
+    };
+    const handleDragMove = (e: MouseEvent) => {
       swiper.rotateObject(e); // 마우스 이동에 따라 회전 검사
-    });
-    container.addEventListener("touchmove", (e) => {
+    };
+    const handleTouchMove = (e: TouchEvent) => {
       swiper.rotateObject(e.touches[0]); // 터치 이동에 따라 회전 검사
-    });
-    container.addEventListener("mouseup", () => {
-      swiper.isClick = false; // 드래그 해제
-    });
-    container.addEventListener("touchend", () => {
-      swiper.isClick = false; // 터치 해제
-    });
+    };
+    const handleDragEnd = () => {
+      swiper.isClick = false; // 드래그/터치 해제
+    };
+
+    container.addEventListener("mousedown", handleDragStart);
+    container.addEventListener("touchstart", handleTouchStart);
+    container.addEventListener("mousemove", handleDragMove);
+    container.addEventListener("touchmove", handleTouchMove);
+    container.addEventListener("mouseup", handleDragEnd);
+    container.addEventListener("touchend", handleDragEnd);
+
     swiper.moveNext();
     highLight(imgs);
     // 자동 슬라이드 & 하이라이트
-    const id = setInterval(() => {
+    const intervalId = setInterval(() => {
       swiper.moveNext();
       highLight(imgs);
     }, 1500);
-    return () => clearInterval(id); // don’t forget cleanup!
+
+    return () => {
+      clearInterval(intervalId);
+      container.removeEventListener("mousedown", handleDragStart);
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("mousemove", handleDragMove);
+      container.removeEventListener("touchmove", handleTouchMove);
+      container.removeEventListener("mouseup", handleDragEnd);
+      container.removeEventListener("touchend", handleDragEnd);
+    };
   }, [inView]);
 
   return (
@@ -198,42 +229,11 @@ export default function Sec2() {
       <div className="skill-title">FRONT-END & BACK-END</div>
       <div className="skill-title">USED IT</div>
       <div className="container" ref={containerRef}>
-        <div id="first-card" className="card">
-          <img src={react} alt="react" />
-        </div>
-        <div id="second-card" className="card">
-          <img src={reactnative} alt="reactnative" />
-        </div>
-        <div id="third-card" className="card">
-          <img src={springboot} alt="springboot" />
-        </div>
-        <div id="fourth-card" className="card">
-          <img src={js} alt="javascript" />
-        </div>
-        <div id="fifth-card" className="card">
-          <img src={ts} alt="typescript" />
-        </div>
-        <div id="sixth-card" className="card">
-          <img src={java} alt="java" />
-        </div>
-        <div id="seventh-card" className="card">
-          <img src={html} alt="html" />
-        </div>
-        <div id="eighth-card" className="card">
-          <img src={css} alt="css" />
-        </div>
-        <div id="ninth-card" className="card">
-          <img src={vscode} alt="vscode" />
-        </div>
-        <div id="tenth-card" className="card">
-          <img src={python} alt="python" />
-        </div>
-        <div id="eleventh-card" className="card">
-          <img src={sql} alt="sql" />
-        </div>
-        <div id="twelfth-card" className="card">
-          <img src={mysql} alt="mysql" />
-        </div>
+        {skills.map(({ id, src, alt }) => (
+          <div key={id} id={id} className="card">
+            <img src={src} alt={alt} />
+          </div>
+        ))}
       </div>
     </div>
   );
