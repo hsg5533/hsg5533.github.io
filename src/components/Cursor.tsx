@@ -21,8 +21,7 @@ export default function Cursor() {
 
   useEffect(() => {
     // 모바일 환경이면 커서 생성 종료
-    if (mobile) return;
-    if (!dotRef.current || !ringRef.current) return;
+    if (mobile || !dotRef.current || !ringRef.current) return;
     const dot = dotRef.current;
     const ring = ringRef.current;
     // 진짜 브라우저 바깥으로 마우스가 나갔을 때 호출
