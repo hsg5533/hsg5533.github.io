@@ -46,13 +46,6 @@ export default function Sec3box2() {
             용이하도록 개발하였습니다.
           </p>
         </div>
-        <div className="link-box">
-          <div className="link-btn">
-            <a target="_blank" rel="noreferrer" href="https://helperit.co.kr">
-              호스팅
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );

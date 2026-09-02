@@ -41,17 +41,6 @@ export default function Sec3box6() {
             물건을 등록하면 고객페이지에서 보이는 시스템입니다.
           </p>
         </div>
-        <div className="link-box">
-          <div className="link-btn">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://github.com/hsg5533/market-owner.git"
-            >
-              GitHub
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );

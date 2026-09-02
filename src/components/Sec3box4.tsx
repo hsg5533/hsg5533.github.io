@@ -33,26 +33,6 @@ export default function Sec3box4() {
             사내에서 사용중인 카페24 웹호스팅을 사용하여 호스팅하였습니디.
           </p>
         </div>
-        <div className="link-box">
-          <div className="link-btn">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://github.com/hsg5533/iomedical.git"
-            >
-              GitHub
-            </a>
-          </div>
-          <div className="link-btn">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://hsg5533.github.io/iomedical/"
-            >
-              호스팅
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );

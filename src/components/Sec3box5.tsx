@@ -41,17 +41,6 @@ export default function Sec3box5() {
             페이지입니다.
           </p>
         </div>
-        <div className="link-box">
-          <div className="link-btn">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://github.com/hsg5533/market-admin.git"
-            >
-              GitHub
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );

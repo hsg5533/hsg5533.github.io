@@ -49,17 +49,6 @@ export default function Sec3box8() {
             분석을 진행한 후 웹으로 시각화하는 프로젝트입니다.
           </p>
         </div>
-        <div className="link-box">
-          <div className="link-btn">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://github.com/hsg5533/howair.git"
-            >
-              GitHub
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );

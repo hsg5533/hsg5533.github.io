@@ -31,26 +31,6 @@ export default function Sec3box9() {
             웹 사이트의 구조 및 설계를 공부하기 위해 제작하였습니다
           </p>
         </div>
-        <div className="link-box">
-          <div className="link-btn">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://github.com/hsg5533/coding.git"
-            >
-              GitHub
-            </a>
-          </div>
-          <div className="link-btn">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://hsg5533.github.io/coding/"
-            >
-              호스팅
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );

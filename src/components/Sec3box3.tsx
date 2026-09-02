@@ -35,17 +35,6 @@ export default function Sec3box3() {
             메세지가 전송하는 기능을 구현하였습니다.
           </p>
         </div>
-        <div className="link-box">
-          <div className="link-btn">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://clean.helperit.co.kr/"
-            >
-              호스팅
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );
