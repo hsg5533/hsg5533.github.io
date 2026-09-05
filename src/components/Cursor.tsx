@@ -102,9 +102,7 @@ export default function Cursor() {
   }, [isRender, mobile]); // 훅 호출 순서는 고정, 의존성에는 mobile도 포함
 
   // 모바일이면 컴포넌트 자체를 렌더하지 않음
-  if (mobile) {
-    return null;
-  }
+  if (mobile) return null;
 
   // 항상 렌더되지만, 초기에는 opacity:0(숨김) 상태
   return (
