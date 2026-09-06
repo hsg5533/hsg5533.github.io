@@ -34,8 +34,6 @@ export default function Physics({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    // 드래그 기본 동작 방지
-    container.addEventListener("dragstart", (event) => event.preventDefault());
     // Matter.js 엔진과 러너 생성
     const engine = Matter.Engine.create();
     const runner = Matter.Runner.create();
@@ -206,9 +204,6 @@ export default function Physics({ children }: { children: React.ReactNode }) {
       Matter.Composite.clear(engine.world, false);
       Matter.Engine.clear(engine);
       window.removeEventListener("resize", resize);
-      container.removeEventListener("dragstart", (event) =>
-        event.preventDefault(),
-      );
       if (mouse.mousemove) {
         container.removeEventListener("mousemove", mouse.mousemove);
         container.removeEventListener("touchmove", mouse.mousemove);
@@ -232,7 +227,11 @@ export default function Physics({ children }: { children: React.ReactNode }) {
   }, [children]);
 
   return (
-    <div className="container" ref={containerRef}>
+    <div
+      className="container"
+      ref={containerRef}
+      onDragStart={(event) => event.preventDefault()}
+    >
       {children}
     </div>
   );
