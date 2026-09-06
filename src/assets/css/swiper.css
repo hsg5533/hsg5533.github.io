@@ -21,6 +21,14 @@
   perspective: 2000px; /* 원근감(3D) 거리를 2000px로 설정 */
 }
 
+/* 물리 모드: 3D 무대를 평면으로 되돌려야 물리 좌표와 화면 좌표가 일치한다 */
+.container.dropped {
+  transform: none;
+  transform-style: flat;
+  perspective: none;
+  overflow: hidden;
+}
+
 .card {
   max-width: 200px; /* 카드의 최대 너비를 200px로 제한 */
   position: absolute; /* 카드를 절대 위치로 배치해 겹쳐진 형태를 구현 */
@@ -30,6 +38,45 @@
 .card img {
   width: 100%;
   display: block;
+}
+
+/* ----------------------------------
+   .skill-nav: 캐러셀 정렬 화살표
+---------------------------------- */
+.skill-nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+/* 캐러셀 모드에서는 감추되 자리는 유지한다 (레이아웃이 밀리면 굳힌 카드 좌표가 어긋남) */
+.skill-nav.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.skill-arrow {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #3a3843;
+  border-radius: 50%;
+  background: transparent;
+  color: #a5a3ad;
+  font-size: 0.9rem;
+  line-height: 1;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.skill-arrow:hover {
+  color: #f4f3ef;
+  border-color: #f4f3ef;
 }
 
 @media (prefers-reduced-motion: reduce) {

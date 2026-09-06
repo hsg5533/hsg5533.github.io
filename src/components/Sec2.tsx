@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
+import Matter from "matter-js";
 import { useView } from "../utils/modules";
 import react from "../assets/img/icon/react.png";
 import reactnative from "../assets/img/icon/reactnative.png";
@@ -166,14 +167,295 @@ class Swiper {
   }
 }
 
+// 물리 모드 진입: 3D 변환으로 그려지던 현재 화면 위치를 left/top으로 굳힌다.
+// 물리 엔진은 transform을 자기 것으로 덮어쓰기 때문에, 좌표를 레이아웃으로 옮겨두지 않으면 카드가 튄다.
+function freeze(container: HTMLElement) {
+  const base = container.getBoundingClientRect();
+  container.querySelectorAll<HTMLElement>(".card").forEach((card) => {
+    const rect = card.getBoundingClientRect(); // 원근이 적용된 현재 화면 위치
+    card.style.transition = "none";
+    card.style.transform = "none";
+    card.querySelector("img")?.classList.remove("zoom-in", "zoom-out");
+    const home = card.getBoundingClientRect(); // 원근을 걷어낸 본래 크기
+    // 크기는 카드 본래 크기로 통일하고, 화면상 중심만 그대로 이어받는다
+    card.style.left = `${rect.left + rect.width / 2 - home.width / 2 - base.left}px`;
+    card.style.top = `${rect.top + rect.height / 2 - home.height / 2 - base.top}px`;
+  });
+}
+
+// 캐러셀 복귀: 떨어진 위치를 transform 오프셋으로 옮겨 담고 left/top을 되돌린다.
+// 이렇게 해야 이어지는 shuffle의 1초 트랜지션이 바닥 → 링으로 이어진다.
+function release(container: HTMLElement) {
+  container.querySelectorAll<HTMLElement>(".card").forEach((card) => {
+    const drop = card.getBoundingClientRect();
+    card.style.transition = "none";
+    card.style.transform = "";
+    card.style.left = "";
+    card.style.top = "";
+    const home = card.getBoundingClientRect();
+    // 회전은 중심을 보존하므로 중심 기준으로 오프셋을 잡아야 정확하다
+    const deltaX = drop.left + drop.width / 2 - (home.left + home.width / 2);
+    const deltaY = drop.top + drop.height / 2 - (home.top + home.height / 2);
+    card.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    void card.offsetWidth; // 리플로우 강제
+    card.style.transition = "";
+  });
+}
+
+// Matter.js가 생성하지만 @types/matter-js에는 누락된 이벤트 핸들러.
+interface Mouse extends Matter.Mouse {
+  mousemove?: EventListener;
+  mousedown?: EventListener;
+  mouseup?: EventListener;
+  mousewheel?: EventListener;
+}
+
+interface IConstraintDefinition extends Matter.IConstraintDefinition {
+  angularStiffness: number;
+}
+
+interface Object {
+  el: HTMLElement;
+  body: Matter.Body;
+  initialX: number;
+  initialY: number;
+}
+const max = 40;
+const thick = 10; // 벽 두께
+const definition: IConstraintDefinition = {
+  stiffness: 0.2,
+  angularStiffness: 0.3,
+  render: { visible: false },
+};
+
+// 컨테이너의 직접 자식들을 강체로 굴린다. 훅은 조건부 호출이 안 되므로
+// on/off는 enabled로 받아 effect 안에서 가른다.
+function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
+  // 물리 모드: 컨테이너의 카드들을 그대로 강체로 굴린다
+  useEffect(() => {
+    const container = ref.current;
+    if (!container || !drop) return;
+    // Matter.js 엔진과 러너 생성
+    const engine = Matter.Engine.create();
+    const runner = Matter.Runner.create();
+    engine.positionIterations = 10;
+    engine.velocityIterations = 10;
+    // 초기 창 크기 구조 분해 할당
+    const bounds = container.getBoundingClientRect();
+    const { width, height } = bounds;
+    // 벽 생성
+    const floor = Matter.Bodies.rectangle(
+      width / 2,
+      height + thick / 2,
+      width,
+      thick,
+      { isStatic: true },
+    );
+    const ceiling = Matter.Bodies.rectangle(
+      width / 2,
+      -thick / 2,
+      width,
+      thick,
+      { isStatic: true },
+    );
+    const leftWall = Matter.Bodies.rectangle(
+      -thick / 2,
+      height / 2,
+      thick,
+      height,
+      { isStatic: true },
+    );
+    const rightWall = Matter.Bodies.rectangle(
+      width + thick / 2,
+      height / 2,
+      thick,
+      height,
+      { isStatic: true },
+    );
+    Matter.Composite.add(engine.world, [floor, ceiling, leftWall, rightWall]);
+    // 직접 자식 요소들을 각각 하나의 물리 객체로 변환
+    const objects: Object[] = [];
+    Array.from(container.children).forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.left - bounds.left + rect.width / 2;
+      const centerY = rect.top - bounds.top + rect.height / 2;
+      const body = Matter.Bodies.rectangle(
+        centerX,
+        centerY,
+        rect.width,
+        rect.height,
+        { isStatic: el.classList.contains("static") },
+      );
+      Matter.Composite.add(engine.world, body);
+      objects.push({
+        el,
+        body,
+        initialX: centerX,
+        initialY: centerY,
+      });
+    });
+    // 마우스 제어
+    const mouse: Mouse = Matter.Mouse.create(container);
+    const constraint = Matter.MouseConstraint.create(engine, {
+      mouse,
+      constraint: definition,
+    });
+    mouse.pixelRatio = 1;
+    Matter.Composite.add(engine.world, constraint);
+    // Matter의 wheel/touch 핸들러는 preventDefault를 무조건 호출해 페이지 스크롤을 막는다.
+    // wheel은 쓰지 않으니 떼어내고, touch는 카드를 실제로 잡았을 때만 Matter에 넘긴다.
+    mouse.mousewheel &&
+      container.removeEventListener("wheel", mouse.mousewheel);
+    mouse.mousedown &&
+      container.removeEventListener("touchstart", mouse.mousedown);
+    mouse.mousemove &&
+      container.removeEventListener("touchmove", mouse.mousemove);
+    const drag = objects
+      .filter(({ body }) => !body.isStatic)
+      .map(({ body }) => body);
+    const touchStart = (event: TouchEvent) => {
+      const { clientX, clientY } = event.changedTouches[0];
+      const { left, top } = container.getBoundingClientRect();
+      const point = { x: clientX - left, y: clientY - top };
+      // 손가락이 카드 위에 있을 때만 잡는다. 빈 곳이면 스크롤로 넘긴다.
+      if (Matter.Query.point(drag, point).length > 0 && mouse.mousedown) {
+        mouse.mousedown(event);
+      }
+    };
+    const touchMove = (event: TouchEvent) => {
+      if (constraint.body && mouse.mousemove) mouse.mousemove(event);
+    };
+    container.addEventListener("touchstart", touchStart, { passive: false });
+    container.addEventListener("touchmove", touchMove, { passive: false });
+    // 속도 제한
+    Matter.Events.on(engine, "beforeUpdate", () => {
+      objects.forEach((obj) => {
+        if (!obj.body.isStatic) {
+          const { x: vx, y: vy } = obj.body.velocity;
+          const speed = Math.hypot(vx, vy);
+          if (speed > max) {
+            const scale = max / speed;
+            Matter.Body.setVelocity(obj.body, {
+              x: vx * scale,
+              y: vy * scale,
+            });
+          }
+        }
+      });
+    });
+    // 엔진 실행
+    Matter.Runner.run(runner, engine);
+    // 애니메이션 프레임 업데이트
+    let animationFrame = 0;
+    const update = () => {
+      objects.forEach(({ el, body, initialX, initialY }) => {
+        if (!el.classList.contains("static")) {
+          el.style.transform = `translate(${body.position.x - initialX}px, ${body.position.y - initialY}px) rotate(${body.angle}rad)`;
+        }
+      });
+      animationFrame = requestAnimationFrame(update);
+    };
+    update();
+    // 창 크기 변경 시 벽 & 정적 객체 업데이트
+    const resize = () => {
+      const bounds = container.getBoundingClientRect();
+      const { width, height } = bounds;
+      // 벽 업데이트
+      Matter.Body.setPosition(ceiling, {
+        x: width / 2,
+        y: -thick / 2,
+      });
+      Matter.Body.setVertices(ceiling, [
+        { x: 0, y: 0 },
+        { x: width, y: 0 },
+        { x: width, y: thick },
+        { x: 0, y: thick },
+      ]);
+      Matter.Body.setPosition(floor, {
+        x: width / 2,
+        y: height + thick / 2,
+      });
+      Matter.Body.setVertices(floor, [
+        { x: 0, y: height },
+        { x: width, y: height },
+        { x: width, y: height + thick },
+        { x: 0, y: height + thick },
+      ]);
+      Matter.Body.setPosition(leftWall, {
+        x: -thick / 2,
+        y: height / 2,
+      });
+      Matter.Body.setVertices(leftWall, [
+        { x: 0, y: 0 },
+        { x: thick, y: 0 },
+        { x: thick, y: height },
+        { x: 0, y: height },
+      ]);
+      Matter.Body.setPosition(rightWall, {
+        x: width + thick / 2,
+        y: height / 2,
+      });
+      Matter.Body.setVertices(rightWall, [
+        { x: width, y: 0 },
+        { x: width + thick, y: 0 },
+        { x: width + thick, y: height },
+        { x: width, y: height },
+      ]);
+      // 정적 요소(예: 선반)의 위치 및 치수 업데이트
+      objects.forEach((obj) => {
+        if (obj.body.isStatic) {
+          const rect = obj.el.getBoundingClientRect();
+          const left = rect.left - bounds.left;
+          const top = rect.top - bounds.top;
+          const centerX = left + rect.width / 2;
+          const centerY = top + rect.height / 2;
+          Matter.Body.setPosition(obj.body, { x: centerX, y: centerY });
+          Matter.Body.setVertices(obj.body, [
+            { x: left, y: top },
+            { x: left + rect.width, y: top },
+            { x: left + rect.width, y: top + rect.height },
+            { x: left, y: top + rect.height },
+          ]);
+        }
+      });
+    };
+    window.addEventListener("resize", resize);
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      Matter.Runner.stop(runner);
+      Matter.Events.off(engine, "beforeUpdate");
+      Matter.Composite.clear(engine.world, false);
+      Matter.Engine.clear(engine);
+      window.removeEventListener("resize", resize);
+      container.removeEventListener("touchstart", touchStart);
+      container.removeEventListener("touchmove", touchMove);
+      mouse.mousemove &&
+        container.removeEventListener("mousemove", mouse.mousemove);
+      mouse.mousedown &&
+        container.removeEventListener("mousedown", mouse.mousedown);
+      mouse.mouseup && container.removeEventListener("mouseup", mouse.mouseup);
+      mouse.mouseup && container.removeEventListener("touchend", mouse.mouseup);
+      Matter.Mouse.clearSourceEvents(mouse);
+    };
+  }, [ref, drop]);
+}
+
 export default function Sec2() {
   const containerRef = useRef<HTMLDivElement>(null); // 카드 컨테이너 참조
+  const swiperRef = useRef<Swiper | null>(null); // 화살표 버튼에서 쓸 Swiper 인스턴스
+  const directionRef = useRef<"prev" | "next">("next"); // 복귀 시 회전 방향
   const inView = useView(containerRef, 0.1); // 화면 가시 여부
+  const [drop, setDrop] = useState(false); // 물리 모드 여부
+
+  usePhysics(containerRef, drop);
 
   useEffect(() => {
-    if (!inView || !containerRef.current) return;
+    if (!inView || drop || !containerRef.current) return;
     const container = containerRef.current;
+    release(container); // 물리 모드가 남긴 인라인 스타일 정리
     const swiper = new Swiper(container, ".card", "horizontal"); // Swiper 인스턴스 생성
+    swiperRef.current = swiper;
     const imgs = container.querySelectorAll(".card img"); // 로고 이미지
     swiper.init(); // 초기화 작업 수행
 
@@ -202,7 +484,8 @@ export default function Sec2() {
     container.addEventListener("mouseup", handleDragEnd);
     container.addEventListener("touchend", handleDragEnd);
 
-    swiper.moveNext();
+    directionRef.current === "prev" ? swiper.movePrev() : swiper.moveNext();
+
     highLight(imgs);
     // 자동 슬라이드 & 하이라이트
     const intervalId = setInterval(() => {
@@ -218,8 +501,15 @@ export default function Sec2() {
       container.removeEventListener("touchmove", handleTouchMove);
       container.removeEventListener("mouseup", handleDragEnd);
       container.removeEventListener("touchend", handleDragEnd);
+      swiperRef.current = null;
     };
-  }, [inView]);
+  }, [inView, drop]);
+
+  // 화살표는 물리 모드에서만 보인다. 누른 방향으로 캐러셀을 되돌린다.
+  const handleAlign = (direction: "prev" | "next") => {
+    directionRef.current = direction;
+    setDrop(false);
+  };
 
   return (
     <div className="sec sec2" id="sec2">
@@ -227,13 +517,42 @@ export default function Sec2() {
         <h2>SKILLS</h2>
       </div>
       <div className="skill-title">FRONT-END & BACK-END</div>
-      <div className="skill-title">USED IT</div>
-      <div className="container" ref={containerRef}>
+      <div className="skill-title">{drop ? "DRAG THEM" : "USED IT"}</div>
+      <div
+        className={drop ? "container drop" : "container"}
+        ref={containerRef}
+        onClick={({ clientX, clientY }) => {
+          if (drop || !containerRef.current || !swiperRef.current) return;
+          const { initialX, initialY } = swiperRef.current;
+          if (Math.hypot(clientX - initialX, clientY - initialY) > 10) return; // 드래그였으면 무시
+          freeze(containerRef.current); // 현재 위치를 left/top으로 굳힌다
+          setDrop(true);
+        }}
+        onDragStart={(event) => event.preventDefault()}
+      >
         {skills.map(({ id, src, alt }) => (
           <div key={id} id={id} className="card">
             <img src={src} alt={alt} />
           </div>
         ))}
+      </div>
+      <div className={drop ? "skill-nav" : "skill-nav is-hidden"}>
+        <button
+          type="button"
+          className="skill-arrow"
+          aria-label="이전 스킬"
+          onClick={() => handleAlign("prev")}
+        >
+          &#9664;
+        </button>
+        <button
+          type="button"
+          className="skill-arrow"
+          aria-label="다음 스킬"
+          onClick={() => handleAlign("next")}
+        >
+          &#9654;
+        </button>
       </div>
     </div>
   );
