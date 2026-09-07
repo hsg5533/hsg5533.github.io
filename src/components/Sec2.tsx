@@ -214,12 +214,6 @@ interface IConstraintDefinition extends Matter.IConstraintDefinition {
   angularStiffness: number;
 }
 
-interface Object {
-  el: HTMLElement;
-  body: Matter.Body;
-  initialX: number;
-  initialY: number;
-}
 const max = 40;
 const thick = 10; // 벽 두께
 const definition: IConstraintDefinition = {
@@ -270,9 +264,8 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
     const rightWall = createWall(width + thick / 2, height / 2, thick, height);
     Matter.Composite.add(engine.world, [floor, ceiling, leftWall, rightWall]);
     // 직접 자식 요소들을 각각 하나의 물리 객체로 변환
-    const objects: Object[] = [];
-    Array.from(container.children).forEach((el) => {
-      if (!(el instanceof HTMLElement)) return;
+    const objects = Array.from(container.children).flatMap((el) => {
+      if (!(el instanceof HTMLElement)) return [];
       const { left, top, width, height } = el.getBoundingClientRect();
       const initialX = left - bounds.left + width / 2;
       const initialY = top - bounds.top + height / 2;
@@ -280,7 +273,7 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
         isStatic: el.classList.contains("static"),
       });
       Matter.Composite.add(engine.world, body);
-      objects.push({ el, body, initialX, initialY });
+      return { el, body, initialX, initialY };
     });
     // 마우스 제어
     const mouse: Mouse = Matter.Mouse.create(container);
