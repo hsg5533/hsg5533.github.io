@@ -298,9 +298,7 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
       container.removeEventListener("touchstart", mouse.mousedown);
     mouse.mousemove &&
       container.removeEventListener("touchmove", mouse.mousemove);
-    const drag = objects
-      .filter(({ body }) => !body.isStatic)
-      .map(({ body }) => body);
+    const drag = objects.flatMap(({ body }) => (body.isStatic ? [] : body));
     const touchStart = (event: TouchEvent) => {
       const { clientX, clientY } = event.changedTouches[0];
       const { left, top } = container.getBoundingClientRect();
