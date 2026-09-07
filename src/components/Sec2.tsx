@@ -269,9 +269,7 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
       const { left, top, width, height } = el.getBoundingClientRect();
       const initialX = left - bounds.left + width / 2;
       const initialY = top - bounds.top + height / 2;
-      const body = Matter.Bodies.rectangle(initialX, initialY, width, height, {
-        isStatic: el.classList.contains("static"),
-      });
+      const body = Matter.Bodies.rectangle(initialX, initialY, width, height);
       Matter.Composite.add(engine.world, body);
       return { el, body, initialX, initialY };
     });
@@ -291,7 +289,7 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
       container.removeEventListener("touchstart", mouse.mousedown);
     mouse.mousemove &&
       container.removeEventListener("touchmove", mouse.mousemove);
-    const drag = objects.flatMap(({ body }) => (body.isStatic ? [] : body));
+    const drag = objects.map(({ body }) => body);
     const touchStart = (event: TouchEvent) => {
       const { clientX, clientY } = event.changedTouches[0];
       const { left, top } = container.getBoundingClientRect();
@@ -309,7 +307,6 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
     // 속도 제한
     Matter.Events.on(engine, "beforeUpdate", () => {
       objects.forEach(({ body }) => {
-        if (body.isStatic) return;
         const { x, y } = body.velocity;
         const speed = Math.hypot(x, y);
         if (speed > max) {
@@ -324,30 +321,18 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
     let animationFrame = 0;
     const update = () => {
       objects.forEach(({ el, body, initialX, initialY }) => {
-        if (!el.classList.contains("static")) {
-          el.style.transform = `translate(${body.position.x - initialX}px, ${body.position.y - initialY}px) rotate(${body.angle}rad)`;
-        }
+        el.style.transform = `translate(${body.position.x - initialX}px, ${body.position.y - initialY}px) rotate(${body.angle}rad)`;
       });
       animationFrame = requestAnimationFrame(update);
     };
     update();
-    // 창 크기 변경 시 벽 & 정적 객체 업데이트
+    // 창 크기 변경 시 벽 업데이트
     const resize = () => {
-      const bounds = container.getBoundingClientRect();
-      const { width, height } = bounds;
-      // 벽 업데이트
+      const { width, height } = container.getBoundingClientRect();
       rectangle(ceiling, width / 2, -thick / 2, width, thick);
       rectangle(floor, width / 2, height + thick / 2, width, thick);
       rectangle(leftWall, -thick / 2, height / 2, thick, height);
       rectangle(rightWall, width + thick / 2, height / 2, thick, height);
-      // 정적 요소(예: 선반)의 위치 및 치수 업데이트
-      objects.forEach(({ el, body }) => {
-        if (!body.isStatic) return;
-        const { left, top, width, height } = el.getBoundingClientRect();
-        const x = left - bounds.left + width / 2;
-        const y = top - bounds.top + height / 2;
-        rectangle(body, x, y, width, height);
-      });
     };
     window.addEventListener("resize", resize);
     return () => {
