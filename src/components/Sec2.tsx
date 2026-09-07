@@ -283,24 +283,22 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
     Matter.Composite.add(engine.world, constraint);
     // Matter의 wheel/touch 핸들러는 preventDefault를 무조건 호출해 페이지 스크롤을 막는다.
     // wheel은 쓰지 않으니 떼어내고, touch는 카드를 실제로 잡았을 때만 Matter에 넘긴다.
-    mouse.mousewheel &&
-      container.removeEventListener("wheel", mouse.mousewheel);
-    mouse.mousedown &&
-      container.removeEventListener("touchstart", mouse.mousedown);
-    mouse.mousemove &&
-      container.removeEventListener("touchmove", mouse.mousemove);
+    const { mousemove, mousedown, mouseup, mousewheel } = mouse;
+    mousewheel && container.removeEventListener("wheel", mousewheel);
+    mousedown && container.removeEventListener("touchstart", mousedown);
+    mousemove && container.removeEventListener("touchmove", mousemove);
     const drag = objects.map(({ body }) => body);
     const touchStart = (event: TouchEvent) => {
       const { clientX, clientY } = event.changedTouches[0];
       const { left, top } = container.getBoundingClientRect();
       const point = { x: clientX - left, y: clientY - top };
       // 손가락이 카드 위에 있을 때만 잡는다. 빈 곳이면 스크롤로 넘긴다.
-      if (Matter.Query.point(drag, point).length > 0 && mouse.mousedown) {
-        mouse.mousedown(event);
+      if (Matter.Query.point(drag, point).length > 0 && mousedown) {
+        mousedown(event);
       }
     };
     const touchMove = (event: TouchEvent) => {
-      if (constraint.body && mouse.mousemove) mouse.mousemove(event);
+      if (constraint.body && mousemove) mousemove(event);
     };
     container.addEventListener("touchstart", touchStart, { passive: false });
     container.addEventListener("touchmove", touchMove, { passive: false });
@@ -344,12 +342,10 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
       window.removeEventListener("resize", resize);
       container.removeEventListener("touchstart", touchStart);
       container.removeEventListener("touchmove", touchMove);
-      mouse.mousemove &&
-        container.removeEventListener("mousemove", mouse.mousemove);
-      mouse.mousedown &&
-        container.removeEventListener("mousedown", mouse.mousedown);
-      mouse.mouseup && container.removeEventListener("mouseup", mouse.mouseup);
-      mouse.mouseup && container.removeEventListener("touchend", mouse.mouseup);
+      mousemove && container.removeEventListener("mousemove", mousemove);
+      mousedown && container.removeEventListener("mousedown", mousedown);
+      mouseup && container.removeEventListener("mouseup", mouseup);
+      mouseup && container.removeEventListener("touchend", mouseup);
       Matter.Mouse.clearSourceEvents(mouse);
     };
   }, [ref, drop]);
