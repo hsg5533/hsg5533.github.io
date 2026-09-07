@@ -228,6 +228,26 @@ const definition: IConstraintDefinition = {
   render: { visible: false },
 };
 
+function rectangle(
+  body: Matter.Body,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+) {
+  Matter.Body.setPosition(body, { x, y });
+  Matter.Body.setVertices(body, [
+    { x: 0, y: 0 },
+    { x: width, y: 0 },
+    { x: width, y: height },
+    { x: 0, y: height },
+  ]);
+}
+
+function createWall(x: number, y: number, width: number, height: number) {
+  return Matter.Bodies.rectangle(x, y, width, height, { isStatic: true });
+}
+
 // 컨테이너의 직접 자식들을 강체로 굴린다. 훅은 조건부 호출이 안 되므로
 // on/off는 enabled로 받아 effect 안에서 가른다.
 function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
@@ -244,56 +264,23 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
     const bounds = container.getBoundingClientRect();
     const { width, height } = bounds;
     // 벽 생성
-    const floor = Matter.Bodies.rectangle(
-      width / 2,
-      height + thick / 2,
-      width,
-      thick,
-      { isStatic: true },
-    );
-    const ceiling = Matter.Bodies.rectangle(
-      width / 2,
-      -thick / 2,
-      width,
-      thick,
-      { isStatic: true },
-    );
-    const leftWall = Matter.Bodies.rectangle(
-      -thick / 2,
-      height / 2,
-      thick,
-      height,
-      { isStatic: true },
-    );
-    const rightWall = Matter.Bodies.rectangle(
-      width + thick / 2,
-      height / 2,
-      thick,
-      height,
-      { isStatic: true },
-    );
+    const floor = createWall(width / 2, height + thick / 2, width, thick);
+    const ceiling = createWall(width / 2, -thick / 2, width, thick);
+    const leftWall = createWall(-thick / 2, height / 2, thick, height);
+    const rightWall = createWall(width + thick / 2, height / 2, thick, height);
     Matter.Composite.add(engine.world, [floor, ceiling, leftWall, rightWall]);
     // 직접 자식 요소들을 각각 하나의 물리 객체로 변환
     const objects: Object[] = [];
     Array.from(container.children).forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
-      const rect = el.getBoundingClientRect();
-      const centerX = rect.left - bounds.left + rect.width / 2;
-      const centerY = rect.top - bounds.top + rect.height / 2;
-      const body = Matter.Bodies.rectangle(
-        centerX,
-        centerY,
-        rect.width,
-        rect.height,
-        { isStatic: el.classList.contains("static") },
-      );
-      Matter.Composite.add(engine.world, body);
-      objects.push({
-        el,
-        body,
-        initialX: centerX,
-        initialY: centerY,
+      const { left, top, width, height } = el.getBoundingClientRect();
+      const initialX = left - bounds.left + width / 2;
+      const initialY = top - bounds.top + height / 2;
+      const body = Matter.Bodies.rectangle(initialX, initialY, width, height, {
+        isStatic: el.classList.contains("static"),
       });
+      Matter.Composite.add(engine.world, body);
+      objects.push({ el, body, initialX, initialY });
     });
     // 마우스 제어
     const mouse: Mouse = Matter.Mouse.create(container);
@@ -330,17 +317,13 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
     container.addEventListener("touchmove", touchMove, { passive: false });
     // 속도 제한
     Matter.Events.on(engine, "beforeUpdate", () => {
-      objects.forEach((obj) => {
-        if (!obj.body.isStatic) {
-          const { x: vx, y: vy } = obj.body.velocity;
-          const speed = Math.hypot(vx, vy);
-          if (speed > max) {
-            const scale = max / speed;
-            Matter.Body.setVelocity(obj.body, {
-              x: vx * scale,
-              y: vy * scale,
-            });
-          }
+      objects.forEach(({ body }) => {
+        if (body.isStatic) return;
+        const { x, y } = body.velocity;
+        const speed = Math.hypot(x, y);
+        if (speed > max) {
+          const scale = max / speed;
+          Matter.Body.setVelocity(body, { x: x * scale, y: y * scale });
         }
       });
     });
@@ -362,62 +345,17 @@ function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
       const bounds = container.getBoundingClientRect();
       const { width, height } = bounds;
       // 벽 업데이트
-      Matter.Body.setPosition(ceiling, {
-        x: width / 2,
-        y: -thick / 2,
-      });
-      Matter.Body.setVertices(ceiling, [
-        { x: 0, y: 0 },
-        { x: width, y: 0 },
-        { x: width, y: thick },
-        { x: 0, y: thick },
-      ]);
-      Matter.Body.setPosition(floor, {
-        x: width / 2,
-        y: height + thick / 2,
-      });
-      Matter.Body.setVertices(floor, [
-        { x: 0, y: height },
-        { x: width, y: height },
-        { x: width, y: height + thick },
-        { x: 0, y: height + thick },
-      ]);
-      Matter.Body.setPosition(leftWall, {
-        x: -thick / 2,
-        y: height / 2,
-      });
-      Matter.Body.setVertices(leftWall, [
-        { x: 0, y: 0 },
-        { x: thick, y: 0 },
-        { x: thick, y: height },
-        { x: 0, y: height },
-      ]);
-      Matter.Body.setPosition(rightWall, {
-        x: width + thick / 2,
-        y: height / 2,
-      });
-      Matter.Body.setVertices(rightWall, [
-        { x: width, y: 0 },
-        { x: width + thick, y: 0 },
-        { x: width + thick, y: height },
-        { x: width, y: height },
-      ]);
+      rectangle(ceiling, width / 2, -thick / 2, width, thick);
+      rectangle(floor, width / 2, height + thick / 2, width, thick);
+      rectangle(leftWall, -thick / 2, height / 2, thick, height);
+      rectangle(rightWall, width + thick / 2, height / 2, thick, height);
       // 정적 요소(예: 선반)의 위치 및 치수 업데이트
-      objects.forEach((obj) => {
-        if (obj.body.isStatic) {
-          const rect = obj.el.getBoundingClientRect();
-          const left = rect.left - bounds.left;
-          const top = rect.top - bounds.top;
-          const centerX = left + rect.width / 2;
-          const centerY = top + rect.height / 2;
-          Matter.Body.setPosition(obj.body, { x: centerX, y: centerY });
-          Matter.Body.setVertices(obj.body, [
-            { x: left, y: top },
-            { x: left + rect.width, y: top },
-            { x: left + rect.width, y: top + rect.height },
-            { x: left, y: top + rect.height },
-          ]);
-        }
+      objects.forEach(({ el, body }) => {
+        if (!body.isStatic) return;
+        const { left, top, width, height } = el.getBoundingClientRect();
+        const x = left - bounds.left + width / 2;
+        const y = top - bounds.top + height / 2;
+        rectangle(body, x, y, width, height);
       });
     };
     window.addEventListener("resize", resize);
