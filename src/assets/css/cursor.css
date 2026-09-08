@@ -24,3 +24,47 @@
   z-index: 9999;
   opacity: 0;
 }
+
+/* 커서를 따라다니는 안내 문구. data-cursor-label을 가진 요소 위에서만 나타난다 */
+.cursor-label {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 84, 112, 0.4);
+  background: rgba(12, 11, 15, 0.82);
+  backdrop-filter: blur(6px);
+  color: #f4f3ef;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translate(-50%, 12px) scale(0.86);
+  transform-origin: top center;
+  transition:
+    opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: left, top;
+}
+.cursor-label-on {
+  opacity: 1;
+  transform: translate(-50%, 28px) scale(1);
+  /* 등장 트랜지션(0.3s)이 끝난 뒤부터 위아래로 살짝 떠다닌다 */
+  animation: cursor-label-bob 1.8s ease-in-out 0.3s infinite;
+}
+@keyframes cursor-label-bob {
+  0%,
+  100% {
+    transform: translate(-50%, 28px) scale(1);
+  }
+  50% {
+    transform: translate(-50%, 34px) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cursor-label-on {
+    animation: none;
+  }
+}

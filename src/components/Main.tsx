@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko"; // 한국어 가져오기
 import Hint from "./Hint";
+import { useView } from "../utils/modules";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
@@ -25,6 +26,8 @@ function useInterval(callback: () => void, delay: number) {
 export default function Main() {
   const [time, setTime] = useState(dayjs().format("A hh시 mm분 ss초"));
   const [date, setDate] = useState(dayjs().format("YYYY년 MM월 DD일 dd"));
+  const mainRef = useRef<HTMLDivElement>(null);
+  const visible = useView(mainRef, 0.5);
 
   useInterval(() => {
     setTime(dayjs().format("A hh시 mm분 ss초"));
@@ -32,7 +35,7 @@ export default function Main() {
   }, 100);
 
   return (
-    <div className="main" id="main">
+    <div className="main" id="main" ref={mainRef}>
       <div className="main-scrim" />
       <div className="main-content" data-aos="fade-up" data-aos-duration="1000">
         <span className="main-kicker">FRONT-END &amp; BACK-END DEVELOPER</span>
@@ -45,7 +48,7 @@ export default function Main() {
       <div className="main-mark" aria-hidden="true">
         PORTFOLIO
       </div>
-      <Hint />
+      <Hint visible={visible} />
     </div>
   );
 }

@@ -1,11 +1,7 @@
-import { useCallback, useRef } from "react";
-import { useView } from "../utils/modules";
+import { useCallback } from "react";
 import "../assets/css/hint.css";
 
-export default function Hint() {
-  const ref = useRef<HTMLButtonElement>(null);
-  const visible = useView(ref, 0);
-
+export default function Hint({ visible }: { visible: boolean }) {
   const handleClick = useCallback(() => {
     const target = document.querySelector<HTMLElement>("#sec1");
     if (!target) return;
@@ -15,7 +11,6 @@ export default function Hint() {
 
   return (
     <button
-      ref={ref}
       type="button"
       className={`scroll-hint${visible ? "" : " scroll-hint-hidden"}`}
       onClick={handleClick}

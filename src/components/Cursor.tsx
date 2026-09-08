@@ -17,19 +17,30 @@ export default function Cursor() {
   const mobile = isMobile(); // 훅보다 먼저 계산해도 무방
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
   const [isRender, setIsRender] = useState(false);
 
   useEffect(() => {
-    // 모바일 환경이면 커서 생성 종료
-    if (mobile || !dotRef.current || !ringRef.current) return;
     const dot = dotRef.current;
     const ring = ringRef.current;
+    const label = labelRef.current;
+    // 모바일 환경이면 커서 생성 종료
+    if (mobile || !dot || !ring || !label) return;
+    // 커서가 올라간 요소가 data-cursor-label을 선언했으면 그 문구를 띄운다
+    const syncLabel = (target: EventTarget | null) => {
+      if (!target || !(target instanceof Element)) return;
+      const el = target.closest<HTMLElement>("[data-cursor-label]");
+      const text = el?.dataset.cursorLabel ?? "";
+      if (text) label.textContent = text; // 사라지는 동안에는 문구를 유지
+      label.classList.toggle("cursor-label-on", Boolean(text));
+    };
+    const hideLabel = () => label.classList.remove("cursor-label-on");
     // 진짜 브라우저 바깥으로 마우스가 나갔을 때 호출
     const onMouseOut = (e: MouseEvent) => {
-      if (e.relatedTarget === null) {
-        dot.style.opacity = "0";
-        ring.style.opacity = "0";
-      }
+      if (e.relatedTarget) return; // 다른 요소로 이동했으면 무시
+      dot.style.opacity = "0";
+      ring.style.opacity = "0";
+      hideLabel();
     };
     const onMouseUp = () => {
       ring.style.transform = "translate(-50%, -50%) scale(1)";
@@ -47,19 +58,20 @@ export default function Cursor() {
       }
       mouseX = e.clientX;
       mouseY = e.clientY;
+      syncLabel(e.target);
     };
     const onMouseEnter = (e: MouseEvent) => {
-      if (!isRender) {
-        setIsRender(true);
-      }
+      if (!isRender) setIsRender(true);
       mouseX = e.clientX;
       mouseY = e.clientY;
       dot.style.opacity = "1";
       ring.style.opacity = "0.5";
+      syncLabel(e.target);
     };
     const onMouseLeave = () => {
       dot.style.opacity = "0";
       ring.style.opacity = "0";
+      hideLabel();
     };
     const onVisibility = () => {
       if (isRender && document.visibilityState === "visible") {
@@ -68,6 +80,7 @@ export default function Cursor() {
       } else {
         dot.style.opacity = "0";
         ring.style.opacity = "0";
+        hideLabel();
       }
     };
     const animate = () => {
@@ -79,6 +92,8 @@ export default function Cursor() {
       dot.style.top = `${dotY}px`;
       ring.style.left = `${ringX}px`;
       ring.style.top = `${ringY}px`;
+      label.style.left = `${ringX}px`;
+      label.style.top = `${ringY}px`;
       frameId = requestAnimationFrame(animate);
     };
     window.addEventListener("mouseout", onMouseOut);
@@ -109,6 +124,7 @@ export default function Cursor() {
     <>
       <div ref={dotRef} className="cursor-dot" />
       <div ref={ringRef} className="cursor-ring" />
+      <div ref={labelRef} className="cursor-label" aria-hidden="true" />
     </>
   );
 }
