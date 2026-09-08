@@ -43,12 +43,26 @@ const items = [
       </>
     ),
   },
+  {
+    range: "2025.09.03 ~ 2026.08.31",
+    desc: (
+      <>
+        React Native 하이브리드 앱 개발 및 php 웹 개발
+        <br />
+        주식회사 세미콜론즈
+      </>
+    ),
+  },
 ];
 
 export default function History() {
   return (
     <div className="sec timeline" id="history">
-      <div className="history-header" data-aos="fade-up" data-aos-duration="1000">
+      <div
+        className="history-header"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+      >
         <h1>History</h1>
         <p>개발의 꿈을 이루기 위한 끊임없는 연구</p>
       </div>

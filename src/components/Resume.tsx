@@ -187,7 +187,7 @@ export default function Resume() {
             </tr>
             <tr>
               <td className="center mono">2022.09.13. ~ 2023.02.24</td>
-              <td className="center bold">테이블온</td>
+              <td className="center bold">(주)테이블온</td>
               <td colSpan={2} className="center bold">
                 RnD 및 웹 서비스 개발
               </td>
@@ -195,7 +195,7 @@ export default function Resume() {
             </tr>
             <tr>
               <td className="center mono">2023.05.01 ~ 2025.01.01</td>
-              <td className="center bold">불타는고구마</td>
+              <td className="center bold">(주)불타는고구마</td>
               <td colSpan={2} className="center bold">
                 React Native 하이브리드 앱 개발 및 배포
               </td>
@@ -203,11 +203,19 @@ export default function Resume() {
             </tr>
             <tr>
               <td className="center mono">2025.02.06 ~ 2025.05.15</td>
-              <td className="center bold">인터오션</td>
+              <td className="center bold">(주)인터오션</td>
               <td colSpan={2} className="center bold">
                 자사 홈페이지 유지보수
               </td>
               <td className="center bold">계약만료</td>
+            </tr>
+            <tr>
+              <td className="center mono">2025.09.03 ~ 2026.08.31</td>
+              <td className="center bold">(주)세미콜론즈</td>
+              <td colSpan={2} className="center bold">
+                React Native 하이브리드 앱 개발 및 php 웹 개발
+              </td>
+              <td className="center bold">권고사직</td>
             </tr>
           </tbody>
         </table>
