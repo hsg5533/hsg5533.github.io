@@ -158,8 +158,7 @@ let gMaster: GainNode | null = null;
 function buildAudio(): void {
   if (gAudioCtx) return;
 
-  const AC = window.AudioContext;
-  const ctx = new AC();
+  const ctx = new window.AudioContext();
 
   // 마스터 게인(헤드룸) → 컴프레서(옵션) → 애널라이저 → 출력
   const master = ctx.createGain();

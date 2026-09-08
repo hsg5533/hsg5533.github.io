@@ -114,25 +114,21 @@ export class Swiper {
   rotateObject(e: MouseEvent | Touch) {
     if (!this.isClick) return; // 클릭/터치 중이 아니면 종료
     const delta = this.calculateDistance(e); // 이동 방향과 거리 계산
-    const threshold =
-      this.mode === "horizontal" ? this.hThreshold : this.vThreshold; // 방향별 임계값
+    const horizontal = this.mode === "horizontal";
+    const threshold = horizontal ? this.hThreshold : this.vThreshold; // 방향별 임계값
     if (Math.abs(delta) < threshold) return; // 임계값보다 이동이 작으면 회전 없음
     delta > 0 ? this.moveNext() : this.movePrev(); // 양수면 다음 카드, 음수면 이전 카드로 이동
     this.isClick = !this.isClick; // 클릭/터치 상태 해제
   }
   shuffle() {
     const cards = this.area.querySelectorAll<HTMLElement>(this.card); // 현재 DOM에서 모든 카드 조회
-    this.cards.forEach((card) => {
-      card.style.transition = "none"; // 위치를 재배치하기 전 트랜지션 끔
-    });
+    this.cards.forEach((card) => (card.style.transition = "none")); // 위치를 재배치하기 전 트랜지션 끔
     this.sequence.forEach((id) => {
       const card = document.getElementById(id); // 순서 배열에 있는 ID에 해당하는 카드
       card && this.area.appendChild(card); // 컨테이너의 맨 뒤로 순서대로 붙임
     });
     void this.area.offsetWidth; // 리플로우 강제 발생 (재배치 후 적용)
-    cards.forEach((card) => {
-      card.style.transition = ""; // 트랜지션 다시 켬
-    });
+    cards.forEach((card) => (card.style.transition = "")); // 트랜지션 다시 켬
     cards.forEach((card, index) => {
       // index를 이용해 회전 각도 계산
       const angleDeg = index * (360 / this.cards.length); // 전체 카드를 원형으로 배치하기 위한 각도
