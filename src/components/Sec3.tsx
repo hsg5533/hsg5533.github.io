@@ -4,9 +4,9 @@ const box = import.meta.glob<{ default: React.ComponentType }>(
   "./Sec3box*.tsx",
   { eager: true },
 );
-const boxes = Object.keys(box)
-  .sort()
-  .map((key) => box[key].default);
+// titles 순서: 빙그리(10) → 헬퍼잇(1) → … → coding.com(9)
+const order = [10, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const boxes = order.map((number) => box[`./Sec3box${number}.tsx`].default);
 
 interface SliderOptions {
   img: string;
@@ -15,14 +15,17 @@ interface SliderOptions {
   dots: string;
 }
 
-const sliderConfigs: SliderOptions[] = Array.from({ length: 9 }, (_, i) => {
-  return {
-    img: `.slide${i + 1}`,
-    btnL: `.btn_L${i + 1}`,
-    btnR: `.btn_R${i + 1}`,
-    dots: `.indis${i + 1}`,
-  };
-});
+const sliderConfigs: SliderOptions[] = Array.from(
+  { length: boxes.length },
+  (_, i) => {
+    return {
+      img: `.slide${i + 1}`,
+      btnL: `.btn_L${i + 1}`,
+      btnR: `.btn_R${i + 1}`,
+      dots: `.indis${i + 1}`,
+    };
+  },
+);
 
 function slider({ img, btnL, btnR, dots }: SliderOptions) {
   let current = 0;
@@ -88,22 +91,17 @@ function slider({ img, btnL, btnR, dots }: SliderOptions) {
   indis.forEach((dot, idx) => {
     dot.addEventListener("click", () => {
       const activeIdx = ((current % count) + count) % count;
-      if (activeIdx === idx) {
-        return;
-      }
-      if (activeIdx < idx) {
-        slide(activeIdx, "-100%", idx, "100%");
-      }
-      if (activeIdx > idx) {
-        slide(activeIdx, "100%", idx, "-100%");
-      }
+      if (activeIdx === idx) return;
+      if (activeIdx < idx) slide(activeIdx, "-100%", idx, "100%");
+      if (activeIdx > idx) slide(activeIdx, "100%", idx, "-100%");
       current = idx;
     });
   });
 }
 
-// Sec3box1~9의 렌더 순서와 반드시 일치해야 하는 인덱스 라벨
+// boxOrder의 렌더 순서와 반드시 일치해야 하는 인덱스 라벨
 const titles = [
+  "빙그리 어플리케이션",
   "헬퍼잇 어플리케이션",
   "헬퍼잇 랜딩페이지",
   "헬퍼잇 클린",
@@ -118,7 +116,6 @@ const titles = [
 export default function Sec3() {
   useEffect(() => {
     sliderConfigs.forEach((config) => slider(config));
-
     const items = document.querySelectorAll<HTMLElement>(".sec3-index-item");
     const panels = document.querySelectorAll<HTMLElement>(".sec3-panel");
     items.forEach((item, i) => {
@@ -154,10 +151,7 @@ export default function Sec3() {
         </nav>
         <div className="sec3-stage">
           {boxes.map((Box, i) => (
-            <div
-              className={`sec3-panel${i === 0 ? " active" : ""}`}
-              key={i}
-            >
+            <div className={`sec3-panel${i === 0 ? " active" : ""}`} key={i}>
               <Box />
             </div>
           ))}

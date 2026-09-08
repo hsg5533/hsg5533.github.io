@@ -1,28 +1,6 @@
 import { useEffect } from "react";
 import "../assets/css/speed.css";
-
-interface SpeedometerOptions {
-  maxValue: number; // e.g., 180
-  smallFactor: number; // distance between labeled major ticks
-  dangerRange: number; // from this value and up -> "danger" color
-  initialAngle: number; // e.g., -45
-  totalAngle: number; // e.g., 270
-  outerRadius: number; // gauge radius in px
-  needleHeight: number;
-  needleOffset: number;
-  needleLength: number;
-  indicatorRadius: number; // radius where ticks are placed
-  labelRadius: number; // radius where labels are placed
-  labelSize: number; // label circle size (px)
-  smallTick: number; // every Nth tick is a "major" tick
-  multiplier: number; // value display multiplier
-  majorTickWidth: number;
-  majorTickHeight: number;
-  minorTickWidth: number;
-  minorTickHeight: number;
-  eventType: string;
-  unitLabel: string; // e.g., 'km/h'
-}
+import { SpeedometerOptions } from "../utils/types";
 
 class Speedometer {
   private targetInput: HTMLInputElement;
@@ -215,7 +193,7 @@ class BenchmarkManager {
         // 워커 1개 생성
         this.createWorker();
         // 싱글코어 진행
-        this.singleInterval = window.setInterval(() => {
+        this.singleInterval = window.setInterval(async () => {
           singleProgress++;
           this.progressBar.textContent = `${singleProgress}%`;
           if (singleProgress >= 100) {
@@ -231,36 +209,33 @@ class BenchmarkManager {
             this.workerList = [];
             this.workerMessage = [];
             // 멀티코어 테스트 시작
-            setTimeout(() => {
-              for (let i = 0; i < this.totalCore; i++) {
-                this.createWorker();
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            for (let i = 0; i < this.totalCore; i++) this.createWorker();
+            this.progressBar.style.transition = "width 20s linear";
+            this.progressBar.style.width = "100%";
+            this.multiScore.style.display = "none";
+            this.multiBench.style.display = "inline-block";
+            this.updateSpeedometer(100);
+            this.multiInterval = window.setInterval(() => {
+              multiProgress++;
+              this.progressBar.textContent = `${multiProgress}%`;
+              if (multiProgress >= 100) {
+                this.multiInterval && clearInterval(this.multiInterval);
+                this.progress.classList.remove("visible");
+                this.multiBench.style.display = "none";
+                this.restartIcon.style.display = "inline-block";
+                this.multiScore.style.display = "inline-block";
+                this.multiScore.textContent = String(
+                  this.workerMessage.reduce((acc, c) => acc + c, 0),
+                );
+                this.progressBar.style.transition = "width 0s linear";
+                this.progressBar.style.width = "0%";
+                this.progressBar.textContent = "0%";
+                this.workerList.forEach((worker) => worker.terminate());
+                this.workerList = [];
+                this.updateSpeedometer(0);
               }
-              this.progressBar.style.transition = "width 20s linear";
-              this.progressBar.style.width = "100%";
-              this.multiScore.style.display = "none";
-              this.multiBench.style.display = "inline-block";
-              this.updateSpeedometer(100);
-              this.multiInterval = window.setInterval(() => {
-                multiProgress++;
-                this.progressBar.textContent = `${multiProgress}%`;
-                if (multiProgress >= 100) {
-                  this.multiInterval && clearInterval(this.multiInterval);
-                  this.progress.classList.remove("visible");
-                  this.multiBench.style.display = "none";
-                  this.restartIcon.style.display = "inline-block";
-                  this.multiScore.style.display = "inline-block";
-                  this.multiScore.textContent = String(
-                    this.workerMessage.reduce((acc, c) => acc + c, 0),
-                  );
-                  this.progressBar.style.transition = "width 0s linear";
-                  this.progressBar.style.width = "0%";
-                  this.progressBar.textContent = "0%";
-                  this.workerList.forEach((worker) => worker.terminate());
-                  this.workerList = [];
-                  this.updateSpeedometer(0);
-                }
-              }, 200);
-            }, 1000);
+            }, 200);
           }
         }, 200);
       });
