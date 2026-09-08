@@ -11,7 +11,7 @@
 
 .container {
   width: 100%; /* 컨테이너의 너비를 100%로 설정하여 화면 전체 너비를 차지 */
-  height: 60%; /* 컨테이너의 높이를 800px로 지정 */
+  height: 100%; /* 컨테이너의 높이를 800px로 지정 */
   display: flex; /* 내부 요소를 가로로 배치하는 flex 컨테이너로 설정 */
   justify-content: center; /* 내부 요소를 수평 방향 가운데 정렬 */
   align-items: center; /* 내부 요소를 수직 방향 가운데 정렬 */
@@ -19,25 +19,35 @@
   transform: rotateX(-10deg); /* 컨테이너를 X축 기준으로 -10도 회전 */
   transform-style: preserve-3d; /* 3D 변환 요소를 중첩해서 사용 가능하도록 설정 */
   perspective: 2000px; /* 원근감(3D) 거리를 2000px로 설정 */
+  /* 세로 팬은 브라우저(페이지 스크롤)에, 가로 팬은 캐러셀에 넘긴다 */
+  touch-action: pan-y;
 }
 
 /* 물리 모드: 3D 무대를 평면으로 되돌려야 물리 좌표와 화면 좌표가 일치한다 */
-.container.dropped {
+.container.drop {
   transform: none;
   transform-style: flat;
   perspective: none;
   overflow: hidden;
+  /* 물리 모드에서는 카드를 아무 방향으로나 던져야 하므로 축 제한을 풀고 JS에 맡긴다 */
+  touch-action: auto;
 }
 
 .card {
-  max-width: 200px; /* 카드의 최대 너비를 200px로 제한 */
+  /* 1367px 이상에서는 기존과 동일한 190px, 좁아지면 모바일 72px까지 유연하게 축소 */
+  width: clamp(80px, 13.9vw, 190px);
+  height: clamp(80px, 13.9vw, 190px);
   position: absolute; /* 카드를 절대 위치로 배치해 겹쳐진 형태를 구현 */
   backface-visibility: visible; /* 뒤집혔을 때 뒷면이 보이게 설정 */
   transition: transform 1s ease-in-out; /* 변환(회전, 이동) 시 1초간 부드럽게 애니메이션 */
 }
-.card img {
+.sec2 .skill-icon {
   width: 100%;
+  height: 100%;
   display: block;
+  object-fit: contain;
+  object-position: center;
+  user-select: none;
 }
 
 /* ----------------------------------
@@ -93,9 +103,5 @@
     height: 80vh; /* 모바일 환경에서 컨테이너 높이 */
     perspective: 1500px; /* 3D 원근감 */
     transform: rotateX(-5deg); /* X축 회전 */
-  }
-  .card {
-    max-width: 100px; /* 모바일 화면에서 카드 너비 */
-    height: auto; /* 모바일 화면에서 카드 높이 */
   }
 }
