@@ -1,5 +1,5 @@
 import kakao from "../assets/img/icon/kakao.png";
-import github from "../assets/img/icon/githubicon.png";
+import github from "../assets/img/icon/github.png";
 
 export default function Sec4() {
   return (
