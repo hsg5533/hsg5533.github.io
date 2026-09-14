@@ -5,7 +5,7 @@ const box = import.meta.glob<{ default: React.ComponentType }>(
   { eager: true },
 );
 // titles 순서: 빙그리(10) → 헬퍼잇(1) → … → coding.com(9)
-const order = [10, 1, 2, 3, 11, 4, 5, 6, 7, 8, 9];
+const order = [10, 1, 2, 3, 11, 12, 4, 5, 6, 7, 8, 9];
 const boxes = order.map((number) => box[`./Sec3box${number}.tsx`].default);
 
 interface SliderOptions {
@@ -106,6 +106,7 @@ const titles = [
   "헬퍼잇 랜딩페이지",
   "헬퍼잇 클린",
   "영덕 알리미 어플리케이션",
+  "주얼리 컨시어져 챗봇",
   "인터오션 헬스케어사업부",
   "부전마켓타운 (어드민)",
   "부전마켓타운 (점주)",

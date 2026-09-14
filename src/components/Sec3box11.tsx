@@ -2,7 +2,7 @@ import image49 from "../assets/img/background/image49.jpg";
 import image50 from "../assets/img/background/image50.jpg";
 import image51 from "../assets/img/background/image51.jpg";
 
-export default function Sec3box10() {
+export default function Sec3box11() {
   return (
     <div className="project">
       <div className="pr-box">
