@@ -63,7 +63,6 @@ export default function Sec2() {
     swiperRef.current = swiper;
     const imgs = container.querySelectorAll(".card .skill-icon"); // 로고 이미지
     swiper.init(); // 초기화 작업 수행
-
     const handleDragStart = (e: MouseEvent) => {
       swiper.isClick = true; // 드래그 시작 상태로 전환
       swiper.setInitalPoint(e); // 드래그 시작 위치 설정
@@ -81,7 +80,6 @@ export default function Sec2() {
     const handleDragEnd = () => {
       swiper.isClick = false; // 드래그/터치 해제
     };
-
     container.addEventListener("mousedown", handleDragStart);
     container.addEventListener("touchstart", handleTouchStart);
     container.addEventListener("mousemove", handleDragMove);
@@ -90,16 +88,13 @@ export default function Sec2() {
     container.addEventListener("touchend", handleDragEnd);
     // 브라우저가 스크롤을 위해 제스처를 가져가면 touchcancel이 온다. 그때 캐러셀은 손을 뗀다.
     container.addEventListener("touchcancel", handleDragEnd);
-
     directionRef.current === "prev" ? swiper.movePrev() : swiper.moveNext();
-
     highLight(imgs);
     // 자동 슬라이드 & 하이라이트
     const intervalId = setInterval(() => {
       swiper.moveNext();
       highLight(imgs);
     }, 1500);
-
     return () => {
       clearInterval(intervalId);
       container.removeEventListener("mousedown", handleDragStart);
