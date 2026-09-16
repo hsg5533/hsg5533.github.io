@@ -1,27 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko"; // 한국어 가져오기
 import Hint from "./Hint";
-import { useView } from "../utils/modules";
+import { useInterval, useView } from "../utils/modules";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
-
-function useInterval(callback: () => void, delay: number) {
-  const savedCallback = useRef<() => void>(null);
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-  useEffect(() => {
-    if (!delay) return;
-    const tick = setInterval(
-      () => savedCallback.current && savedCallback.current(),
-      delay,
-    );
-    return () => clearInterval(tick);
-  }, [delay]);
-}
 
 export default function Main() {
   const [time, setTime] = useState(dayjs().format("A hh시 mm분 ss초"));

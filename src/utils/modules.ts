@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useRef, useState } from "react";
 import Matter from "matter-js";
-import { IConstraintDefinition, Mouse } from "./types";
+import { IConstraintDefinition, Mouse, SliderOptions } from "./types";
 
 export function useView(ref: RefObject<Element | null>, threshold: number) {
   const savedElement = useRef<Element>(null);
@@ -326,4 +326,85 @@ export function usePhysics(ref: RefObject<HTMLElement | null>, drop: boolean) {
       Matter.Mouse.clearSourceEvents(mouse);
     };
   }, [ref, drop]);
+}
+
+export function useInterval(callback: () => void, delay: number) {
+  const savedCallback = useRef<() => void>(null);
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+  useEffect(() => {
+    if (!delay) return;
+    const tick = setInterval(
+      () => savedCallback.current && savedCallback.current(),
+      delay,
+    );
+    return () => clearInterval(tick);
+  }, [delay]);
+}
+
+export function slider({ img, btnL, btnR, dots }: SliderOptions) {
+  let current = 0;
+  const timer = 1000;
+  const indis: HTMLElement[] = [];
+  const imgs = document.querySelectorAll<HTMLElement>(img);
+  const left = document.querySelector<HTMLElement>(btnL)!;
+  const right = document.querySelector<HTMLElement>(btnR)!;
+  const index = document.querySelector<HTMLElement>(dots)!;
+  const count = imgs.length;
+  // 스타일 지정
+  left.style.left = "0";
+  right.style.right = "0";
+  imgs[0].style.left = "0";
+  index.style.transform = "translateX(-50%)";
+  index.style.position = "absolute";
+  index.style.display = "flex";
+  index.style.bottom = "10px";
+  index.style.left = "50%";
+  index.style.gap = "10px";
+  // 인디케이터 생성
+  for (let i = 0; i < count; i++) {
+    const div = document.createElement("div");
+    div.style.width = "7px";
+    div.style.height = "7px";
+    div.style.borderRadius = "50%";
+    div.style.background = i === 0 ? "#ff5470" : "#6f6d78";
+    index.appendChild(div);
+    indis.push(div);
+  }
+  // 슬라이드 함수
+  const slide = (from: number, fromPos: string, to: number, toPos: string) => {
+    imgs[from].animate([{ left: "0" }, { left: fromPos }], {
+      duration: timer,
+      fill: "forwards",
+    });
+    imgs[to].style.left = toPos;
+    imgs[to].animate([{ left: toPos }, { left: "0" }], {
+      duration: timer,
+      fill: "forwards",
+    });
+    indis[from].style.background = "#6f6d78";
+    indis[to].style.background = "#ff5470";
+  };
+  // 내비게이션 핸들러
+  left.addEventListener("click", () => {
+    slide(current % count, "100%", (current - 1 + count) % count, "-100%");
+    current--;
+  });
+  right.addEventListener("click", () => {
+    slide(current % count, "-100%", (current + 1) % count, "100%");
+    current++;
+  });
+  // 자동 재생
+  setInterval(() => right.click(), timer + 2000);
+  // 인디케이터 클릭
+  indis.forEach((dot, idx) => {
+    dot.addEventListener("click", () => {
+      const activeIdx = ((current % count) + count) % count;
+      if (activeIdx === idx) return;
+      if (activeIdx < idx) slide(activeIdx, "-100%", idx, "100%");
+      if (activeIdx > idx) slide(activeIdx, "100%", idx, "-100%");
+      current = idx;
+    });
+  });
 }

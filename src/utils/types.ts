@@ -34,3 +34,10 @@ export interface Mouse extends Matter.Mouse {
 export interface IConstraintDefinition extends Matter.IConstraintDefinition {
   angularStiffness: number;
 }
+
+export interface SliderOptions {
+  img: string;
+  btnL: string;
+  btnR: string;
+  dots: string;
+}
