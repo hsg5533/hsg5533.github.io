@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import Speed from "./pages/Speed";
 import Wonder from "./pages/Wonder";
+import Presentation from "./pages/Presentation";
 
 export default function App() {
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/speed" element={<Speed />} />
             <Route path="/wonder" element={<Wonder />} />
+            <Route path="/presentation" element={<Presentation />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

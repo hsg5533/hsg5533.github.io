@@ -14,6 +14,7 @@ const items = [
   { label: "CONTACT", href: "#sec4" },
   { label: "SPEED", href: "/speed" },
   { label: "WONDER", href: "/wonder" },
+  { label: "PRESENTATION", href: "/presentation" },
 ];
 
 export default function Header() {
