@@ -5,7 +5,7 @@ export default function Slide1() {
         <span>
           <b>정호상</b> 포트폴리오
         </span>
-        <span className="num">2022</span>
+        <span className="num">2026</span>
       </div>
       <div className="wrap">
         <h1 className="mark up">

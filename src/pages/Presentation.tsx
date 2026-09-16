@@ -15,18 +15,36 @@ export default function Presentation() {
   useEffect(() => {
     const slides = [...document.querySelectorAll(".slide")];
     const bars = [...document.querySelectorAll(".progress a")];
-    const io = new IntersectionObserver(
+    const reveal = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (!e.isIntersecting) return;
           e.target.classList.add("in");
-          const i = slides.indexOf(e.target);
-          bars.forEach((b, j) => b.classList.toggle("on", i === j));
+          reveal.unobserve(e.target);
         });
       },
-      { threshold: 0.45 },
+      { rootMargin: "0px 0px -15% 0px" },
     );
-    slides.forEach((slide) => io.observe(slide));
+    const band = new Set<Element>();
+    const current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          e.isIntersecting ? band.add(e.target) : band.delete(e.target);
+        });
+        const i = slides.findIndex((slide) => band.has(slide));
+        if (i < 0) return;
+        bars.forEach((b, j) => b.classList.toggle("on", i === j));
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    slides.forEach((slide) => {
+      reveal.observe(slide);
+      current.observe(slide);
+    });
+    return () => {
+      reveal.disconnect();
+      current.disconnect();
+    };
   }, []);
   return (
     <main>

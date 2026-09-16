@@ -31,7 +31,6 @@ export default function Slide11() {
             <li>JSP</li>
           </ul>
         </div>
-
         <Appshot variant="web" shots={[]} />
       </div>
     </section>

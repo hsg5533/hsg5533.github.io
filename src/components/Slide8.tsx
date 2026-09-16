@@ -1,5 +1,8 @@
-import image28 from "../assets/img/background/image28.png";
 import Appshot from "./Appshot";
+import image28 from "../assets/img/background/image28.png";
+import image29 from "../assets/img/background/image29.png";
+import image30 from "../assets/img/background/image30.png";
+import image31 from "../assets/img/background/image31.png";
 
 export default function Slide8() {
   return (
@@ -18,12 +21,10 @@ export default function Slide8() {
           </p>
           <p>
             카카오 API로 시장과 상점의 위치를 지도에 표시하고, 문자와
-            카카오톡으로 링크를 공유하는 기능을 넣었습니다. 장바구니와, 토스
-            API 및 여러 PG사와 연동 가능한 결제 기능도 구현했습니다.
+            카카오톡으로 링크를 공유하는 기능을 넣었습니다. 장바구니와, 토스 API
+            및 여러 PG사와 연동 가능한 결제 기능도 구현했습니다.
           </p>
-          <p>
-            상점과 상품 등록은 점주용 웹에서 따로 처리하도록 구성했습니다.
-          </p>
+          <p>상점과 상품 등록은 점주용 웹에서 따로 처리하도록 구성했습니다.</p>
           <ul className="tags">
             <li>React</li>
             <li>Node.js</li>
@@ -31,8 +32,15 @@ export default function Slide8() {
             <li>Toss Payments</li>
           </ul>
         </div>
-
-        <Appshot variant="app" shots={[{ src: image28, alt: "" }]} />
+        <Appshot
+          variant="app"
+          shots={[
+            { src: image28, alt: "" },
+            { src: image29, alt: "" },
+            { src: image30, alt: "" },
+            { src: image31, alt: "" },
+          ]}
+        />
       </div>
     </section>
   );

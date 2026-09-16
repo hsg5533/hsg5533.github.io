@@ -6,12 +6,7 @@ export default function Slide4() {
         <span className="num">04</span>
       </div>
       <div className="wrap">
-        <h2
-          className="h1 up"
-          style={{ marginBottom: "clamp(1.5rem, 4vh, 3rem)" }}
-        >
-          일하지 않을 때는
-        </h2>
+        <h2 className="h1 up">일하지 않을 때는</h2>
         <div className="likes stagger">
           <div className="like">
             <h3 className="h2">차 (TEA)</h3>

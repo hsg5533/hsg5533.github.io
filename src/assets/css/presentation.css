@@ -17,13 +17,19 @@
     "맑은 고딕", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --fs-display: clamp(3rem, 7.6vw, 7.4rem);
-  --fs-h1: clamp(2.3rem, 5.6vw, 5rem);
-  --fs-h2: clamp(1.55rem, 3vw, 2.7rem);
-  --fs-h3: clamp(1.2rem, 1.85vw, 1.7rem);
-  --fs-lead: clamp(1.05rem, 1.6vw, 1.5rem);
-  --fs-body: clamp(0.95rem, 1.22vw, 1.2rem);
-  --fs-mono: clamp(0.72rem, 0.9vw, 0.92rem);
+  --fluid-w: clamp(0rem, (100vw - 22.5rem) / 77.5, 1rem);
+  --fluid-h: clamp(0rem, (100dvh - 25rem) / 31.25, 1rem);
+  --fluid: min(var(--fluid-w), var(--fluid-h));
+
+  /* 최소/최대 크기는 그대로 두고 그 사이를 --fluid로 보간한다.
+     calc(최솟값 + 증가폭 * --fluid) 형태라 증가폭은 두 값의 차이다. */
+  --fs-display: calc(3rem + 4.4 * var(--fluid));
+  --fs-h1: calc(2.3rem + 2.7 * var(--fluid));
+  --fs-h2: calc(1.55rem + 1.15 * var(--fluid));
+  --fs-h3: calc(1.2rem + 0.5 * var(--fluid));
+  --fs-lead: calc(1.05rem + 0.45 * var(--fluid));
+  --fs-body: calc(0.95rem + 0.25 * var(--fluid));
+  --fs-mono: calc(0.72rem + 0.2 * var(--fluid));
 
   --pad-x: clamp(1.25rem, 4.4vw, 5rem);
   --pad-y: clamp(1.25rem, 3.4vh, 2.9rem);
@@ -94,13 +100,15 @@ img {
   overflow: hidden;
 }
 .wrap {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  align-content: center;
   width: 100%;
   max-width: 1720px;
   margin-inline: auto;
   min-width: 0;
-  gap: 32px;
+  /* 제목과 본문 덩어리 사이의 기본 리듬. 2단이 필요한 장(.cover .keys
+     .intro .license .project)은 아래에서 각자 grid와 gap을 덮어쓴다. */
+  gap: clamp(1.5rem, 4vh, 3rem);
 }
 /* 그리드 아이템은 기본 최소 크기가 내용 폭이라, 좁은 화면에서 줄지 않고 넘친다. */
 .wrap > *,
@@ -161,7 +169,9 @@ h3 {
   background: var(--accent);
   width: 28px;
 }
-@media (max-width: 760px) {
+/* 900px 아래로는 모든 장이 한 단으로 쌓인다. 쌓인 장은 창보다 길어지므로
+   스냅을 풀고, 본문 폭을 잡아먹기 전에 진행 표시도 숨긴다. */
+@media (max-width: 900px) {
   .progress {
     display: none;
   }
@@ -170,7 +180,17 @@ h3 {
   }
   .slide {
     min-height: auto;
-    padding: calc(var(--pad-y) * 1.8) var(--pad-x) var(--pad-y);
+    padding: calc(var(--pad-y) * 1.8) var(--pad-x) calc(var(--pad-y) * 1.4);
+  }
+}
+/* 가로 모드 휴대폰처럼 세로로 납작한 창. 폭은 넉넉해도 한 장이 창보다
+   길어지기 때문에 높이 기준으로도 같은 처리를 해 준다. */
+@media (max-height: 600px) {
+  html {
+    scroll-snap-type: none;
+  }
+  .slide {
+    min-height: auto;
   }
 }
 
@@ -255,7 +275,7 @@ h3 {
   align-items: end;
 }
 .cover .mark {
-  font-size: clamp(3.8rem, 16vw, 17rem);
+  font-size: calc(3.8rem + 13.2 * var(--fluid));
   font-weight: 600;
   line-height: 0.88;
   letter-spacing: -0.05em;
@@ -335,7 +355,7 @@ h3 {
 .tl-row .year {
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
-  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  font-size: calc(1rem + 0.3 * var(--fluid));
   color: var(--muted);
 }
 .tl-row.now .year,
@@ -383,7 +403,6 @@ h3 {
   align-items: start;
 }
 .intro .portrait {
-  aspect-ratio: 3/4;
   width: 100%;
 }
 .intro .txt {
@@ -407,32 +426,19 @@ h3 {
   .intro {
     grid-template-columns: minmax(0, 1fr);
   }
-  .intro .portrait {
-    max-width: 15rem;
-  }
 }
 
 /* ═══ 06 교육 ═══ */
 .docs {
   display: flex;
+  flex-wrap: wrap;
   gap: clamp(1rem, 3vw, 2.5rem);
   align-items: flex-start;
 }
-.docs .ph {
-  width: 30%;
-  height: 100%;
-  aspect-ratio: 3/4;
-  flex: 0 0 auto;
-}
 
-@media (max-width: 760px) {
-  .docs {
-    flex-wrap: wrap;
-  }
-  .docs .ph:nth-child(n) {
-    margin-top: 0;
-    height: clamp(7rem, 22vh, 12rem);
-  }
+.docs .ph {
+  flex: 1 1 clamp(7rem, 26%, 16rem);
+  min-width: 0;
 }
 
 /* ═══ 07 자격증 ═══ */
@@ -443,17 +449,11 @@ h3 {
   align-items: center;
 }
 .license .ph {
-  height: clamp(13rem, 88vh, 46rem);
-  aspect-ratio: 5/7;
-  width: auto;
   justify-self: center;
 }
 @media (max-width: 900px) {
   .license {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .license .ph {
-    max-width: 18rem;
   }
 }
 
@@ -524,11 +524,11 @@ h3 {
   aspect-ratio: 16/9;
   width: 100%;
   min-height: 0;
-  height: clamp(7rem, 33vh, 17rem);
+  max-height: clamp(7rem, 33vh, 17rem);
 }
 .shots-web .ph:first-child {
   grid-column: 1 / -1;
-  height: clamp(10rem, 52vh, 28rem);
+  max-height: clamp(10rem, 52vh, 28rem);
 }
 @media (max-width: 900px) {
   .project,
@@ -550,7 +550,7 @@ h3 {
   .shots-web .ph,
   .shots-web .ph:first-child {
     grid-column: auto;
-    height: auto;
+    max-height: none;
     width: 100%;
   }
 }
@@ -629,5 +629,51 @@ h3 {
   }
   .slide.in .stagger > *:nth-child(5) {
     transition-delay: 0.38s;
+  }
+}
+
+/* ── 태블릿·좁은 노트북(901~1200px) ──────────────────────────────
+   아직 2단이 성립하는 폭이다. 다만 데스크톱 비율 그대로면 글 쪽이 너무
+   좁아 두세 글자씩 끊어지므로, 이미지 쪽을 줄이고 글 쪽을 넓힌다.
+   901px 하한을 둔 이유는 그 아래 한 단 규칙을 덮어쓰지 않기 위해서다. */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .keys {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+  .intro {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  }
+  .license {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  }
+  .project {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+  .project.flip {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+  /* 세 장이 한 줄에 남으므로 카드 높이를 창 높이에 더 붙여 둔다. */
+  .like {
+    min-height: clamp(11rem, 44vh, 24rem);
+  }
+}
+
+/* ── 작은 휴대폰(480px 이하) ──────────────────────────────────── */
+@media (max-width: 480px) {
+  /* 스크린샷 두 장씩은 너무 작다. 한 장씩 크게 본다. */
+  .shots-app {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* 문서 세 장도 한 장씩. 비율은 그대로 유지된다. */
+  .docs .ph {
+    flex: 1 1 100%;
+  }
+  /* 연표의 연도 칸이 본문을 밀지 않도록 위아래로 쌓는다. */
+  .tl-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.3rem;
+  }
+  .keys li {
+    gap: 0.75rem;
   }
 }

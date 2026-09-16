@@ -6,12 +6,7 @@ export default function Slide3() {
         <span className="num">03</span>
       </div>
       <div className="wrap">
-        <h2
-          className="h1 up"
-          style={{ marginBottom: "clamp(1.5rem, 4vh, 3rem)" }}
-        >
-          개발자가 되기까지
-        </h2>
+        <h2 className="h1 up">개발자가 되기까지</h2>
         <div className="stagger">
           <div className="tl-row">
             <span className="year">1995</span>
@@ -29,8 +24,16 @@ export default function Slide3() {
             <span className="year">2019</span>
             <h3 className="h3">실시간 객체인식 프로그램 개발</h3>
           </div>
-          <div className="tl-row now">
+          <div className="tl-row">
             <span className="year">2022</span>
+            <h3 className="h3">개발자로 첫 실무를 시작</h3>
+          </div>
+          <div className="tl-row">
+            <span className="year">2023</span>
+            <h3 className="h3">앱을 만들고 스토어에 올리다</h3>
+          </div>
+          <div className="tl-row now">
+            <span className="year">2026</span>
             <h3 className="h3">가장 찬란한 지금</h3>
           </div>
         </div>

@@ -6,12 +6,7 @@ export default function Slide12() {
         <span className="num">12</span>
       </div>
       <div className="wrap">
-        <h2
-          className="h1 up"
-          style={{ marginBottom: "clamp(2rem, 6vh, 4rem)" }}
-        >
-          이상에서 성취까지
-        </h2>
+        <h2 className="h1 up">이상에서 성취까지</h2>
         <div className="vision stagger">
           <div className="step">
             <p className="mono">이상</p>
