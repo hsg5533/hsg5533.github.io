@@ -1,5 +1,5 @@
 import "../assets/css/resume.css";
-import me from "../assets/img/icon/me.png";
+import me from "../assets/img/background/me.png";
 
 export default function Resume() {
   return (
