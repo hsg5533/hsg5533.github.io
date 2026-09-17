@@ -13,7 +13,7 @@ class Speedometer {
   private wrapperId: string;
   private wrapperElement: HTMLDivElement;
   constructor(targetElement: string, options = {}) {
-    this.targetInput = document.querySelector(targetElement)!!;
+    this.targetInput = document.querySelector(targetElement)!;
     this.config = Object.assign(
       {
         maxValue: 180,
@@ -112,13 +112,12 @@ class Speedometer {
       const angle =
         (this.config.totalAngle / this.config.maxValue) * raw +
         this.config.initialAngle;
-      const needleElem = this.wrapperElement.querySelector(
-        ".speedNobe",
-      ) as HTMLElement;
-      needleElem.style.transform = `rotate(${angle}deg)`;
+      const needleElem =
+        this.wrapperElement.querySelector<HTMLElement>(".speedNobe");
+      needleElem!.style.transform = `rotate(${angle}deg)`;
       const allTicks = this.wrapperElement.querySelectorAll(".envelope .nob");
       const allLabels = this.wrapperElement.querySelectorAll(".envelope .numb");
-      this.wrapperElement.querySelector(".speedPosition")!!.innerHTML =
+      this.wrapperElement.querySelector(".speedPosition")!.innerHTML =
         `<strong>${raw * this.config.multiplier}%</strong><br/>${
           this.config.unitLabel
         }`;
@@ -158,17 +157,17 @@ class BenchmarkManager {
     this.workerList = [];
     this.workerMessage = [];
     this.totalCore = navigator.hardwareConcurrency;
-    this.targetInput = document.querySelector(targetElement)!!;
-    this.scores = document.querySelector(".scores")!!;
-    this.cores = document.querySelector(".detected span")!!;
-    this.progress = document.querySelector(".progress-bar")!!;
-    this.progressBar = document.querySelector(".progress-bar div")!!;
-    this.singleScore = document.querySelector("#single .score")!!;
-    this.singleBench = document.querySelector("#single .bench")!!;
-    this.multiScore = document.querySelector("#multi .score")!!;
-    this.multiBench = document.querySelector("#multi .bench")!!;
-    this.startButtons = document.querySelectorAll("#start, .restart")!!;
-    this.restartIcon = document.querySelector(".restart")!!;
+    this.targetInput = document.querySelector(targetElement)!;
+    this.scores = document.querySelector(".scores")!;
+    this.cores = document.querySelector(".detected span")!;
+    this.progress = document.querySelector(".progress-bar")!;
+    this.progressBar = document.querySelector(".progress-bar div")!;
+    this.singleScore = document.querySelector("#single .score")!;
+    this.singleBench = document.querySelector("#single .bench")!;
+    this.multiScore = document.querySelector("#multi .score")!;
+    this.multiBench = document.querySelector("#multi .bench")!;
+    this.startButtons = document.querySelectorAll("#start, .restart")!;
+    this.restartIcon = document.querySelector(".restart")!;
     this.singleInterval = null;
     this.multiInterval = null;
   }
