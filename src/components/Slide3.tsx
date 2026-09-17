@@ -30,7 +30,7 @@ export default function Slide3() {
           </div>
           <div className="tl-row">
             <span className="year">2023</span>
-            <h3 className="h3">앱을 만들고 스토어에 올리다</h3>
+            <h3 className="h3">앱 서비스 첫 배포의 시작</h3>
           </div>
           <div className="tl-row now">
             <span className="year">2026</span>

@@ -81,10 +81,6 @@ ol {
   padding: 0;
   list-style: none;
 }
-img {
-  display: block;
-  max-width: 100%;
-}
 
 /* ── 슬라이드 셸 ───────────────────────────────────────────────
    한 장이 창을 채우고, 스크롤하면 한 장씩 멈춘다.
@@ -169,20 +165,6 @@ h3 {
   background: var(--accent);
   width: 28px;
 }
-/* 900px 아래로는 모든 장이 한 단으로 쌓인다. 쌓인 장은 창보다 길어지므로
-   스냅을 풀고, 본문 폭을 잡아먹기 전에 진행 표시도 숨긴다. */
-@media (max-width: 900px) {
-  .progress {
-    display: none;
-  }
-  html {
-    scroll-snap-type: none;
-  }
-  .slide {
-    min-height: auto;
-    padding: calc(var(--pad-y) * 1.8) var(--pad-x) calc(var(--pad-y) * 1.4);
-  }
-}
 /* 가로 모드 휴대폰처럼 세로로 납작한 창. 폭은 넉넉해도 한 장이 창보다
    길어지기 때문에 높이 기준으로도 같은 처리를 해 준다. */
 @media (max-height: 600px) {
@@ -228,7 +210,8 @@ h3 {
   color: var(--muted);
   max-width: 60ch;
 }
-.mono {
+.mono,
+.cover .meta span {
   font-family: var(--mono);
   font-size: var(--fs-mono);
   letter-spacing: 0.07em;
@@ -250,10 +233,7 @@ h3 {
   margin: 0;
 }
 
-/* ── 이미지 자리 ────────────────────────────────────────────────
-   이미지를 넣을 때는  <div class="ph …">캡션</div>  을
-                     <img class="ph …" src="경로.png" alt="설명">  으로 바꾼다.
-   클래스는 그대로 두면 크기와 위치가 유지된다. */
+/* ── 이미지: .ph 래퍼와 내부 이미지의 크기·모서리 설정 ── */
 .ph {
   border-radius: var(--radius);
   display: grid;
@@ -262,14 +242,12 @@ h3 {
 .ph img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
   border-radius: inherit;
   display: block;
 }
 
 /* ═══ 01 표지 ═══ */
 .cover .wrap {
-  display: grid;
   grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
   gap: clamp(2rem, 5vw, 5rem);
   align-items: end;
@@ -293,23 +271,10 @@ h3 {
   display: grid;
   gap: 0.3rem;
 }
-.cover .meta span {
-  font-family: var(--mono);
-  font-size: var(--fs-mono);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
 .cover .meta strong {
   font-weight: 500;
   font-size: var(--fs-lead);
   line-height: 1.4;
-}
-@media (max-width: 900px) {
-  .cover .wrap {
-    grid-template-columns: 1fr;
-    align-items: start;
-  }
 }
 
 /* ═══ 02 키워드 ═══ */
@@ -318,6 +283,11 @@ h3 {
   grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
   gap: clamp(1.5rem, 5vw, 5rem);
   align-items: start;
+}
+.stagger .content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 .keys li {
   display: grid;
@@ -333,11 +303,6 @@ h3 {
   color: var(--accent);
   font-size: var(--fs-mono);
   padding-top: 0.7em;
-}
-@media (max-width: 900px) {
-  .keys {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 /* ═══ 03 히스토리 ═══ */
@@ -386,14 +351,6 @@ h3 {
   background: var(--ink-2);
   border-color: transparent;
 }
-@media (max-width: 900px) {
-  .likes {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .like {
-    min-height: 0;
-  }
-}
 
 /* ═══ 05 자기소개 ═══ */
 .intro {
@@ -422,11 +379,6 @@ h3 {
   border: 1px solid var(--line-2);
   border-radius: 999px;
 }
-@media (max-width: 900px) {
-  .intro {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
 
 /* ═══ 06 교육 ═══ */
 .docs {
@@ -451,13 +403,8 @@ h3 {
 .license .ph {
   justify-self: center;
 }
-@media (max-width: 900px) {
-  .license {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
 
-/* ═══ 08-11 프로젝트 ═══ */
+/* ═══ 08-19 프로젝트 ═══ */
 .project {
   display: grid;
   grid-template-columns: minmax(0, 4fr) minmax(0, 8.6fr);
@@ -500,62 +447,20 @@ h3 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: clamp(0.4rem, 0.85vw, 0.8rem);
-  align-items: start;
 }
-.shots-app .ph img {
-  height: auto;
-}
-.shots-app .ph:nth-child(2) {
-  margin-top: clamp(0.8rem, 3vh, 2.2rem);
-}
-.shots-app .ph:nth-child(3) {
-  margin-top: clamp(1.6rem, 6vh, 4.4rem);
-}
-.shots-app .ph:nth-child(4) {
-  margin-top: clamp(2.4rem, 9vh, 6.6rem);
-}
+
 .shots-web {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(0.6rem, 1.6vw, 1.2rem);
   justify-items: center;
 }
-.shots-web .ph {
-  aspect-ratio: 16/9;
-  width: 100%;
-  min-height: 0;
-  max-height: clamp(7rem, 33vh, 17rem);
-}
+
 .shots-web .ph:first-child {
   grid-column: 1 / -1;
-  max-height: clamp(10rem, 52vh, 28rem);
-}
-@media (max-width: 900px) {
-  .project,
-  .project.flip {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .project.flip .about {
-    order: 0;
-  }
-  .shots-app {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .shots-app .ph:nth-child(n) {
-    margin-top: 0;
-  }
-  .shots-web {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .shots-web .ph,
-  .shots-web .ph:first-child {
-    grid-column: auto;
-    max-height: none;
-    width: 100%;
-  }
 }
 
-/* ═══ 12 비전 ═══ */
+/* ═══ 20 비전 ═══ */
 .vision {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -580,18 +485,9 @@ h3 {
 .vision .step:last-child .h2 {
   color: var(--accent);
 }
-@media (max-width: 900px) {
-  .vision {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .vision .step {
-    padding-top: 1.4rem;
-  }
-}
 
-/* ═══ 13 마무리 ═══ */
+/* ═══ 21 마무리 ═══ */
 .end .wrap {
-  display: grid;
   gap: clamp(1.2rem, 4vh, 2.5rem);
   justify-items: start;
 }
@@ -640,9 +536,7 @@ h3 {
   .keys {
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   }
-  .intro {
-    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-  }
+  .intro,
   .license {
     grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
   }
@@ -655,6 +549,52 @@ h3 {
   /* 세 장이 한 줄에 남으므로 카드 높이를 창 높이에 더 붙여 둔다. */
   .like {
     min-height: clamp(11rem, 44vh, 24rem);
+  }
+}
+
+/* 모바일(900px 이하): 한 단 배치와 이미지 그리드 */
+
+@media (max-width: 900px) {
+  .keys,
+  .likes,
+  .intro,
+  .license,
+  .project,
+  .project.flip,
+  .shots-web,
+  .vision {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .progress {
+    display: none;
+  }
+  html {
+    scroll-snap-type: none;
+  }
+  .slide {
+    min-height: auto;
+    padding: calc(var(--pad-y) * 1.8) var(--pad-x) calc(var(--pad-y) * 1.4);
+  }
+  .cover .wrap {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .like {
+    min-height: 0;
+  }
+  .project.flip .about {
+    order: 0;
+  }
+  .shots-app {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .shots-web .ph,
+  .shots-web .ph:first-child {
+    grid-column: auto;
+    width: 100%;
+  }
+  .vision .step {
+    padding-top: 1.4rem;
   }
 }
 

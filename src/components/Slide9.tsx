@@ -1,51 +1,47 @@
 import Appshot from "./Appshot";
-import image24 from "../assets/img/background/image24.png";
-import image25 from "../assets/img/background/image25.png";
-import image26 from "../assets/img/background/image26.png";
-import image27 from "../assets/img/background/image27.png";
+import image1 from "../assets/img/background/image1.png";
+import image2 from "../assets/img/background/image2.png";
+import image3 from "../assets/img/background/image3.png";
+import image4 from "../assets/img/background/image4.png";
 
 export default function Slide9() {
   return (
     <section className="slide" id="s9">
       <div className="chapter">
-        <span>프로젝트 · React</span>
+        <span>프로젝트 · React Native</span>
         <span className="num">09</span>
       </div>
       <div className="wrap project flip">
         <div className="about stagger">
-          <h2 className="h1">
-            부전마켓타운
-            <br />
-            <span className="accent">점주 페이지</span>
-          </h2>
+          <h2 className="h1">헬퍼잇</h2>
           <p>
-            고객 페이지에 보여질 상품과 상점 설명, 로고를 등록하는 점주용
-            웹입니다. Node.js로 구성된 고객 페이지와 백엔드 서버 및 DB를
-            공유합니다.
+            (주)불타는고구마에서 생활 서비스 중개 앱인 헬퍼잇의 프론트엔드
+            개발과 배포를 담당했습니다. React Native로 화면을 만들고 Django
+            백엔드가 내려주는 API에 맞춰 연동했습니다.
           </p>
           <p>
-            점주가 쉽게 관리할 수 있도록 모바일 환경에 맞게 디자인했습니다. 고객
-            페이지 방문자 수를 확인할 수 있고, 상품 이미지와 가격, 대표상품과
-            할인상품을 설정할 수 있습니다.
+            데이터베이스는 MySQL과 MariaDB를 사용했습니다. 서비스가 실제 사용자를
+            받는 앱이었던 만큼, 화면을 만드는 것보다 오류 없이 배포해 두는 일이
+            더 중요하다는 것을 배웠습니다.
           </p>
           <p>
-            이미지 업로드로 관리자에게 문의를 남기고 답변을 받을 수 있으며,
-            관리자가 등록한 공지사항도 확인할 수 있습니다.
+            스토어 심사와 버전 관리까지 맡으며 앱의 수명 주기 전체를 경험한
+            첫 실무 프로젝트입니다.
           </p>
           <ul className="tags">
-            <li>React</li>
-            <li>Node.js</li>
+            <li>React Native</li>
+            <li>Django</li>
             <li>MySQL</li>
-            <li>File Upload</li>
+            <li>MariaDB</li>
           </ul>
         </div>
         <Appshot
           variant="app"
           shots={[
-            { src: image24, alt: "" },
-            { src: image25, alt: "" },
-            { src: image26, alt: "" },
-            { src: image27, alt: "" },
+            { src: image1, alt: "" },
+            { src: image2, alt: "" },
+            { src: image3, alt: "" },
+            { src: image4, alt: "" },
           ]}
         />
       </div>

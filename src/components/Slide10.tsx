@@ -1,39 +1,46 @@
 import Appshot from "./Appshot";
+import image5 from "../assets/img/background/image5.png";
+import image6 from "../assets/img/background/image6.png";
+import image7 from "../assets/img/background/image7.png";
 
 export default function Slide10() {
   return (
     <section className="slide" id="s10">
       <div className="chapter">
-        <span>프로젝트 · 빅데이터</span>
+        <span>프로젝트 · React</span>
         <span className="num">10</span>
       </div>
       <div className="wrap project">
         <div className="about stagger">
-          <h2 className="h1">대기어때</h2>
+          <h2 className="h1">
+            헬퍼잇
+            <br />
+            <span className="accent">랜딩페이지</span>
+          </h2>
           <p>
-            공공데이터 포털과 에어코리아의 데이터를 BeautifulSoup,
-            selenium으로 동적 크롤링해 2010년부터 2020년까지의 전국 미세먼지
-            데이터를 수집했습니다.
+            헬퍼잇 서비스를 소개하는 랜딩페이지 제작을 담당했습니다. 앱을 알리는
+            첫 화면인 만큼, 서비스가 무엇을 해주는지 스크롤만으로 읽히도록
+            섹션을 나눴습니다.
           </p>
           <p>
-            pandas와 tensorflow로 데이터를 정제한 뒤, 전국 데이터는 연평균
-            기준 블럭 맵 이미지로 나타내고 지역 데이터는 LSTM으로 분석 및
-            예측했습니다.
-          </p>
-          <p>
-            예측 결과는 MySQL에 저장하고 MyBatis로 불러와 메인 화면에 Chart.js
-            그래프로 보여줍니다. 홈페이지는 Spring Boot로 만들었고, 로그인과
-            회원가입, 페이징과 검색이 되는 문의게시판을 구현했습니다.
+            React의 컴포넌트 구조를 살려 반복되는 섹션과 카드를 재사용 가능한
+            단위로 쪼갰습니다. 문구나 이미지가 바뀌어도 데이터만 고치면 되도록
+            만들어 유지보수 비용을 줄였습니다.
           </p>
           <ul className="tags">
-            <li>Spring Boot</li>
-            <li>Python</li>
-            <li>TensorFlow</li>
-            <li>Chart.js</li>
+            <li>React</li>
+            <li>JavaScript</li>
+            <li>컴포넌트 설계</li>
           </ul>
         </div>
-
-        <Appshot variant="web" shots={[]} />
+        <Appshot
+          variant="web"
+          shots={[
+            { src: image5, alt: "" },
+            { src: image6, alt: "" },
+            { src: image7, alt: "" },
+          ]}
+        />
       </div>
     </section>
   );

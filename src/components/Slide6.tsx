@@ -13,9 +13,9 @@ export default function Slide6() {
         <div
           className="up"
           style={{
-            display: "grid",
-            gap: "1rem",
-            maxWidth: "68ch",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
           }}
         >
           <h2 className="h1">

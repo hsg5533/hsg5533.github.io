@@ -38,8 +38,8 @@ React 19 + TypeScript + Vite 5. GitHub Pages(`gh-pages`)로 배포한다.
 - `/` — [Home](src/pages/Home.tsx). 메인 포트폴리오.
   Main → Sec1(프로필) → Values(키워드) → History(경력) → Sec2(스킬)
   → Resume(이력서) → Sec3(프로젝트 12개) → Sec4(연락처)
-- `/presentation` — [Presentation](src/pages/Presentation.tsx). 발표용 13장.
-  `src/components/Slide1.tsx` ~ `Slide13.tsx`를 `import.meta.glob`으로 모아
+- `/presentation` — [Presentation](src/pages/Presentation.tsx). 발표용 21장.
+  `src/components/Slide1.tsx` ~ `Slide21.tsx`를 `import.meta.glob`으로 모아
   파일명의 숫자 순서대로 렌더한다.
   슬라이드를 추가하면 `Presentation.tsx`의 `.progress` nav 링크도 같이 늘려야 한다.
 - `/speed`, `/wonder` — 실험 페이지.

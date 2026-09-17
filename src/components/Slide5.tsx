@@ -1,4 +1,4 @@
-import me from "../assets/img/icon/me.png";
+import me from "../assets/img/background/me.png";
 
 export default function Slide5() {
   return (

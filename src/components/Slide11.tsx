@@ -1,37 +1,47 @@
 import Appshot from "./Appshot";
+import image12 from "../assets/img/background/image12.png";
+import image13 from "../assets/img/background/image13.png";
+import image14 from "../assets/img/background/image14.png";
 
 export default function Slide11() {
   return (
     <section className="slide" id="s11">
       <div className="chapter">
-        <span>프로젝트 · Spring</span>
+        <span>프로젝트 · React</span>
         <span className="num">11</span>
       </div>
       <div className="wrap project flip">
         <div className="about stagger">
-          <h2 className="h1">Coding.com</h2>
+          <h2 className="h1">헬퍼잇 클린</h2>
           <p>
-            프로그래밍을 소통하면서 배우는 목적으로 STS와 Spring Boot를 사용해
-            개발한 홈페이지입니다. MySQL과 MyBatis로 게시글 작성, 수정, 삭제와
-            댓글, 로그인 및 회원가입을 구현했습니다.
+            헬퍼잇의 서비스 중 하나인 청소 신청 웹을 맡았습니다. 신청자가 주소와
+            평수, 희망 일정을 입력하면 곧바로 견적과 예약으로 이어지도록 흐름을
+            단순하게 잡았습니다.
           </p>
           <p>
-            게시글 작성 시 파일 업로드가 가능하고, 이미지 파일이면 썸네일로
-            표시됩니다. 최신 글이 위로 올라오도록 정렬해 새 글을 먼저 볼 수
-            있습니다.
+            들어온 신청을 담당자가 놓치지 않도록 디스코드 웹훅을 붙였습니다.
+            신청이 접수되면 내용이 정리된 메시지가 디스코드 채널로 바로
+            전송됩니다.
           </p>
           <p>
-            페이징으로 한 페이지에 보이는 게시글 수를 제한했고, 제목과 내용,
-            작성자로 검색하는 기능도 넣었습니다.
+            별도 관리자 페이지를 만드는 대신 이미 팀이 쓰고 있던 도구에
+            연결한 선택이었고, 가장 적은 비용으로 실제 운영을 돌린 사례로
+            남았습니다.
           </p>
           <ul className="tags">
-            <li>Spring Boot</li>
-            <li>MyBatis</li>
-            <li>MySQL</li>
-            <li>JSP</li>
+            <li>React</li>
+            <li>JavaScript</li>
+            <li>Discord Webhook</li>
           </ul>
         </div>
-        <Appshot variant="web" shots={[]} />
+        <Appshot
+          variant="web"
+          shots={[
+            { src: image12, alt: "" },
+            { src: image13, alt: "" },
+            { src: image14, alt: "" },
+          ]}
+        />
       </div>
     </section>
   );
